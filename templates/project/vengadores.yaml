@@ -1,0 +1,46 @@
+# Plantilla documental: no existe un runtime que la ejecute todavía.
+schema_version: 1
+project:
+  id: REEMPLAZAR
+  repository: REEMPLAZAR
+  development_branch: dev
+vengadores:
+  repository: https://github.com/mangellopezdeblasis/Vengadores
+  revision: REEMPLAZAR_SHA_O_TAG
+orchestrator:
+  name: Jarvis
+  execution_tool: OpenCode
+  delegation_skill: REEMPLAZAR_RUTA_O_REFERENCIA
+  max_parallel_executors: 2
+  max_correction_cycles: 3
+  token_budget: null # Definir antes de ejecutar.
+  time_budget_minutes: null
+context:
+  project_rules: [AGENTS.md]
+  memory_sources: [memory.md] # Adaptar a la ubicación real.
+  load_by_relevance: true
+artifacts:
+  task_directory: .vengadores/tasks
+graph:
+  backend: null # Pendiente de elegir.
+  update_on_merge_to: dev
+  record_commit_sha: true
+cloud:
+  provider: null # Pendiente de elegir.
+  isolation: sandbox_per_executor
+git:
+  branch_prefix: vengadores/
+  worktree_per_task: true
+checks:
+  build_command: null
+  test_command: null
+  e2e_candidate_command: null
+  e2e_dev_command: null
+delivery:
+  deploy_dev_command: null
+  recovery_policy: null
+memory:
+  curator: Pantera Negra
+  validation_policy: null # Definir quién/cómo valida reglas nuevas.
+  global_learning_destination: Vengadores
+
