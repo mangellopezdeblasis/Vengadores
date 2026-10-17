@@ -44,7 +44,7 @@ Hulk puede revisar y reproducir escenarios de riesgo, informar evidencia y seña
 
 ### Coordinación simultánea
 
-La simultaneidad es útil cuando se lanzan primero tareas independientes, cada una con entrada, salida y propiedad delimitadas. El orquestador puede esperar a varios resultados y sintetizarlos; los agentes no necesitan escribirse entre sí. Cuando existe una dependencia, se espera el artefacto requerido y luego se inicia la tarea siguiente.
+La simultaneidad es útil cuando se lanzan primero tareas independientes, cada una con entrada, salida y propiedad delimitadas. Jarvis puede esperar resultados y registrar sus referencias; toda síntesis técnica se delega a un agente especialista. Los agentes no necesitan escribirse entre sí. Cuando existe una dependencia, Jarvis espera el artefacto requerido y luego invoca la tarea siguiente.
 
 Antes de ejecutar en paralelo, identificar archivos y recursos compartidos. Ramas o worktrees separan algunos cambios de Git, pero no aíslan servicios, bases de datos, puertos, credenciales ni datos externos. Si hay solapamiento, dividir por propiedad, establecer un contrato compartido o serializar esa parte.
 
@@ -87,17 +87,18 @@ Aspectos transferibles: resumir contratos exactos, identificar dependencias, con
 Estas propuestas no describen capacidades ya construidas.
 
 1. Mantener un contrato de tarea con objetivo, revisión base, alcance, exclusiones, dependencias, agente responsable, recursos compartidos, entregables y criterio de aceptación.
-2. Lanzar en paralelo solo tareas independientes y con propiedad de archivos/recursos explícita. Registrar las dependencias y esperar antes de iniciar etapas dependientes.
-3. Identificar el adaptador de delegación disponible por host y verificar inicio, respuesta, cierre y error; no inferir que una instrucción textual ejecutó un agente.
-4. En cada traspaso, enviar solo el contexto requerido, enlaces a las fuentes canónicas y un resumen accionable. Adjuntar el informe completo como artefacto cuando sirva para auditoría.
-5. Fijar revisión del código y huellas de contexto al iniciar una tarea; invalidar resultados afectados si cambian código, instrucciones o contrato relevante.
-6. Mantener separado el conocimiento reutilizable de Vengadores, el conocimiento normativo de cada destino y las notas efímeras de la tarea.
-7. Configurar política de datos, permisos, comandos y validaciones en el destino. La configuración debe permitir detectar entradas obligatorias faltantes y no permitir que filtros de rol o presupuesto las oculten.
-8. Tratar permisos como una propiedad de toda la cadena y verificar al menos un caso permitido y uno denegado cuando aplique.
-9. Reportar cada afirmación de éxito con su evidencia correspondiente; declarar explícitamente cobertura parcial, pendiente o no aplicable.
-10. Limitar los reintentos por causa; preservar artefactos, resultados y contexto entre intentos, e indicar cuándo el trabajo necesita decisión humana.
-11. Registrar métricas de tokens, latencia, reintentos y calidad por tipo de tarea antes de optimizar prompts, fan-out o cantidad de agentes.
-12. Promover una regla general solo cuando incluya evidencia, alcance, excepciones, responsable de mantenimiento y una validación en más de un contexto comparable.
+2. Lanzar en paralelo solo tareas independientes y con propiedad de archivos/recursos explícita. Jarvis agenda llamadas según dependencias; Vision define la partición técnica.
+3. Limitar Jarvis a invocar el skill de delegación, pasar el paquete de entrada, esperar respuestas y registrar estados y referencias. La selección técnica de contexto y la síntesis se entregan a agentes especialistas.
+4. Identificar el adaptador de delegación disponible por host y verificar inicio, respuesta, cierre y error; no inferir que una instrucción textual ejecutó un agente.
+5. En cada traspaso, enviar solo el contexto requerido, enlaces a las fuentes canónicas y un resumen accionable preparado por el agente dueño del contexto. Adjuntar el informe completo como artefacto cuando sirva para auditoría.
+6. Fijar revisión del código y huellas de contexto al iniciar una tarea; invalidar resultados afectados si cambian código, instrucciones o contrato relevante.
+7. Mantener separado el conocimiento reutilizable de Vengadores, el conocimiento normativo de cada destino y las notas efímeras de la tarea.
+8. Configurar política de datos, permisos, comandos y validaciones en el destino. La configuración debe permitir detectar entradas obligatorias faltantes y no permitir que filtros de rol o presupuesto las oculten.
+9. Tratar permisos como una propiedad de toda la cadena y verificar al menos un caso permitido y uno denegado cuando aplique.
+10. Reportar afirmaciones de éxito con el informe y evidencia de su agente responsable; Jarvis solo marca el estado cuando los controles exigidos constan como aprobados.
+11. Limitar los reintentos por causa; preservar artefactos, resultados y contexto entre intentos, e indicar cuándo el trabajo necesita decisión humana.
+12. Registrar métricas de tokens, latencia, reintentos y calidad por tipo de tarea antes de optimizar prompts, fan-out o cantidad de agentes.
+13. Promover una regla general solo cuando incluya evidencia, alcance, excepciones, responsable de mantenimiento y validación en más de un contexto comparable.
 
 ## 6. Límites del estudio
 
