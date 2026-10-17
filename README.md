@@ -11,6 +11,7 @@ Versión inicial: diseño del flujo, contratos y plantillas. Este repositorio no
 
 - [Flujo y controles](docs/flujo.md)
 - [Roles de los agentes](agents/roles.md)
+- [Contrato operativo de Jarvis](agents/jarvis.md)
 - [Reglas y memoria](docs/memoria.md)
 - [Adopción en proyectos](docs/adopcion.md)
 - [Plantilla de configuración](templates/project/vengadores.yaml)
