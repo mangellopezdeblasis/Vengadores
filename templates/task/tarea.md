@@ -9,9 +9,20 @@
 - Skill de delegación:
 - Límites de costo, tiempo e iteraciones:
 
+## Coordinación de Jarvis
+
+- Skill/adaptador invocado y estado:
+- Agentes llamados, dependencias y estado de cada llamada:
+- Reintentos y límite alcanzado, si corresponde:
+- Referencias de entradas y artefactos entregados a cada agente:
+- Resultado final comunicado: estados y enlaces a informes especializados.
+
+Jarvis registra coordinación y referencias; no redacta diagnósticos, planes ni
+veredictos técnicos.
+
 ## Investigación
 
-Mapa de Ant-Man, diagnóstico de Spider-Man, evidencia y preguntas.
+Paquete de contexto y mapa de impacto de Ant-Man; diagnóstico, evidencia y preguntas de Spider-Man.
 
 ## Especificación
 
@@ -24,7 +35,7 @@ Vincular cada tarea a un criterio de aceptación y una verificación.
 
 ## Ejecución e integración candidata
 
-Commits, desviaciones y SHA de la candidata integrada.
+Commits, desviaciones y SHA de la candidata integrada por Thor en rol de integrador delegado.
 
 ## Controles
 
