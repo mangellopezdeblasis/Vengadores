@@ -26,19 +26,21 @@ Nunca incluir secretos o información privada de un destino en Vengadores.
 
 ## Resumen de memory.md y selección de contexto
 
-Jarvis localiza la memoria según la configuración del proyecto; no presupone una
-ruta universal de Codex. Conserva los originales y genera un resumen operativo con
-referencias a secciones y hashes de fuentes. Cambios en fuentes invalidan el resumen.
+Ant-Man localiza las fuentes de memoria y reglas según la configuración del
+proyecto; no presupone una ruta universal de Codex. Conserva los originales y
+prepara un resumen operativo con referencias a secciones, hashes y revisión analizada.
+Cambios en fuentes invalidan el resumen. Jarvis solo pasa ese paquete a los agentes
+que lo necesitan; no lo redacta ni interpreta.
 
 El resumen incluye arquitectura, criterios de programación, comandos, restricciones
 y aprendizajes vigentes. Las contradicciones se registran para resolverlas, no se
 eliminan silenciosamente al resumir. Las reglas compartidas no desplazan las
 instrucciones del usuario ni las reglas específicas aplicables al destino.
 
-Jarvis carga un núcleo breve y selecciona reglas por proyecto, stack, rol y tarea.
-Mantiene un registro de qué versiones recibió cada agente. Los artefactos extensos
-se recuperan por referencia. La reducción de tokens no debe omitir requisitos o
-riesgos relevantes para la tarea.
+Ant-Man selecciona, según la configuración y la tarea, el contexto pertinente para
+cada rol y devuelve referencias a los artefactos extensos. Jarvis entrega ese paquete
+sin alterarlo y registra qué referencias recibió cada agente. Reducir tokens no debe
+omitir requisitos o riesgos relevantes para la tarea.
 
 ## Evaluación
 
