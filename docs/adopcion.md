@@ -4,9 +4,11 @@
 2. Copiar la plantilla de configuración a `.vengadores/config.yaml` y completar rutas
    y comandos reales. Es un contrato propuesto; no existe todavía un lector automático.
 3. Indicar en las instrucciones del destino dónde consultar Vengadores y su versión.
-4. Referenciar el skill de delegación existente. Jarvis debe leer su contrato antes
-   de delegar; si falta, detener la delegación y registrar la dependencia pendiente.
-5. Identificar `AGENTS.md` y las memorias existentes. No reemplazarlas con las plantillas.
+4. Configurar el adaptador del skill de delegación existente y confirmar que permite
+   invocar los roles requeridos. Jarvis solo lo llama; si no está disponible, la tarea
+   queda bloqueada con la dependencia pendiente registrada.
+5. Identificar `AGENTS.md` y las memorias existentes. Ant-Man prepara el paquete de
+   contexto; no reemplazar las fuentes originales con las plantillas.
 6. Guardar especificaciones, planes e informes en `.vengadores/tasks/<id>/` o la ruta
    que establezca el destino. Vincular artefactos externos cuando sean voluminosos.
 7. Definir controles de merge, actualización de grafo, despliegue y recuperación.
