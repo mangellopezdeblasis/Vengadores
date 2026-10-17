@@ -5,12 +5,15 @@ próxima acción. Las afirmaciones sin comprobación se identifican como hipóte
 
 | Agente | Entradas | Responsabilidad y salida |
 | --- | --- | --- |
-| Jarvis | Solicitud, configuración, reglas y skill de delegación | Coordina estados, contexto, concurrencia, límites y controles; conserva trazabilidad |
+| Jarvis | Solicitud y configuración de la tarea | Invoca el skill de delegación, enruta llamadas, pasa entradas y registra estados y referencias; no realiza trabajo técnico |
+| Ant-Man | Commit, grafo, diff, solicitud y fuentes de reglas/memoria | Prepara el paquete de contexto con fuentes, hashes y resumen pertinente; explora con OpenCode y entrega mapa de impacto |
+
 | Ant-Man | Commit, grafo, diff y solicitud | Explora con OpenCode; entrega mapa de impacto y referencias a código |
 | Spider-Man | Solicitud y mapa de impacto | Diagnostica, reproduce y documenta hechos, hipótesis y preguntas |
 | Capitán América | Diagnóstico y reglas del destino | Escribe SDD con alcance, comportamiento, restricciones y criterios verificables; itera con diagnóstico |
 | Vision | Especificación, diagnóstico y mapa | Define tareas, dependencias, interfaces, paralelismo y plan de verificación |
-| Thor | Tarea del plan, reglas y worktree | Implementa cambios y pruebas pertinentes; informa desviaciones y commit |
+| Thor | Tarea del plan, reglas y worktree | Implementa cambios y pruebas asignadas; por delegación explícita puede integrar worktrees en una candidata y ejecutar controles básicos de integración; informa SHA y evidencia |
+
 | Viuda Negra | Especificación, plan y candidato | Busca diferencias entre lo esperado y lo ejecutado; entrega hallazgos a Jarvis y Pantera |
 | Hulk | Candidato, superficie afectada y restricciones | Busca vulnerabilidades y fallas en entornos autorizados; produce reproducciones para Guardianes y Pantera |
 | Guardianes de la Galaxia | Criterios de aceptación y hallazgos | Diseñan y ejecutan E2E; guardan trazas, resultados y regresiones |
@@ -20,4 +23,10 @@ próxima acción. Las afirmaciones sin comprobación se identifican como hipóte
 Hulk no ataca servicios ajenos ni producción fuera del alcance de la tarea. Soldado
 usa las políticas de integración y entrega del proyecto destino. Pantera no convierte
 una conjetura ni una preferencia circunstancial en una regla global.
+
+Jarvis se rige por el [contrato operativo](jarvis.md): solo invoca agentes mediante
+el skill de delegación, pasa contexto, coordina dependencias y registra estados y
+referencias. No explora, diagnostica, planifica, implementa, revisa, prueba, integra,
+despliega ni edita memoria por cuenta propia. Puede comprobar que llegaron los
+campos requeridos; la validez técnica la informa el agente especialista.
 
