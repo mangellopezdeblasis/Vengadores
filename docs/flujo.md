@@ -4,21 +4,23 @@
 
 | Estado | Responsable | Entregable / condición para avanzar |
 | --- | --- | --- |
-| Preparación | Jarvis | ID de tarea, commit base, configuración, reglas, memoria resumida y versión del grafo |
-| Investigación | Ant-Man y Spider-Man en paralelo | Mapa de impacto y diagnóstico con evidencia |
-| Especificación | Capitán América ↔ Spider-Man | Criterios verificables y decisiones resueltas; Ant-Man aporta contexto |
+| Preparación | Jarvis | ID, repositorio, referencias de versión, configuración y límites; bloquea si falta el skill de delegación |
+| Investigación | Ant-Man y Spider-Man en paralelo | Ant-Man entrega paquete de contexto, mapa de impacto y versión del grafo; Spider-Man entrega diagnóstico con evidencia |
+| Especificación | Capitán América ↔ Spider-Man | Criterios verificables y decisiones resueltas, usando el paquete de contexto de Ant-Man |
 | Planificación | Vision | Tareas, dependencias, contratos compartidos y verificaciones |
 | Implementación | Uno o varios Thor | Cambios por tarea en ramas y worktrees propios |
-| Integración candidata | Jarvis | Cambios reunidos, conflictos resueltos y verificaciones básicas aprobadas |
+| Integración candidata | Thor, con rol de integrador delegado por Jarvis | Cambios reunidos, conflictos resueltos, verificaciones básicas y SHA de la candidata |
 | Revisión | Viuda Negra y Hulk en paralelo | Conformidad con especificación/plan y hallazgos adversariales |
 | E2E candidata | Guardianes de la Galaxia | Recorridos de aceptación y regresiones de Hulk ejecutados |
 | Aprendizaje propuesto | Pantera Negra | Ajustes de reglas clasificados por destino, con evidencia |
 | Integración y deploy | Soldado del Invierno | Merge a dev, despliegue del commit integrado y E2E del despliegue |
-| Cierre | Jarvis y Pantera Negra | Resultado final, grafo actualizado y aprendizajes validados/versionados |
+| Cierre | Pantera Negra; Jarvis registra el estado | Conocimiento validado/versionado; Jarvis entrega al usuario estados y referencias de informes |
 
-Jarvis usa el skill de delegación existente para iniciar y coordinar agentes. Los
-agentes no necesitan compartir el historial completo: reciben reglas pertinentes,
-entradas de su etapa y referencias a los artefactos.
+Jarvis solo invoca el skill de delegación, pasa entradas y referencias, agenda las
+llamadas según las dependencias y registra estados. No produce análisis, código ni
+veredictos técnicos. Ant-Man prepara el paquete de contexto con fuentes y hashes;
+los especialistas entregan evaluaciones y síntesis. Los agentes no necesitan
+compartir el historial completo.
 
 ## Paralelismo y worktrees
 
@@ -26,14 +28,14 @@ entradas de su etapa y referencias a los artefactos.
 - Cada Thor tiene rama y worktree propios, derivados de un commit base identificado.
 - Cada sandbox cloud puede tener su propio clon y crear allí su worktree.
 - Un worktree no aísla procesos, red ni credenciales: la ejecución requiere sandboxes.
-- Jarvis coordina archivos compartidos y evita escrituras concurrentes sobre el mismo worktree.
+- Vision define propiedad de archivos y recursos; Jarvis agenda o serializa las llamadas según ese plan y nunca edita worktrees.
 - La revisión conjunta ocurre sobre la rama candidata, no solo sobre cambios individuales.
 - Al cambiar el commit revisado se invalidan los controles afectados. Antes del merge,
   comprobar que los resultados corresponden al candidato final y a la base dev actual.
 
 ## Correcciones y bloqueos
 
-Jarvis envía cada hallazgo al responsable de su causa:
+Jarvis delega cada hallazgo al responsable indicado por la revisión especializada:
 
 | Causa | Retorno |
 | --- | --- |
@@ -44,10 +46,11 @@ Jarvis envía cada hallazgo al responsable de su causa:
 | Implementación defectuosa | Thor |
 | Decisión de producto ausente | Responsable humano de la tarea |
 
-Después de una corrección se repiten las verificaciones afectadas. Jarvis limita
-iteraciones, tiempo y presupuesto según configuración. Alcanzar el límite produce
-un bloqueo con evidencia; no equivale a éxito. Los controles son estados verificados,
-no una conclusión libre del modelo.
+Después de una corrección se repiten las verificaciones afectadas. Jarvis controla
+el contador de llamadas y los límites configurados; al alcanzarlos registra un
+bloqueo y lo comunica con referencias. Solo registra controles como aprobados cuando
+el agente responsable entrega estado, SHA y evidencia. No juzga por sí mismo la
+calidad técnica de esa evidencia.
 
 ## Grafo y merge a dev
 
@@ -55,14 +58,15 @@ Ant-Man consulta archivos, símbolos, imports, dependencias y tests mediante el 
 y OpenCode. El índice indica el SHA analizado y separa relaciones extraídas de las
 inferidas. Para ramas activas se considera también su diff respecto del grafo base.
 
-Cada merge a dev dispara una actualización incremental idempotente identificada por
-repositorio y SHA. Debe procesar cambios, eliminaciones y relaciones afectadas. Si
-el índice falla, se marca desactualizado y se reintenta; no se presenta como actual.
-La reconstrucción completa queda disponible para reconciliar el índice.
+Cada merge a dev dispara una actualización incremental idempotente por repositorio
+y SHA, delegada a Ant-Man o al adaptador configurado para refrescar el grafo. Debe
+procesar cambios, eliminaciones y relaciones afectadas. Si falla, se marca obsoleto
+y se reintenta; no se presenta como actualizado. La reconstrucción completa sirve
+para reconciliar el índice.
 
 La actualización del grafo y la verificación del deploy pueden correr en paralelo.
-Jarvis registra ambos resultados por separado y contempla merges posteriores para
-no confundir el SHA de la tarea con el estado más reciente de dev.
+Jarvis registra las respuestas y sus SHA; merges posteriores generan actualizaciones
+adicionales para identificar correctamente la revisión vigente.
 
 ## Entrega
 
