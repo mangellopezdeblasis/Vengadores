@@ -10,13 +10,16 @@ delegación y no levanta servicios ni cambia el código del destino.
 1. Obtener una copia de la rama `docs/aprendizajes-orquestacion` de Vengadores y
    fijar la revisión que se usará. Requiere Python 3.9 o posterior.
 2. Usar la skill `delegacion-vengadores` incluida o ubicar una skill externa compatible.
-3. Desde Vengadores, ejecutar:
+3. Agregar la carpeta de Vengadores al `PATH` de la terminal. Por ejemplo, guardar
+   en `.bashrc` o `.zshrc` la línea `export PATH="/ruta/Vengadores:$PATH"`, usando
+   la ruta real, y abrir una terminal nueva. Luego, desde el proyecto destino:
 
 ```bash
-python3 scripts/configure_jarvis.py install --project /ruta/proyecto --host opencode
+vengadores unidos
 ```
 
-Para Codex usar `--host codex`. Se instala en `.opencode/skills/jarvis` o
+Para Codex usar `vengadores unidos --host codex`. El destino por defecto es el
+directorio actual; puede elegirse otro con `--project /ruta/proyecto`. Se instala en `.opencode/skills/jarvis` o
 `.agents/skills/jarvis`. La dependencia se instala al lado, en `delegacion-vengadores`,
 y se vincula automáticamente. OpenCode recibe también `.opencode/agents/jarvis.md`,
 que limita al coordinador a leer, cargar skills y delegar a `general`; no toca

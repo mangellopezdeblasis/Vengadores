@@ -16,13 +16,14 @@ Ejemplo de configuración creada por el instalador:
 }
 ```
 
-Desde una copia de Vengadores, instalar y vincular:
+Con la carpeta de Vengadores agregada al PATH de la terminal, instalar y vincular
+desde el proyecto destino:
 
 ```bash
-python3 scripts/configure_jarvis.py install --project /ruta/proyecto --host opencode
+vengadores unidos
 ```
 
-Para Codex, usar `--host codex`; la ubicación es `.agents/skills/jarvis`.
+Para Codex, usar `vengadores unidos --host codex`; la ubicación es `.agents/skills/jarvis`.
 Reabrir la sesión del host para que descubra la nueva skill. También puede abrirse
 su `SKILL.md` explícitamente si el host permite cargar skills por ruta.
 

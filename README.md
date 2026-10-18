@@ -6,16 +6,23 @@ instalable para OpenCode o Codex. Jarvis solo delega y coordina los subagentes.
 ## Instalar Jarvis
 
 Requiere Python 3.9 o posterior y una copia de esta rama del repositorio.
-Desde la raíz de Vengadores:
+Agregar una vez la carpeta de Vengadores al `PATH` en la configuración de la
+terminal (por ejemplo, `.bashrc` o `.zshrc`), usando su ubicación real:
 
 ```bash
-python3 scripts/configure_jarvis.py install --project /ruta/proyecto --host opencode
-python3 scripts/configure_jarvis.py check --project /ruta/proyecto
+export PATH="/ruta/Vengadores:$PATH"
 ```
 
-Para Codex, cambiar a `--host codex`. La instalación queda en
-`.opencode/skills/jarvis` o `.agents/skills/jarvis`, dentro del proyecto destino.
-Reabrir la sesión del host para que descubra la skill.
+Después, desde el proyecto donde querés usarlo:
+
+```bash
+vengadores unidos
+```
+
+Instala y vincula Jarvis y delegación en el directorio actual para OpenCode.
+Para Codex: `vengadores unidos --host codex`. Para elegir otro destino:
+`vengadores unidos --project /ruta/proyecto`.
+Reabrir la sesión del host para que descubra las skills.
 
 Invocación: **«Usá Jarvis para coordinar esta tarea: <objetivo>»**.
 

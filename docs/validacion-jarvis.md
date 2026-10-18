@@ -4,10 +4,12 @@ Fecha: 18 de octubre de 2026. Rama: `docs/aprendizajes-orquestacion`.
 
 ## Instalador
 
-Se ejecutó `python3 -m unittest discover -s tests -v`: ocho pruebas aprobadas.
+Se ejecutó `python3 -m unittest discover -s tests -v`: once pruebas aprobadas.
 Cubren instalación en Codex/OpenCode, dependencia separada por defecto, vínculo
 externo, dependencia ausente, preservación de instalaciones y agentes existentes,
-fallos previos a escribir y rechazo de auto-delegación.
+fallos previos a escribir y rechazo de auto-delegación. Las tres pruebas del comando
+`vengadores unidos` comprueban el destino actual con espacios, la selección de Codex
+y la preservación de trabajo existente, ejecutando el comando real como subproceso.
 
 La instalación real se comprobó en el workspace para ambos hosts con `check`.
 Este comando solo evalúa estructura y dependencias en disco. No recibe ni concede
