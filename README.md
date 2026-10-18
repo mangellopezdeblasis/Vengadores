@@ -25,6 +25,11 @@ Para Codex: `vengadores unidos --host codex`. Para elegir otro destino:
 Reabrir la sesión del host para que descubra las skills.
 
 Invocación: **«Usá Jarvis para coordinar esta tarea: <objetivo>»**.
+Jarvis permanece como supervisor de esa sesión: recibe pedidos, delega, atiende
+resultados y vuelve a esperar al usuario. Terminar una tarea no lo detiene.
+Podés pedirle «Jarvis, estado», «pausá», «continuá» o «detenete».
+La escucha permanece dentro del host; no es un daemon externo.
+Ver [supervisión de sesión](skills/jarvis/references/supervision.md).
 
 Se instalan dos skills separadas: `jarvis` y `delegacion-vengadores`, vinculadas
 automáticamente. Para usar otra skill compatible, agregar

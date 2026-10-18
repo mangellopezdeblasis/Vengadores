@@ -4,10 +4,11 @@ Fecha: 18 de octubre de 2026. Rama: `docs/aprendizajes-orquestacion`.
 
 ## Instalador
 
-Se ejecutó `python3 -m unittest discover -s tests -v`: once pruebas aprobadas.
+Se ejecutó `python3 -m unittest discover -s tests -v`: doce pruebas aprobadas.
 Cubren instalación en Codex/OpenCode, dependencia separada por defecto, vínculo
 externo, dependencia ausente, preservación de instalaciones y agentes existentes,
-fallos previos a escribir y rechazo de auto-delegación. Las tres pruebas del comando
+fallos previos a escribir, rechazo de auto-delegación y detección de instalación
+incompleta si falta el contrato de supervisión. Las tres pruebas del comando
 `vengadores unidos` comprueban el destino actual con espacios, la selección de Codex
 y la preservación de trabajo existente, ejecutando el comando real como subproceso.
 
@@ -33,6 +34,27 @@ instalado: `06bc0fa5f429a2e0cad3312f7e815f9f23f3ef7c490c513ebcb4986d15c2d534`.
 
 El recibo real fue recibido en la conversación del coordinador. No es una respuesta
 simulada ni un test con una herramienta de delegación falsa.
+
+## Supervisor que conserva la sesión
+
+Se inició `/root/jarvis_supervisor` como Jarvis con autorización explícita de
+profundidad dos y un worker concurrente. Se le dieron dos pedidos consecutivos:
+
+| Pedido | Especialista real | Resultado informado |
+| --- | --- | --- |
+| SUP-001 | `/root/jarvis_supervisor/ant_man_sup_001` | Leyó el encabezado de README.md; completado. |
+| SUP-002 | `/root/jarvis_supervisor/spider_man_sup_002` | Leyó una regla de AGENTS.md; completado. |
+
+El segundo pedido se envió mediante `followup_task` al mismo supervisor, que
+conservó SUP-001 y no la repitió. Ambos recibos informaron el mismo supervisor_id
+y terminaron en `supervisor_state: esperando_usuario`. Las tareas fueron de
+lectura, con revisión null por staging local, sin ejecución del flujo técnico.
+
+Esto valida dos delegaciones sucesivas desde una sesión de supervisor conservada
+en Codex. La sesión queda disponible para más pedidos del host; no acredita un
+proceso escuchando fuera de ella ni permanencia después de cerrar la aplicación.
+Las reglas de pausa/detención están configuradas; no se simuló una cancelación
+real de procesos o de infraestructura.
 
 ## Límites
 

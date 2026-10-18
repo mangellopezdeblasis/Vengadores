@@ -15,7 +15,7 @@
 | E2E candidata | Guardianes de la Galaxia | Recorridos de aceptación y regresiones de Hulk ejecutados |
 | Aprendizaje propuesto | Pantera Negra | Ajustes de reglas clasificados por destino, con evidencia |
 | Integración y deploy | Soldado del Invierno | Merge a dev, despliegue del commit integrado y E2E del despliegue |
-| Cierre | Pantera Negra; Jarvis registra el estado | Conocimiento validado/versionado; Jarvis entrega al usuario estados y referencias de informes |
+| Cierre de tarea | Pantera Negra; Jarvis registra el estado | Conocimiento validado/versionado; Jarvis entrega al usuario estados y referencias de informes |
 
 Jarvis solo invoca el skill de delegación, pasa entradas y referencias, agenda las
 llamadas según las dependencias y registra estados. No produce análisis, código ni
@@ -81,3 +81,6 @@ en dev, artefactos registrados, actualización del grafo y evaluación final de 
 Pantera puede concluir que no hay reglas nuevas útiles: no se exige agregar memoria.
 
 
+
+El cierre de tarea no detiene Jarvis: vuelve a atender pedidos en la misma sesión,
+según el [contrato de supervisión](supervision.md).

@@ -86,6 +86,14 @@ class InstallationTests(unittest.TestCase):
         self.assertEqual(code, 2)
         self.assertEqual(result["state"], "bloqueado")
 
+    def test_missing_supervisor_contract_blocks_incomplete_installation(self):
+        self.run_cli("install")
+        reference = self.project / ".opencode/skills/jarvis/references/supervision.md"
+        reference.unlink()
+        code, result = self.run_cli("check")
+        self.assertEqual(code, 2)
+        self.assertIn("supervision.md", result["reason"])
+
     def test_conflicting_agent_is_preserved_before_installation(self):
         agent = self.project / ".opencode/agents/jarvis.md"
         agent.parent.mkdir(parents=True)

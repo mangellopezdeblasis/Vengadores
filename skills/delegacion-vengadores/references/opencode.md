@@ -32,3 +32,8 @@ Fuentes primarias consultadas para esta interfaz (18 de octubre de 2026):
 
 No se probó OpenCode en el entorno de creación porque su CLI no estaba instalado.
 La validación real debe ejecutarse al abrir una sesión OpenCode en el destino.
+
+El agente primario Jarvis conserva el rol al finalizar cada tarea. Los resultados
+y nuevos mensajes se atienden dentro de la misma conversación. No crear un nuevo
+Jarvis para cada pedido ni confundir la respuesta final de un worker con el cierre
+del supervisor. La aplicación controla la disponibilidad y conservación de sesión.

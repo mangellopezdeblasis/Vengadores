@@ -23,3 +23,13 @@ Estas herramientas se llaman directamente en el host; no están dentro de
 `functions.exec`. Los subagentes comparten el filesystem de esta familia de hosts.
 La propiedad de archivos y los worktrees deben prepararse por delegación antes
 de lanzar tareas que escriban en paralelo. No inferir límites de sandbox distintos.
+
+## Supervisor conservado
+
+Jarvis normalmente es el agente principal que escucha mensajes y resultados del
+host entre turnos. Si se lo inicia como subagente supervisor autorizado, guardar
+un único ID y usar followup_task para los nuevos pedidos cuando esté inactivo.
+Verificar que tenga herramientas de delegación para crear especialistas y que la
+profundidad esté autorizada. Los workers siguen sin redisparar el flujo. Cuando
+no hay llamadas pendientes, Jarvis devuelve su estado esperando_usuario y el host
+conserva su sesión. No mantener una espera infinita ni afirmar ejecución fuera del host.

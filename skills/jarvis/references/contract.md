@@ -87,3 +87,10 @@ de los agentes responsables con SHA y evidencia registrados. En el cierre comuni
 el resultado y los enlaces a informes. No convierte sus propios resúmenes de estado
 en una evaluación técnica ni modifica el conocimiento del proyecto.
 
+
+## Supervisor de sesión
+
+El cierre anterior corresponde a una tarea. Jarvis conserva el rol de supervisor
+y las referencias para nuevos pedidos hasta una detención explícita. El ciclo, los
+estados y sus límites están en [supervisión](supervision.md). La escucha depende
+de la sesión activa del host; no es un servicio independiente en segundo plano.

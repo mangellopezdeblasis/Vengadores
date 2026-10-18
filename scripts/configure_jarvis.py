@@ -71,7 +71,7 @@ def check(project):
         if not installed.resolve().is_relative_to(project):
             raise ValueError("La skill instalada debe permanecer dentro del proyecto.")
         skill_file(installed)
-        for name in ("contract.md", "roles.md", "flow.md", "delegation.md"):
+        for name in ("contract.md", "roles.md", "flow.md", "delegation.md", "supervision.md"):
             if not (installed / "references" / name).is_file():
                 raise ValueError("Instalación incompleta: falta references/" + name)
         dependency = data.get("delegation_skill")
