@@ -11,3 +11,4 @@
 - Mantener flujo, roles y contrato canónicos en skills/jarvis/references; los MD externos enlazan a ellos. Mantener las plantillas alineadas.
 
 
+- Aplicar skills/nick-fury para crear o ajustar skills/subagentes: núcleos breves, referencias condicionales, español por defecto y sin ahorros de tokens no medidos.

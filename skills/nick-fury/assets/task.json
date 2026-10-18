@@ -1,0 +1,12 @@
+{
+  "task_id": "REEMPLAZAR",
+  "role": "REEMPLAZAR",
+  "objective": "REEMPLAZAR",
+  "revision": null,
+  "inputs": [],
+  "scope": [],
+  "constraints": [],
+  "worktree": null,
+  "acceptance": [],
+  "output": ["state", "result", "evidence", "uncertainties", "next_action"]
+}

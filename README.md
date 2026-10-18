@@ -19,7 +19,7 @@ Después, desde el proyecto donde querés usarlo:
 vengadores unidos
 ```
 
-Instala y vincula Jarvis y delegación en el directorio actual para OpenCode.
+Instala y vincula Jarvis, delegación y Nick Fury en el directorio actual para OpenCode.
 Para Codex: `vengadores unidos --host codex`. Para elegir otro destino:
 `vengadores unidos --project /ruta/proyecto`.
 Reabrir la sesión del host para que descubra las skills.
@@ -31,11 +31,11 @@ Podés pedirle «Jarvis, estado», «pausá», «continuá» o «detenete».
 La escucha permanece dentro del host; no es un daemon externo.
 Ver [supervisión de sesión](skills/jarvis/references/supervision.md).
 
-Se instalan dos skills separadas: `jarvis` y `delegacion-vengadores`, vinculadas
+Se instalan tres skills separadas: `jarvis`, `delegacion-vengadores` y `nick-fury`, vinculadas
 automáticamente. Para usar otra skill compatible, agregar
 `--delegation-skill /ruta/real/delegacion/SKILL.md`; se referencia sin copiarla.
-OpenCode recibe además un agente primario `jarvis`, con escritura y shell denegados
-al coordinador. Seleccionarlo en la interfaz y pedir la tarea a Jarvis.
+OpenCode recibe un agente primario `jarvis`, con escritura y shell denegados
+al coordinador, y el subagente autor `nick-fury`. Seleccionarlo en la interfaz y pedir la tarea a Jarvis.
 El chequeo estructural no acredita subagentes ejecutados: la primera tarea debe
 confirmar la interfaz real del host y recibir un ID y una respuesta de agente.
 
@@ -43,6 +43,8 @@ confirmar la interfaz real del host y recibir un ID y una respuesta de agente.
 
 - [Skill de Jarvis](skills/jarvis/SKILL.md)
 - [Skill de delegación](skills/delegacion-vengadores/SKILL.md)
+- [Nick Fury, creador de skills y subagentes](skills/nick-fury/SKILL.md)
+- [Investigación de tokens, idioma y formato](docs/investigacion-skills.md)
 - [Contrato operativo](skills/jarvis/references/contract.md)
 - [Flujo y controles](skills/jarvis/references/flow.md)
 - [Roles de los agentes](skills/jarvis/references/roles.md)
@@ -67,3 +69,8 @@ explícita; no cambiar la versión durante una tarea en curso.
 
 Repositorio: [mangellopezdeblasis/Vengadores](https://github.com/mangellopezdeblasis/Vengadores).
 No se eligió una licencia de distribución todavía.
+
+Nick Fury se invoca mediante «Jarvis, pedile a Nick Fury crear una skill para <objetivo>».
+Los núcleos son breves y el detalle se carga por caso. No se promete ahorro de tokens
+sin medición del tokenizer y del recorrido. Actualizar instalaciones previas con
+`vengadores unidos --replace`, que reemplaza las skills distribuidas.

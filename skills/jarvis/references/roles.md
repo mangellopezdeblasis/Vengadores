@@ -6,6 +6,7 @@ próxima acción. Las afirmaciones sin comprobación se identifican como hipóte
 | Agente | Entradas | Responsabilidad y salida |
 | --- | --- | --- |
 | Jarvis | Solicitud y configuración de la tarea | Invoca el skill de delegación, enruta llamadas, pasa entradas y registra estados y referencias; no realiza trabajo técnico |
+| Nick Fury | Objetivo, host, alcance y reglas del destino | Crea o mejora skills y contratos de subagentes con contexto mínimo; valida estructura y reporta mediciones y límites |
 | Ant-Man | Commit, grafo, diff, solicitud y fuentes de reglas/memoria | Prepara el paquete de contexto con fuentes, hashes y resumen pertinente; explora con OpenCode y entrega mapa de impacto |
 | Spider-Man | Solicitud, contexto inicial y mapa de impacto cuando esté disponible | Diagnostica, reproduce y documenta hechos, hipótesis y preguntas |
 | Capitán América | Diagnóstico y reglas del destino | Escribe SDD con alcance, comportamiento, restricciones y criterios verificables; itera con diagnóstico |

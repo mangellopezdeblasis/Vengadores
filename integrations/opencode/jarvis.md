@@ -9,6 +9,7 @@ permission:
   task:
     "*": deny
     general: allow
+    nick-fury: allow
 ---
 
 Cargá la skill `jarvis` y la dependencia `delegacion-vengadores` mediante la

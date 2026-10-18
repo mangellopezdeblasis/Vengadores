@@ -4,7 +4,7 @@ Fecha: 18 de octubre de 2026. Rama: `docs/aprendizajes-orquestacion`.
 
 ## Instalador
 
-Se ejecutó `python3 -m unittest discover -s tests -v`: doce pruebas aprobadas.
+Se ejecutó `python3 -m unittest discover -s tests -v`: veinte pruebas aprobadas.
 Cubren instalación en Codex/OpenCode, dependencia separada por defecto, vínculo
 externo, dependencia ausente, preservación de instalaciones y agentes existentes,
 fallos previos a escribir, rechazo de auto-delegación y detección de instalación
@@ -30,7 +30,7 @@ permisos de herramientas ni reemplaza una delegación real.
 Se reanudó la misma sesión con `collaboration.followup_task` para
 `JARVIS-SMOKE-002`. El worker volvió a informar `completado` sin escrituras y confirmó
 el modo de comprobación de instalación de la versión final. SHA256 de Jarvis
-instalado: `06bc0fa5f429a2e0cad3312f7e815f9f23f3ef7c490c513ebcb4986d15c2d534`.
+instalado en esa prueba inicial: `06bc0fa5f429a2e0cad3312f7e815f9f23f3ef7c490c513ebcb4986d15c2d534`.
 
 El recibo real fue recibido en la conversación del coordinador. No es una respuesta
 simulada ni un test con una herramienta de delegación falsa.
@@ -63,3 +63,18 @@ prepararon con referencia a [documentación oficial](https://opencode.ai/docs/ag
 y al esquema básico de Task, pero su ejecución debe validarse en el host destino.
 Esta prueba no acredita worktrees concurrentes, sandboxes, grafo, E2E, despliegues
 ni la ejecución completa de todos los roles. Esas capacidades dependen del proyecto.
+
+## Nick Fury y núcleos mínimos
+
+Se incorporaron pruebas del auditor y de instalación de Nick Fury. La suite completa
+alcanzó veinte pruebas aprobadas. Cada instalación incluye la skill de autor y, en
+OpenCode, su perfil de subagente, preservando los agentes existentes salvo reemplazo
+explícito. El auditor no convierte tamaño a tokens y sus presupuestos son avisos.
+
+Jarvis conservó el supervisor `/root/jarvis_supervisor` y delegó `NF-AUDIT-001` a
+`/root/jarvis_supervisor/nick_fury_nf_audit_001`. Nick Fury cargó su skill instalada
+y ejecutó el auditor real sobre las tres skills: código 0, sin errores ni avisos.
+Informó cuerpo de 212 palabras para Jarvis, 202 para delegación y 184 para Nick Fury;
+los tokens quedaron null. La tarea fue de lectura; no acredita calidad de nuevas
+skills generadas, ejecución OpenCode ni ahorro de tokens. Se conserva la investigación
+y sus fuentes en [diseño de skills](investigacion-skills.md).

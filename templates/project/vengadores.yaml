@@ -11,6 +11,7 @@ orchestrator:
   name: Jarvis
   execution_tool: OpenCode
   kind: skill
+  authoring_role: Nick Fury
   entrypoint: skills/jarvis/SKILL.md
   delegation_binding: .vengadores/jarvis.json # Creado por configure_jarvis.py.
   max_parallel_executors: 2

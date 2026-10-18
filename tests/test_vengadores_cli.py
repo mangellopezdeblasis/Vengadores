@@ -23,6 +23,7 @@ class CommandTests(unittest.TestCase):
             self.assertEqual(data["state"], "configurado")
             self.assertTrue((Path(project) / ".opencode/skills/jarvis/SKILL.md").is_file())
             self.assertTrue((Path(project) / ".opencode/skills/delegacion-vengadores/SKILL.md").is_file())
+            self.assertTrue((Path(project) / ".opencode/skills/nick-fury/SKILL.md").is_file())
 
     def test_optional_host_codex_is_forwarded(self):
         with tempfile.TemporaryDirectory() as project:

@@ -21,7 +21,7 @@ La herramienta Task no garantiza por sí sola sandboxes ni worktrees diferentes.
 
 El instalador agrega un agente primario `.opencode/agents/jarvis.md`. Sus permisos
 impiden al coordinador ejecutar shell o editar archivos; permite cargar skills,
-leer configuración y llamar al subagente `general`. Los permisos del proyecto y
+leer configuración y llamar a `general` o al autor `nick-fury`. Los permisos del proyecto y
 del proveedor siguen aplicando a los workers. No se modifica `opencode.json`.
 
 Fuentes primarias consultadas para esta interfaz (18 de octubre de 2026):

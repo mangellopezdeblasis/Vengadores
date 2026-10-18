@@ -1,5 +1,8 @@
 # Flujo de Jarvis
 
+Para crear o ajustar skills y subagentes, Jarvis delega directamente a Nick Fury.
+La autoría no inicia automáticamente el flujo de producto o deploy.
+
 ## Estados y avance
 
 | Estado | Responsable | Entregable / condición para avanzar |

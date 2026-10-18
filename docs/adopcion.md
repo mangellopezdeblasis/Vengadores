@@ -2,7 +2,7 @@
 
 Jarvis es una skill. El host la carga y ejecuta sus instrucciones con las herramientas
 reales disponibles. Hay adaptadores para Codex con `collaboration` y para OpenCode
-con `task`; si el host expone otro API, se bloquea sin inventar llamadas. El instalador copia solo Jarvis, conserva separada la skill de
+con `task`; si el host expone otro API, se bloquea sin inventar llamadas. El instalador copia Jarvis y Nick Fury, conserva separada la skill de
 delegación y no levanta servicios ni cambia el código del destino.
 
 ## Instalación
@@ -21,8 +21,9 @@ vengadores unidos
 Para Codex usar `vengadores unidos --host codex`. El destino por defecto es el
 directorio actual; puede elegirse otro con `--project /ruta/proyecto`. Se instala en `.opencode/skills/jarvis` o
 `.agents/skills/jarvis`. La dependencia se instala al lado, en `delegacion-vengadores`,
-y se vincula automáticamente. OpenCode recibe también `.opencode/agents/jarvis.md`,
-que limita al coordinador a leer, cargar skills y delegar a `general`; no toca
+y se vincula automáticamente. También instala `nick-fury` y guarda su referencia
+en `author_skill`. OpenCode recibe `.opencode/agents/jarvis.md` y `nick-fury.md`,
+que limita al coordinador a leer, cargar skills y delegar a `general` o `nick-fury`; no toca
 `opencode.json`. Seleccionar el agente primario Jarvis en OpenCode.
 Si ya existe una instalación, el programa la preserva;
 `--replace` permite reemplazarla explícitamente. Un proyecto tiene un vínculo de

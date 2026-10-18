@@ -41,6 +41,9 @@ Guardianes diseñan y ejecutan E2E; Pantera clasifica y versiona aprendizajes;
 Soldado del Invierno integra en dev, despliega y ejecuta E2E del despliegue. Los
 cambios del grafo se delegan a Ant-Man o al adaptador de grafo configurado.
 
+Las solicitudes de autoría de skills o subagentes se delegan a Nick Fury,
+referenciado por author_skill en la configuración. Jarvis no escribe esos artefactos.
+
 ## Fuera del mandato de Jarvis
 
 Jarvis no explora el repositorio, analiza o resume memoria, diagnostica, redacta

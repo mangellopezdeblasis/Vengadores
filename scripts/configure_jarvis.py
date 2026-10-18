@@ -10,7 +10,9 @@ import sys
 
 SOURCE = Path(__file__).resolve().parents[1] / "skills" / "jarvis"
 BUNDLED = SOURCE.parent / "delegacion-vengadores"
+AUTHOR = SOURCE.parent / "nick-fury"
 OPENCODE_AGENT = SOURCE.parents[1] / "integrations" / "opencode" / "jarvis.md"
+OPENCODE_AUTHOR = OPENCODE_AGENT.with_name("nick-fury.md")
 HOST_DIRS = {"opencode": ".opencode/skills/jarvis", "codex": ".agents/skills/jarvis"}
 BINDING = Path(".vengadores/jarvis.json")
 
@@ -71,7 +73,7 @@ def check(project):
         if not installed.resolve().is_relative_to(project):
             raise ValueError("La skill instalada debe permanecer dentro del proyecto.")
         skill_file(installed)
-        for name in ("contract.md", "roles.md", "flow.md", "delegation.md", "supervision.md"):
+        for name in ("contract.md", "roles.md", "flow.md", "delegation.md", "supervision.md", "orchestration.md"):
             if not (installed / "references" / name).is_file():
                 raise ValueError("Instalación incompleta: falta references/" + name)
         dependency = data.get("delegation_skill")
@@ -81,14 +83,27 @@ def check(project):
         if dependency.is_relative_to(installed.resolve()):
             raise ValueError("La skill de delegación debe estar separada de Jarvis.")
         if data.get("dependency_origin") == "bundled":
-            for name in ("codex.md", "opencode.md"):
+            for name in ("codex.md", "opencode.md", "protocol.md"):
                 if not (dependency.parent / "references" / name).is_file():
                     raise ValueError("Falta el adaptador de delegación: " + name)
         if data["host"] == "opencode" and not (project / ".opencode/agents/jarvis.md").is_file():
             raise ValueError("Falta el agente primario de Jarvis para OpenCode.")
+        author = installed.parent / "nick-fury" / "SKILL.md"
+        if not data.get("author_skill") or Path(data["author_skill"]).resolve() != author.resolve():
+            raise ValueError("Falta vincular Nick Fury; reinstalar con --replace.")
+        if not author.resolve().is_relative_to(project):
+            raise ValueError("Nick Fury debe permanecer dentro del proyecto.")
+        skill_file(author)
+        for name in ("references/authoring.md", "references/tokens.md", "scripts/audit.py",
+                     "assets/skill.md", "assets/opencode-agent.md", "assets/task.json"):
+            if not (author.parent / name).is_file():
+                raise ValueError("Nick Fury incompleto: falta " + name)
+        if data["host"] == "opencode" and not (project / ".opencode/agents/nick-fury.md").is_file():
+            raise ValueError("Falta el subagente Nick Fury para OpenCode.")
         return {"state": "configurado", "host": data["host"],
                 "skill": str(installed), "delegation_skill": str(dependency),
                 "delegation_sha256": hashlib.sha256(dependency.read_bytes()).hexdigest(),
+                "author_skill": str(author),
                 "host_execution": "pendiente_de_invocacion_real"}
     except (ValueError, OSError, TypeError) as exc:
         return {"state": "bloqueado", "reason": str(exc),
@@ -106,7 +121,7 @@ def main(argv=None):
         if action == "install":
             sub.add_argument("--host", choices=HOST_DIRS, default="opencode")
             sub.add_argument("--replace", action="store_true",
-                             help="Reemplaza explícitamente una instalación de Jarvis.")
+                             help="Reemplaza explícitamente las skills distribuidas de Vengadores.")
     args = parser.parse_args(argv)
     try:
         project = Path(args.project).expanduser().resolve()
@@ -131,13 +146,16 @@ def main(argv=None):
             if config_path(project).exists() and not args.replace:
                 raise ValueError("El proyecto ya tiene un vínculo; usar bind o --replace.")
             skill_file(SOURCE)
-            copies = [(SOURCE, destination)]
+            skill_file(AUTHOR)
+            author_destination = destination.parent / "nick-fury"
+            copies = [(SOURCE, destination), (AUTHOR, author_destination)]
             if bundled:
                 copies.append((BUNDLED, dependency_destination))
             if args.host == "opencode":
-                if not OPENCODE_AGENT.is_file():
-                    raise ValueError("No está el agente primario de OpenCode en la fuente.")
+                if not OPENCODE_AGENT.is_file() or not OPENCODE_AUTHOR.is_file():
+                    raise ValueError("Falta un perfil de agente de OpenCode en la fuente.")
                 copies.append((OPENCODE_AGENT, project / ".opencode/agents/jarvis.md"))
+                copies.append((OPENCODE_AUTHOR, project / ".opencode/agents/nick-fury.md"))
             # Validate every target before replacing any installation.
             for source, target in copies:
                 if not target.resolve().is_relative_to(project) or target.is_symlink():
@@ -155,7 +173,7 @@ def main(argv=None):
                         target.unlink()
                 target.parent.mkdir(parents=True, exist_ok=True)
                 if source.is_dir():
-                    shutil.copytree(source, target)
+                    shutil.copytree(source, target, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
                 else:
                     shutil.copy2(source, target)
             if bundled:
@@ -163,6 +181,7 @@ def main(argv=None):
             write_config(project, {"schema_version": 1, "host": args.host,
                                   "skill_directory": HOST_DIRS[args.host],
                                   "delegation_skill": str(dependency),
+                                  "author_skill": str(author_destination / "SKILL.md"),
                                   "dependency_origin": "bundled" if bundled else "external"})
             result = check(project)
             result["installed"] = True

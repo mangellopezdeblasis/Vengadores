@@ -37,6 +37,8 @@ class InstallationTests(unittest.TestCase):
         self.assertEqual(self.run_cli("check")[0], 0)
         self.assertEqual(Path(result["delegation_skill"]).parent.name, "delegacion-vengadores")
         self.assertTrue((self.project / ".opencode/agents/jarvis.md").is_file())
+        self.assertTrue((self.project / ".opencode/agents/nick-fury.md").is_file())
+        self.assertTrue(Path(result["author_skill"]).is_file())
         code, result = self.run_cli("bind", "--delegation-skill", str(self.dependency))
         self.assertEqual(code, 0)
         self.assertEqual(result["state"], "configurado")
@@ -101,6 +103,22 @@ class InstallationTests(unittest.TestCase):
         code, _ = self.run_cli("install")
         self.assertEqual(code, 2)
         self.assertEqual(agent.read_text(), "existing agent")
+        self.assertFalse((self.project / ".opencode/skills/jarvis").exists())
+
+    def test_missing_author_resources_block_incomplete_installation(self):
+        self.run_cli("install")
+        (self.project / ".opencode/skills/nick-fury/scripts/audit.py").unlink()
+        code, result = self.run_cli("check")
+        self.assertEqual(code, 2)
+        self.assertIn("Nick Fury incompleto", result["reason"])
+
+    def test_existing_nick_fury_is_preserved_before_other_files_are_written(self):
+        author = self.project / ".opencode/agents/nick-fury.md"
+        author.parent.mkdir(parents=True)
+        author.write_text("existing author")
+        code, _ = self.run_cli("install")
+        self.assertEqual(code, 2)
+        self.assertEqual(author.read_text(), "existing author")
         self.assertFalse((self.project / ".opencode/skills/jarvis").exists())
 
 
