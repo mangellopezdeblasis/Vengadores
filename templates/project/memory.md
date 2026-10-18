@@ -22,3 +22,4 @@ Por regla: ID, disparador, acción, verificación, alcance, evidencia y versión
 
 Pendientes de validación; no tratarlas como reglas vigentes.
 
+

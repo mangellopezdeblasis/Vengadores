@@ -8,3 +8,7 @@ __pycache__/
 scratch/
 artifacts/
 *.log
+
+
+# Vínculo local con rutas de la máquina.
+.vengadores/jarvis.json

@@ -1,24 +1,68 @@
-# Adopción en un proyecto destino
+# Instalar y configurar Jarvis en un proyecto
 
-1. Seleccionar una versión de Vengadores mediante tag o SHA.
-2. Copiar la plantilla de configuración a `.vengadores/config.yaml` y completar rutas
-   y comandos reales. Es un contrato propuesto; no existe todavía un lector automático.
-3. Indicar en las instrucciones del destino dónde consultar Vengadores y su versión.
-4. Configurar el adaptador del skill de delegación existente y confirmar que permite
-   invocar los roles requeridos. Jarvis solo lo llama; si no está disponible, la tarea
-   queda bloqueada con la dependencia pendiente registrada.
-5. Identificar `AGENTS.md` y las memorias existentes. Ant-Man prepara el paquete de
-   contexto; no reemplazar las fuentes originales con las plantillas.
-6. Guardar especificaciones, planes e informes en `.vengadores/tasks/<id>/` o la ruta
-   que establezca el destino. Vincular artefactos externos cuando sean voluminosos.
-7. Definir controles de merge, actualización de grafo, despliegue y recuperación.
-8. Ejecutar una tarea pequeña siguiendo el flujo y evaluar memoria, costo y errores.
+Jarvis es una skill. El host la carga y ejecuta sus instrucciones con las herramientas
+reales disponibles. Hay adaptadores para Codex con `collaboration` y para OpenCode
+con `task`; si el host expone otro API, se bloquea sin inventar llamadas. El instalador copia solo Jarvis, conserva separada la skill de
+delegación y no levanta servicios ni cambia el código del destino.
 
-Se puede consumir Vengadores mediante un checkout separado o un submódulo fijado
-a commit. Cambiar su versión debe ser explícito y revisable; no seguir automáticamente
-la rama principal para tareas ya iniciadas. El proveedor cloud y la plataforma del
-grafo son configurables y todavía no están seleccionados.
+## Instalación
 
-Una organización reutiliza reglas globales sin mezclar contextos privados: cada
-proyecto tiene identidad, configuración, permisos, artefactos y memoria propios.
+1. Obtener una copia de la rama `docs/aprendizajes-orquestacion` de Vengadores y
+   fijar la revisión que se usará. Requiere Python 3.9 o posterior.
+2. Usar la skill `delegacion-vengadores` incluida o ubicar una skill externa compatible.
+3. Desde Vengadores, ejecutar:
 
+```bash
+python3 scripts/configure_jarvis.py install --project /ruta/proyecto --host opencode
+```
+
+Para Codex usar `--host codex`. Se instala en `.opencode/skills/jarvis` o
+`.agents/skills/jarvis`. La dependencia se instala al lado, en `delegacion-vengadores`,
+y se vincula automáticamente. OpenCode recibe también `.opencode/agents/jarvis.md`,
+que limita al coordinador a leer, cargar skills y delegar a `general`; no toca
+`opencode.json`. Seleccionar el agente primario Jarvis en OpenCode.
+Si ya existe una instalación, el programa la preserva;
+`--replace` permite reemplazarla explícitamente. Un proyecto tiene un vínculo de
+host activo en `.vengadores/jarvis.json`; cambiarlo requiere una reinstalación explícita.
+
+4. Adaptar `templates/project/vengadores.yaml` a `.vengadores/config.yaml` sin
+   sobrescribir configuración existente. Allí van reglas, memoria, comandos,
+   permisos, presupuestos y validaciones reales. El vínculo de delegación vive
+   únicamente en `.vengadores/jarvis.json`; no duplicar su ruta en YAML.
+5. Ejecutar el chequeo y reabrir la sesión del host:
+
+```bash
+python3 scripts/configure_jarvis.py check --project /ruta/proyecto
+```
+
+`configurado` significa que los archivos y la dependencia tienen formato básico
+válido. `host_execution: pendiente_de_invocacion_real` significa que todavía no se
+comprobó ejecución. Si falta una dependencia, el chequeo termina con código 2 y
+estado `bloqueado`. No ejecuta el contenido de la skill de delegación.
+
+## Usar una skill externa
+
+Por defecto se instala `delegacion-vengadores`. Para reemplazar su vínculo por otra
+skill existente, agregar `--delegation-skill` a la instalación o ejecutar:
+
+```bash
+python3 scripts/configure_jarvis.py bind --project /ruta/proyecto --delegation-skill /ruta/real/delegacion/SKILL.md
+```
+
+El vínculo contiene rutas locales. Excluir `.vengadores/jarvis.json` del Git del
+destino; no contiene credenciales y no debe agregársele ninguna. Una skill externa vinculada
+sigue en su ubicación original. Ant-Man prepara el contexto de reglas y memorias,
+sin sustituir los archivos originales del proyecto.
+
+## Uso y comprobación real
+
+Desde una sesión del host abierta en el destino: «Usá Jarvis para coordinar <tarea>».
+Jarvis lee la skill de delegación y verifica que su interfaz exista. Una respuesta
+real de un subagente debe incluir identificador, estado, revisión y evidencia.
+El acceso a GitHub, la presencia de un archivo o aceptar una llamada no demuestran
+que el agente haya terminado su trabajo.
+
+Si la interfaz o los permisos no existen, Jarvis informa el bloqueo sin sustituir
+al especialista ni simular delegaciones. El servicio de grafo, los sandboxes cloud
+y las herramientas de tests/deploy se configuran por proyecto antes de sus etapas.
+Los informes se guardan en `.vengadores/tasks/<id>/` o la ubicación del destino.

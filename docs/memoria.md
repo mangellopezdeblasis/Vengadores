@@ -49,3 +49,4 @@ de criterios en tareas comparables. Mantener evidencia antes/después y distingu
 beneficio esperado de observado. Versionar o revertir cambios de memoria que aumenten
 errores o creen conflictos. Ninguna mejora se declara validada solo por reducir tokens.
 
+

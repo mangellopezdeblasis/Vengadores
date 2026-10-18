@@ -2,6 +2,8 @@
 
 **Documento de análisis documental. Corte: 16 de octubre de 2026.**
 
+Nota de implementación posterior: Jarvis ahora se distribuye como [skill instalable](../skills/jarvis/SKILL.md). Las observaciones siguientes conservan su carácter documental; la ejecución depende de la skill de delegación y herramientas del host, y no acredita un runtime cloud, grafo o deploy ya provisionados.
+
 Este documento reúne conclusiones reutilizables de cuatro fuentes: observaciones de memoria de trabajo, memorias de Codex, skills de un proyecto de software con varios repositorios y materiales de un equipo de agentes. Separa patrones observados de propuestas para Vengadores. No afirma que exista un runtime, un mecanismo automático de selección de contexto ni coordinación de agentes ya implementados.
 
 Las fuentes de memoria son registros operativos, no un conjunto estadístico controlado. Una observación repetida puede describir el mismo episodio; por eso no se cuentan menciones como incidentes independientes ni se atribuyen tasas de recurrencia.
@@ -114,3 +116,4 @@ El análisis fue documental. Las memorias reflejan episodios históricos y no se
 6. Medir tokens, latencia, reintentos, reproducibilidad y calidad; ajustar según resultados.
 
 Hasta que esas etapas estén implementadas y medidas, Vengadores sigue siendo un diseño documental para una futura fábrica de software agéntica.
+

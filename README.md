@@ -1,32 +1,57 @@
 # Vengadores
 
-Software Factory Agentic. Flujo reutilizable coordinado por **Jarvis**.
-Los agentes usan OpenCode y el skill de delegación existente. La ejecución prevista es en cloud, con ramas y worktrees aislados para tareas concurrentes.
+Software Factory Agentic coordinada por **Jarvis**, distribuido como una skill
+instalable para OpenCode o Codex. Jarvis solo delega y coordina los subagentes.
 
-## Estado
+## Instalar Jarvis
 
-Versión inicial: diseño del flujo, contratos y plantillas. Este repositorio no implementa un runtime, un servicio de grafo, automatización de GitHub ni deploys. Jarvis es el nombre del orquestador; su tecnología queda pendiente. No requiere eve.
+Requiere Python 3.9 o posterior y una copia de esta rama del repositorio.
+Desde la raíz de Vengadores:
+
+```bash
+python3 scripts/configure_jarvis.py install --project /ruta/proyecto --host opencode
+python3 scripts/configure_jarvis.py check --project /ruta/proyecto
+```
+
+Para Codex, cambiar a `--host codex`. La instalación queda en
+`.opencode/skills/jarvis` o `.agents/skills/jarvis`, dentro del proyecto destino.
+Reabrir la sesión del host para que descubra la skill.
+
+Invocación: **«Usá Jarvis para coordinar esta tarea: <objetivo>»**.
+
+Se instalan dos skills separadas: `jarvis` y `delegacion-vengadores`, vinculadas
+automáticamente. Para usar otra skill compatible, agregar
+`--delegation-skill /ruta/real/delegacion/SKILL.md`; se referencia sin copiarla.
+OpenCode recibe además un agente primario `jarvis`, con escritura y shell denegados
+al coordinador. Seleccionarlo en la interfaz y pedir la tarea a Jarvis.
+El chequeo estructural no acredita subagentes ejecutados: la primera tarea debe
+confirmar la interfaz real del host y recibir un ID y una respuesta de agente.
 
 ## Documentación
 
-- [Flujo y controles](docs/flujo.md)
-- [Roles de los agentes](agents/roles.md)
-- [Contrato operativo de Jarvis](agents/jarvis.md)
+- [Skill de Jarvis](skills/jarvis/SKILL.md)
+- [Skill de delegación](skills/delegacion-vengadores/SKILL.md)
+- [Contrato operativo](skills/jarvis/references/contract.md)
+- [Flujo y controles](skills/jarvis/references/flow.md)
+- [Roles de los agentes](skills/jarvis/references/roles.md)
 - [Reglas y memoria](docs/memoria.md)
-- [Adopción en proyectos](docs/adopcion.md)
-- [Plantilla de configuración](templates/project/vengadores.yaml)
-- [Plantilla de memoria local](templates/project/memory.md)
+- [Adopción y vinculación](docs/adopcion.md)
+- [Resultados y límites de validación](docs/validacion-jarvis.md)
+- [Aprendizajes de orquestación](docs/aprendizajes-orquestacion.md)
+- [Configuración del proyecto](templates/project/vengadores.yaml)
 - [Contrato de una tarea](templates/task/tarea.md)
 
-## Uso en cualquier proyecto
+## Estado
 
-1. Elegir un commit o tag de Vengadores y registrar esa versión en el proyecto destino.
-2. Adaptar `templates/project/vengadores.yaml` a su stack y comandos reales.
-3. Referenciar el skill de delegación existente. No se suministra un reemplazo.
-4. Conservar `AGENTS.md`, la memoria y las reglas propias del destino; no sobrescribirlas.
-5. Crear una tarea con `templates/task/tarea.md` y seguir el flujo de Jarvis.
+Jarvis tiene una skill, un instalador y un chequeo de dependencias. La ejecución
+real usa la skill de delegación incluida y las herramientas/permisos de cada host.
+La infraestructura cloud, el servicio de grafo y los deploys no se provisionan con
+el instalador. Los subagentes aplican las reglas del proyecto destino y trabajan
+con OpenCode según su configuración. No requiere un framework de agentes nuevo.
 
-Cada proyecto conserva su código, especificaciones, informes y memoria. Vengadores conserva reglas reutilizables de coordinación y aprendizaje. Las reglas se cargan por relevancia, sin enviar toda la documentación a cada agente.
+Cada proyecto conserva su código, memorias, reglas y artefactos. Vengadores guarda
+métodos reutilizables. Elegir una revisión de Vengadores y actualizarla de forma
+explícita; no cambiar la versión durante una tarea en curso.
 
-Repositorio central: [mangellopezdeblasis/Vengadores](https://github.com/mangellopezdeblasis/Vengadores).
-No se eligió una licencia de distribución ni una plataforma cloud todavía.
+Repositorio: [mangellopezdeblasis/Vengadores](https://github.com/mangellopezdeblasis/Vengadores).
+No se eligió una licencia de distribución todavía.

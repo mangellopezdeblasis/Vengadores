@@ -1,4 +1,4 @@
-# Plantilla documental: no existe un runtime que la ejecute todavía.
+# Configuración del proyecto para la skill Jarvis; no provisiona infraestructura.
 schema_version: 1
 project:
   id: REEMPLAZAR
@@ -10,7 +10,9 @@ vengadores:
 orchestrator:
   name: Jarvis
   execution_tool: OpenCode
-  delegation_skill: REEMPLAZAR_RUTA_O_REFERENCIA
+  kind: skill
+  entrypoint: skills/jarvis/SKILL.md
+  delegation_binding: .vengadores/jarvis.json # Creado por configure_jarvis.py.
   max_parallel_executors: 2
   max_correction_cycles: 3
   token_budget: null # Definir antes de ejecutar.
@@ -43,4 +45,5 @@ memory:
   curator: Pantera Negra
   validation_policy: null # Definir quién/cómo valida reglas nuevas.
   global_learning_destination: Vengadores
+
 

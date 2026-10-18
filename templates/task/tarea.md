@@ -59,3 +59,4 @@ validación requerida, estado y versión. Indicar también descartes y consolida
 SHA integrado en dev, identificación del despliegue, resultado de E2E, recuperación
 si corresponde, conocimiento consolidado y resultado final (completada/fallida/bloqueada).
 
+
