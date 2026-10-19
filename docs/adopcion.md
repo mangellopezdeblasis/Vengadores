@@ -22,7 +22,9 @@ Para Codex usar `vengadores unidos --host codex`. El destino por defecto es el
 directorio actual; puede elegirse otro con `--project /ruta/proyecto`. Se instala en `.opencode/skills/jarvis` o
 `.agents/skills/jarvis`. La dependencia se instala al lado, en `delegacion-vengadores`,
 y se vincula automáticamente. También instala `nick-fury` y guarda su referencia
-en `author_skill`. OpenCode recibe `.opencode/agents/jarvis.md` y `nick-fury.md`,
+en `author_skill`. Instala `escalacion-vengadores` y la vincula en
+`escalation_skill`, con perfiles iniciales por rol y política de intervención.
+Ver [escalada](escalada.md). OpenCode recibe `.opencode/agents/jarvis.md` y `nick-fury.md`,
 que limita al coordinador a leer, cargar skills y delegar a `general` o `nick-fury`; no toca
 `opencode.json`. Seleccionar el agente primario Jarvis en OpenCode.
 Si ya existe una instalación, el programa la preserva;

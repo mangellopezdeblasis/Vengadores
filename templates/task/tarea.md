@@ -14,6 +14,11 @@
 - Skill/adaptador invocado y estado:
 - Agentes llamados, dependencias y estado de cada llamada:
 - Reintentos y límite alcanzado, si corresponde:
+- Perfil por rol solicitado y modelo/esfuerzo efectivo (null si no se expone):
+- Motivo de intervención, evidencia y especialista que lo clasificó:
+- Mejoras/reintentos consumidos de la tarea y presupuesto restante:
+- IDs de sesión anterior/nueva y transferencia de recursos:
+- Uso/costo informado por el host (null si no se expone):
 - Referencias de entradas y artefactos entregados a cada agente:
 - Resultado final comunicado: estados y enlaces a informes especializados.
 

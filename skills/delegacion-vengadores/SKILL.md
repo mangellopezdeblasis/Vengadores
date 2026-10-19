@@ -13,7 +13,9 @@ adaptador: [Codex](references/codex.md) u [OpenCode](references/opencode.md).
    La preparación de contexto se delega a Ant-Man; no inventes fuentes o SHA.
 2. Pasá contexto pertinente y pedí estado, revisión, resultado, evidencia,
    incertidumbres y próxima acción. Los workers no redelegan sin autorización.
-3. Iniciá la llamada real y guardá su ID. Esperá su respuesta con el host;
+3. Aplicá el perfil solicitado solo con controles reales del host; registrá lo
+   solicitado, aplicado y desconocido según `escalation_skill`.
+   Iniciá la llamada real y guardá su ID. Esperá su respuesta con el host;
    aceptación no es finalización. Paralelizá solo unidades independientes autorizadas.
 4. Reanudá la misma sesión para correcciones. Respetá límites de concurrencia,
    costo, tiempo y reintentos. Ante una dependencia ausente o denegación, bloqueá.

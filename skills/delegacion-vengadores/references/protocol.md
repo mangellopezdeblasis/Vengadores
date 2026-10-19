@@ -83,3 +83,14 @@ leer este contrato y devolver un recibo estructurado sin editar archivos, ejecut
 tests, consultar credenciales ni volver a delegar. Registrá el ID emitido por el
 host, el recibo final y el adaptador usado. Esta prueba acredita solo ese adaptador
 y ese entorno; no valida worktrees, ejecución paralela, grafo, E2E ni deploy.
+
+## Recibo de capacidad y necesidad de escalada
+
+Cada llamada agrega el perfil por rol y el presupuesto restante según
+`escalation_skill`; la política y perfiles son canónicos en esa skill separada.
+El recibo conserva perfil solicitado, modelo/esfuerzo solicitado y efectivo,
+evidencia del host, limitaciones, uso/costo o null si no se exponen.
+El worker devuelve `need`: tipo (contexto, ambiguedad, evidencia, herramientas,
+permisos, razonamiento o desconocido), motivo, evidencias, intentos, referencias
+faltantes y capacidad solicitada; null si no necesita intervención.
+Jarvis comprueba campos y enruta; no valida técnicamente la justificación.

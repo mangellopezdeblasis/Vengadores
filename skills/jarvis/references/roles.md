@@ -29,3 +29,11 @@ despliega ni edita memoria por cuenta propia. Puede comprobar que llegaron los
 campos requeridos; la validez técnica la informa el agente especialista.
 
 
+
+## Perfil inicial por rol
+
+La fuente canónica es `references/profiles.json` de la skill vinculada en
+`escalation_skill`. Jarvis solicita ese perfil al asignar cada rol y conserva el
+recibo del host. Los perfiles son preferencias portables; no sustituyen permisos,
+aceptación técnica ni capacidades reales. Ante intervención, sigue esa skill sin
+duplicar la tabla aquí.

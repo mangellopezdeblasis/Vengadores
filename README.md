@@ -70,7 +70,25 @@ explícita; no cambiar la versión durante una tarea en curso.
 Repositorio: [mangellopezdeblasis/Vengadores](https://github.com/mangellopezdeblasis/Vengadores).
 No se eligió una licencia de distribución todavía.
 
-Nick Fury se invoca mediante «Jarvis, pedile a Nick Fury crear una skill para <objetivo>».
+Jarvis llama automáticamente a Nick Fury cuando el pedido requiere crear o modificar
+una skill o definición de agente; no hace falta nombrar a Nick Fury. Ejemplo:
+«Jarvis, creá una skill para revisar migraciones».
 Los núcleos son breves y el detalle se carga por caso. No se promete ahorro de tokens
 sin medición del tokenizer y del recorrido. Actualizar instalaciones previas con
 `vengadores unidos --replace`, que reemplaza las skills distribuidas.
+
+El contador opcional se instala en el entorno Python del worker que ejecuta Nick Fury,
+no en GitHub. Ver [medición local y consumo real](skills/nick-fury/references/tokens.md#dónde-instalar-el-contador).
+
+## Perfiles por subagente y escalada
+
+`vengadores unidos` instala también `escalacion-vengadores`, separada de Jarvis
+y delegación. Cada rol tiene preferencias iniciales de capacidad y esfuerzo sin
+fijar proveedor ni modelo. Jarvis enruta primero la causa del bloqueo y solicita
+una mejora solo con justificación técnica, dentro del presupuesto de la tarea.
+Ver [política, perfiles, límites y ejemplos](docs/escalada.md).
+
+Para actualizar instalaciones existentes: `vengadores unidos --replace` (reemplaza
+las skills distribuidas; conservar antes las personalizaciones). El instalador
+comprueba archivos; la aplicación efectiva del perfil depende de controles reales
+del host. No se instala un router universal de modelos ni se configuran credenciales.

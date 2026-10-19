@@ -14,6 +14,8 @@ orchestrator:
   authoring_role: Nick Fury
   entrypoint: skills/jarvis/SKILL.md
   delegation_binding: .vengadores/jarvis.json # Creado por configure_jarvis.py.
+  # escalation_skill del vínculo contiene perfiles y límites canónicos.
+  # Sin nombres de modelos; el host resuelve solo lo que realmente soporta.
   max_parallel_executors: 2
   max_correction_cycles: 3
   token_budget: null # Definir antes de ejecutar.

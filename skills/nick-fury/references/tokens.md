@@ -57,3 +57,34 @@ comparables. No usar solo el tamaño en disco como criterio de aceptación.
 Consulta: 18 de octubre de 2026. No se midieron ahorros de tokens ni calidad entre
 idiomas o formatos: tiktoken no estaba instalado. Las metas anteriores deben
 evaluarse con datos del uso real.
+
+## Dónde instalar el contador
+
+Tiktoken es opcional y se instala en el mismo entorno Python donde se ejecuta
+el auditor de Nick Fury: la máquina local, contenedor o runner cloud del proyecto.
+No se instala en GitHub por guardar allí el repositorio. Si se usa un virtualenv,
+instalar y ejecutar el auditor con su mismo intérprete:
+
+```bash
+python3 -m pip install tiktoken
+```
+
+Para runners efímeros, declarar esta dependencia opcional en su imagen o setup.
+La primera carga de un encoding puede requerir red; no volver a instalar en cada
+llamada de Jarvis. El coordinador no ejecuta mediciones: las delega a Nick Fury.
+
+Seleccionar el encoding confirmado del modelo OpenAI antes de pasar `--encoding`
+al auditor. Con Claude, usar su [API de conteo](https://platform.claude.com/docs/en/build-with-claude/token-counting)
+y el uso real informado por el proveedor; no presentar un conteo tiktoken como si
+fuera el suyo. Para otros modelos, usar su tokenizer o contador oficial.
+
+Un archivo contado antes de la llamada mide contexto estático. Para consumo real,
+consultar usage de las respuestas: entrada, salida, caché y razonamiento cuando
+el proveedor los expone. Un archivo corto no incluye el resto del historial o las
+herramientas. [Referencia OpenAI](https://help.openai.com/en/articles/4936856-understanding-and-counting-tokens).
+
+El inglés puede producir un conteo menor para instrucciones equivalentes en algunos
+encodings. Si el contador está disponible, Nick Fury compara ES/EN y conserva la
+variante con menor conteo únicamente si mantiene el contrato y supera los mismos
+casos de comportamiento. No duplicar ambas variantes en el contexto. Sin medición,
+seguir el idioma del equipo y no anunciar un ahorro.

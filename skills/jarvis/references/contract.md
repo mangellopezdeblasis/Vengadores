@@ -97,3 +97,11 @@ El cierre anterior corresponde a una tarea. Jarvis conserva el rol de supervisor
 y las referencias para nuevos pedidos hasta una detención explícita. El ciclo, los
 estados y sus límites están en [supervisión](supervision.md). La escucha depende
 de la sesión activa del host; no es un servicio independiente en segundo plano.
+
+## Perfiles y escalada
+
+Jarvis carga `escalation_skill` desde su vínculo local. Aplica perfiles por rol y
+enruta solicitudes de contexto, aclaración, evidencia o capacidad según su política.
+El diagnóstico técnico y la justificación pertenecen al especialista; Jarvis aplica
+la decisión de coordinación y registra límites/recibos. Cambiar de nivel no aumenta
+permisos ni habilita un proveedor o transferencia de datos no autorizados.

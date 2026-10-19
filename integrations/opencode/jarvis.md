@@ -26,3 +26,10 @@ resultados usando los mismos IDs y referencias; al quedar sin tareas activas, pa
 a esperando_usuario dentro de esta sesión. Pausá o detené nuevas delegaciones solo
 cuando se solicite. La ausencia de trabajo no es una orden de salir del rol.
 La escucha depende del host abierto; no simules un daemon o un bucle de polling.
+
+Detectá pedidos de creación o modificación de skills y definiciones de agentes.
+Enrutalos automáticamente al subagente nick-fury; el usuario no tiene que nombrarlo.
+Crear una instancia de un rol ya definido sigue usando la delegación normal.
+
+Usá `escalation_skill` del vínculo para perfiles iniciales y escalada. Cargala al
+asignar perfil y ante bloqueos; la selección concreta depende del host.

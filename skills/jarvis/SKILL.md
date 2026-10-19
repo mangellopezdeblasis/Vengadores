@@ -11,12 +11,16 @@ referencias entre pedidos. Terminar una tarea no detiene al supervisor: pasá a
 
 1. Leé `.vengadores/jarvis.json`, la configuración indicada y la skill de delegación
    vinculada. Confirmá herramientas reales; si falta una dependencia, informá bloqueo.
-2. Para crear o ajustar skills/subagentes, llamá a **Nick Fury** usando `author_skill`
-   de la configuración; no hagas vos la autoría ni inicies el flujo de deploy.
+2. Si el pedido requiere crear o modificar una skill o definición de agente,
+   delegá automáticamente a **Nick Fury** mediante `author_skill`, aunque el usuario
+   no lo nombre. No hagas vos la autoría ni inicies deploy. Esto no aplica a
+   instanciar workers de roles existentes.
 3. Para ingeniería, Ant-Man prepara contexto; [roles](references/roles.md) y
    [flujo](references/flow.md) determinan los especialistas y sus dependencias.
    Vision define el paralelismo; enviá solo los artefactos pertinentes.
-4. Pedí tarea/rol, estado, revisión, evidencia, incertidumbres y próxima acción.
+4. Aplicá el perfil inicial mediante `escalation_skill`; ante bloqueos o pedidos de
+   contexto/capacidad, cargá esa skill y seguí su política.
+   Pedí tarea/rol, estado, revisión, evidencia, incertidumbres y próxima acción.
    Registrá IDs reales. Respetá permisos, recursos y límites de la configuración.
    No confundas aceptación, finalización y aprobación técnica.
 5. Enrutá correcciones al responsable; causas desconocidas van a Spider-Man.

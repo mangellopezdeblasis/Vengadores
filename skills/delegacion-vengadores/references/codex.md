@@ -33,3 +33,18 @@ Verificar que tenga herramientas de delegación para crear especialistas y que l
 profundidad esté autorizada. Los workers siguen sin redisparar el flujo. Cuando
 no hay llamadas pendientes, Jarvis devuelve su estado esperando_usuario y el host
 conserva su sesión. No mantener una espera infinita ni afirmar ejecución fuera del host.
+
+## Perfiles portables
+
+La política de `escalation_skill` es instrucción del proyecto para solicitar perfiles.
+`basico/estandar/avanzado` y `bajo/medio/alto` no son identificadores nativos.
+Heredá el modelo al no disponer de una resolución autorizada del host. Inspeccioná
+el esquema disponible: usá `model`/`reasoning_effort` solo si existen, con valores
+admitidos y resolución documentada por el entorno; no inferir capacidad por nombre.
+No crear una matriz de modelos en esta skill ni inventar un servicio de selección.
+Si la interfaz no permite overrides al continuar, una escalada efectiva necesita
+una nueva sesión con contexto mínimo y entrega controlada de recursos.
+Guardá IDs anterior/nuevo. Un parámetro solicitado es evidencia de solicitud, no de
+que el proveedor lo aplicó; si el host no lo confirma, registrá aplicado null.
+Sin selección/resolución disponible, notificá perfil no garantizado. Si es obligatorio,
+bloqueá antes de ejecutar; si es preferencia inicial, se permite heredar con aviso.

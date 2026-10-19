@@ -11,6 +11,7 @@ import sys
 SOURCE = Path(__file__).resolve().parents[1] / "skills" / "jarvis"
 BUNDLED = SOURCE.parent / "delegacion-vengadores"
 AUTHOR = SOURCE.parent / "nick-fury"
+ESCALATION = SOURCE.parent / "escalacion-vengadores"
 OPENCODE_AGENT = SOURCE.parents[1] / "integrations" / "opencode" / "jarvis.md"
 OPENCODE_AUTHOR = OPENCODE_AGENT.with_name("nick-fury.md")
 HOST_DIRS = {"opencode": ".opencode/skills/jarvis", "codex": ".agents/skills/jarvis"}
@@ -100,10 +101,29 @@ def check(project):
                 raise ValueError("Nick Fury incompleto: falta " + name)
         if data["host"] == "opencode" and not (project / ".opencode/agents/nick-fury.md").is_file():
             raise ValueError("Falta el subagente Nick Fury para OpenCode.")
+        escalation = installed.parent / "escalacion-vengadores" / "SKILL.md"
+        if not data.get("escalation_skill") or Path(data["escalation_skill"]).resolve() != escalation.resolve():
+            raise ValueError("Falta vincular escalada; reinstalar con --replace.")
+        if not escalation.resolve().is_relative_to(project):
+            raise ValueError("La skill de escalada debe permanecer dentro del proyecto.")
+        skill_file(escalation)
+        for name in ("policy.md", "profiles.json"):
+            if not (escalation.parent / "references" / name).is_file():
+                raise ValueError("Escalada incompleta: falta " + name)
+        profiles = json.loads((escalation.parent / "references/profiles.json").read_text())
+        if (not isinstance(profiles, dict) or profiles.get("schema_version") != 1
+                or not isinstance(profiles.get("roles"), dict) or not profiles["roles"]):
+            raise ValueError("Perfiles de escalada inválidos.")
+        for role, profile in profiles["roles"].items():
+            if (not isinstance(role, str) or not isinstance(profile, dict)
+                    or profile.get("nivel") not in ("basico", "estandar", "avanzado")
+                    or profile.get("esfuerzo") not in ("bajo", "medio", "alto")):
+                raise ValueError("Perfil de escalada inválido: " + str(role))
         return {"state": "configurado", "host": data["host"],
                 "skill": str(installed), "delegation_skill": str(dependency),
                 "delegation_sha256": hashlib.sha256(dependency.read_bytes()).hexdigest(),
                 "author_skill": str(author),
+                "escalation_skill": str(escalation),
                 "host_execution": "pendiente_de_invocacion_real"}
     except (ValueError, OSError, TypeError) as exc:
         return {"state": "bloqueado", "reason": str(exc),
@@ -147,8 +167,10 @@ def main(argv=None):
                 raise ValueError("El proyecto ya tiene un vínculo; usar bind o --replace.")
             skill_file(SOURCE)
             skill_file(AUTHOR)
+            skill_file(ESCALATION)
             author_destination = destination.parent / "nick-fury"
-            copies = [(SOURCE, destination), (AUTHOR, author_destination)]
+            copies = [(SOURCE, destination), (AUTHOR, author_destination),
+                      (ESCALATION, destination.parent / "escalacion-vengadores")]
             if bundled:
                 copies.append((BUNDLED, dependency_destination))
             if args.host == "opencode":
@@ -182,6 +204,7 @@ def main(argv=None):
                                   "skill_directory": HOST_DIRS[args.host],
                                   "delegation_skill": str(dependency),
                                   "author_skill": str(author_destination / "SKILL.md"),
+                                  "escalation_skill": str(destination.parent / "escalacion-vengadores" / "SKILL.md"),
                                   "dependency_origin": "bundled" if bundled else "external"})
             result = check(project)
             result["installed"] = True

@@ -122,5 +122,40 @@ class InstallationTests(unittest.TestCase):
         self.assertFalse((self.project / ".opencode/skills/jarvis").exists())
 
 
+    def test_escalation_is_installed_for_both_hosts_and_missing_policy_blocks(self):
+        for host in ("codex", "opencode"):
+            with self.subTest(host=host):
+                code, result = self.run_cli("install", "--host", host, "--replace")
+                self.assertEqual(code, 0, result)
+                escalation = Path(result["escalation_skill"])
+                self.assertEqual(escalation.parent.name, "escalacion-vengadores")
+                profiles = json.loads((escalation.parent / "references/profiles.json").read_text())
+                self.assertEqual(profiles["schema_version"], 1)
+                self.assertTrue(profiles["roles"])
+                (escalation.parent / "references/policy.md").unlink()
+                code, failure = self.run_cli("check")
+                self.assertEqual(code, 2)
+                self.assertIn("policy.md", failure["reason"])
+
+    def test_existing_escalation_preserved_before_any_installation_writes(self):
+        escalation = self.project / ".opencode/skills/escalacion-vengadores/SKILL.md"
+        escalation.parent.mkdir(parents=True)
+        escalation.write_text("custom escalation")
+        code, _ = self.run_cli("install")
+        self.assertEqual(code, 2)
+        self.assertEqual(escalation.read_text(), "custom escalation")
+        self.assertFalse((self.project / ".opencode/skills/jarvis").exists())
+
+    def test_invalid_portable_profile_is_not_reported_ready(self):
+        code, result = self.run_cli("install")
+        self.assertEqual(code, 0, result)
+        profiles = Path(result["escalation_skill"]).parent / "references/profiles.json"
+        profiles.write_text(json.dumps({"schema_version": 1, "roles": {
+            "thor": {"nivel": "modelo-inventado", "esfuerzo": "medio"}}}))
+        code, result = self.run_cli("check")
+        self.assertEqual(code, 2)
+        self.assertIn("Perfil de escalada inválido", result["reason"])
+
+
 if __name__ == "__main__":
     unittest.main()

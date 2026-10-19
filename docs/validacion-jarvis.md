@@ -78,3 +78,30 @@ Informó cuerpo de 212 palabras para Jarvis, 202 para delegación y 184 para Nic
 los tokens quedaron null. La tarea fue de lectura; no acredita calidad de nuevas
 skills generadas, ejecución OpenCode ni ahorro de tokens. Se conserva la investigación
 y sus fuentes en [diseño de skills](investigacion-skills.md).
+
+## Perfiles y escalada — 19 de octubre de 2026
+
+ESC-001: Jarvis delegó autoría a Nick Fury en la sesión real
+`/root/jarvis_supervisor/nick_fury_token_setup_001`. Se integraron su skill, política,
+perfiles de doce roles y guía. El staging no tenía Git: se autorizó copia aislada
+en /tmp y entrega revisable, sin afirmar que fuera un worktree. Revisión local null.
+
+La suite `python3 -m unittest discover -s tests -v` pasó 23 pruebas. Los nuevos
+controles cubren distribución de escalada en ambos hosts, ausencia de política,
+rechazo de perfiles inválidos y preservación de una skill de escalada existente
+antes de escribir el resto de la instalación. Se reinstaló realmente en los
+destinos locales Codex y OpenCode; el chequeo devolvió configurado con
+`escalation_skill` separado. No se ejecutó la CLI de OpenCode.
+
+Auditor estructural: Jarvis 249 palabras de cuerpo, delegación 220 y escalada 200;
+las tres skills sin errores ni avisos. Tokens no medidos. La política se ejecuta
+como instrucciones del host y sus adaptadores; no se agregó un router autónomo.
+No se verificó un cambio efectivo de modelo/esfuerzo, consumo, ahorro ni reservas
+concurrentes en un backend persistente. El registro de sesión pertenece a Jarvis,
+que serializa reservas y bloquea si pierde su evidencia.
+
+El supervisor real `/root/jarvis_supervisor` recargó la instalación Codex y devolvió
+`estado: configuracion_cargada`: encontró `escalation_skill` y los perfiles, con
+Jarvis declarado basico/bajo. Confirmación del host, modelo, esfuerzo efectivo y
+costo quedaron null. No creó workers ni pidió upgrades; regresó a esperando_usuario.
+Este recibo acredita lectura de la configuración vinculada, no selección de modelo.

@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "roles": {
+    "jarvis": {
+      "nivel": "basico",
+      "esfuerzo": "bajo"
+    },
+    "nick-fury": {
+      "nivel": "estandar",
+      "esfuerzo": "medio"
+    },
+    "ant-man": {
+      "nivel": "basico",
+      "esfuerzo": "bajo"
+    },
+    "spider-man": {
+      "nivel": "estandar",
+      "esfuerzo": "medio"
+    },
+    "capitan-america": {
+      "nivel": "estandar",
+      "esfuerzo": "medio"
+    },
+    "vision": {
+      "nivel": "estandar",
+      "esfuerzo": "medio"
+    },
+    "thor": {
+      "nivel": "estandar",
+      "esfuerzo": "medio"
+    },
+    "viuda-negra": {
+      "nivel": "estandar",
+      "esfuerzo": "medio"
+    },
+    "hulk": {
+      "nivel": "avanzado",
+      "esfuerzo": "alto"
+    },
+    "guardianes-de-la-galaxia": {
+      "nivel": "estandar",
+      "esfuerzo": "medio"
+    },
+    "pantera-negra": {
+      "nivel": "estandar",
+      "esfuerzo": "medio"
+    },
+    "soldado-del-invierno": {
+      "nivel": "estandar",
+      "esfuerzo": "medio"
+    }
+  }
+}

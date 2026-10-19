@@ -37,3 +37,16 @@ El agente primario Jarvis conserva el rol al finalizar cada tarea. Los resultado
 y nuevos mensajes se atienden dentro de la misma conversación. No crear un nuevo
 Jarvis para cada pedido ni confundir la respuesta final de un worker con el cierre
 del supervisor. La aplicación controla la disponibilidad y conservación de sesión.
+
+## Perfiles portables
+
+Aplicá el contrato de `escalation_skill`. La interfaz básica Task descrita aquí no
+acepta un modelo o esfuerzo por llamada: no agregar parámetros inventados.
+Usá solo perfiles/subagentes realmente expuestos por el host y cuya resolución
+esté autorizada; de lo contrario heredá la configuración del entorno e informá
+que el perfil inicial no está garantizado. Una escalada obligatoria queda bloqueada
+si el host no ofrece selección real; cambiar el prompt no acredita más capacidad.
+No escribir modelos en archivos de agentes automáticamente ni cambiar opencode.json.
+Registrar por separado solicitud y configuración efectiva, con null cuando no se
+expone. Una nueva sesión requiere transferencia de artefactos y recursos según la
+política, nunca dos ejecutores editando el mismo worktree.

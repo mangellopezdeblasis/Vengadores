@@ -61,8 +61,8 @@ En esta revisión las entradas cambiaron así:
 
 | SKILL.md | Bytes UTF-8 antes | Bytes después |
 | --- | --- | --- |
-| Jarvis | 7322 | 1974 |
-| Delegación | 4651 | 1680 |
+| Jarvis | 7322 | 2239 |
+| Delegación | 4651 | 1826 |
 | Nick Fury, nueva | — | 1653 |
 
 El detalle anterior de Jarvis/delegación se conserva en referencias bajo demanda.
