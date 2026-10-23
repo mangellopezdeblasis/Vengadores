@@ -53,7 +53,7 @@ Solo una invocación real con ID y respuesta demuestra el inicio de una delegaci
   y límites. Para un implementador, incluí propiedad de archivos y recursos.
 - Pasá el paquete preparado por su agente dueño sin cambiar su significado. Cada
   subagente accede únicamente a los datos autorizados para esa tarea y proveedor.
-- Pedí el recibo mínimo del [protocolo](../../delegacion-vengadores/references/protocol.md).
+- Pedí el recibo mínimo del protocolo de la dependencia vinculada en `delegation_skill`.
   Si faltan campos, pedí completarlos al mismo agente para su mismo rol/tarea;
   otro rol exige sesión nueva. No cargar logs ni informes completos sin relevancia.
 

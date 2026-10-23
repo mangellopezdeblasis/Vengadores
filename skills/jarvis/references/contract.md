@@ -67,7 +67,7 @@ Cada llamada conserva:
 - Límites de tiempo, costo y reintentos.
 
 Cada respuesta sigue el recibo mínimo del
-[protocolo](../../delegacion-vengadores/references/protocol.md); los informes
+protocolo de la dependencia vinculada en `delegation_skill`; los informes
 extensos quedan en artefactos referenciados. Estados posibles: pendiente,
 invocado, en_curso, completado, fallido o bloqueado. Aceptar una delegación no
 equivale a terminarla; terminarla tampoco equivale a que los controles posteriores

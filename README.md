@@ -36,13 +36,35 @@ Podés pedirle «Jarvis, estado», «pausá», «continuá» o «detenete».
 La escucha permanece dentro del host; no es un daemon externo.
 Ver [supervisión de sesión](skills/jarvis/references/supervision.md).
 
-Se instalan tres skills separadas: `jarvis`, `delegacion-vengadores` y `nick-fury`, vinculadas
-automáticamente. Para usar otra skill compatible, agregar
+Se instalan cuatro skills compartidas: `jarvis`, `delegacion-vengadores`,
+`nick-fury` y `escalacion-vengadores`, vinculadas automáticamente. También se
+instala el catálogo de once workers en `.agents/subagentes` (Codex) o
+`.opencode/subagentes` (OpenCode), junto a la carpeta `skills/` y la política compartida `docs/memoria.md`. Para usar otra skill compatible, agregar
 `--delegation-skill /ruta/real/delegacion/SKILL.md`; se referencia sin copiarla.
 OpenCode recibe un agente primario `jarvis`, con escritura y shell denegados
 al coordinador, y el subagente autor `nick-fury`. Seleccionarlo en la interfaz y pedir la tarea a Jarvis.
 El chequeo estructural no acredita subagentes ejecutados: la primera tarea debe
 confirmar la interfaz real del host y recibir un ID y una respuesta de agente.
+
+## Identidades y habilidades
+
+La fuente de cada worker es `subagentes/<rol>/SKILL.md`: identidad, competencias,
+alcance y listado de capacidades. Cada capacidad tiene su método en
+`subagentes/<rol>/habilidades/<capacidad>/SKILL.md`. Jarvis permanece supervisor
+en `skills/jarvis/SKILL.md`. El catálogo incluye los once especialistas enlazados
+en [roles](skills/jarvis/references/roles.md).
+
+Al delegar, Jarvis carga la entrada general del rol y solo la habilidad necesaria,
+y envía sus rutas con la tarea y las reglas pertinentes del proyecto destino.
+La instalación conserva los enlaces relativos y registra `subagents_directory`
+en `.vengadores/jarvis.json`. Copiar estas identidades no las registra como agentes
+nativos ni ejecuta workers. `check` comprueba estructura y referencias; la prueba
+real del host sigue pendiente hasta una delegación autorizada.
+
+Actualizar una instalación anterior con `vengadores unidos --replace` conserva
+los campos propios del vínculo y el contenido existente de `.vengadores/config.yaml`.
+Los archivos distribuidos, incluido el catálogo, se reemplazan explícitamente;
+conservar antes sus personalizaciones.
 
 ## Documentación
 

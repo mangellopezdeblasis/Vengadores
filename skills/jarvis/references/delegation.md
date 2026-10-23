@@ -2,7 +2,13 @@
 
 El configurador del repositorio instala Jarvis y crea `.vengadores/jarvis.json`.
 `delegation_skill` apunta por defecto a la skill incluida `delegacion-vengadores`,
-instalada como hermana de Jarvis. Con `--delegation-skill` puede vincularse otra
+instalada como hermana de Jarvis. El catálogo de once workers se copia como
+hermano de `skills/`: `.agents/subagentes` para Codex o `.opencode/subagentes`
+para OpenCode. `subagents_directory` conserva esa ruta relativa en el vínculo.
+Así los enlaces entre identidades, habilidades y skills compartidas mantienen la
+estructura de la fuente. También se distribuye `docs/memoria.md` bajo ese mismo
+paquete para Ant-Man y Pantera. `check` valida presencia, capacidades y referencias del
+catálogo; no acredita registro nativo ni ejecución de workers. Con `--delegation-skill` puede vincularse otra
 skill externa. La interfaz se lee de la dependencia y se verifica frente al host.
 
 Ejemplo de configuración creada por el instalador:

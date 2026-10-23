@@ -13,6 +13,11 @@ SOURCE = Path(__file__).resolve().parents[1] / "skills" / "jarvis"
 BUNDLED = SOURCE.parent / "delegacion-vengadores"
 AUTHOR = SOURCE.parent / "nick-fury"
 ESCALATION = SOURCE.parent / "escalacion-vengadores"
+SUBAGENTS = SOURCE.parents[1] / "subagentes"
+MEMORY_POLICY = SOURCE.parents[1] / "docs" / "memoria.md"
+SUBAGENT_ROLES = ("nick-fury", "ant-man", "spider-man", "capitan-america", "vision",
+                  "thor", "viuda-negra", "hulk", "guardianes-de-la-galaxia",
+                  "pantera-negra", "soldado-del-invierno")
 OPENCODE_AGENT = SOURCE.parents[1] / "integrations" / "opencode" / "jarvis.md"
 OPENCODE_AUTHOR = OPENCODE_AGENT.with_name("nick-fury.md")
 HOST_DIRS = {"opencode": ".opencode/skills/jarvis", "codex": ".agents/skills/jarvis"}
@@ -102,6 +107,42 @@ def delegation_file(value):
     return path
 
 
+def subagents_directory(installed):
+    # Mirror the source package: subagentes/ and skills/ are siblings.
+    return installed.parent.parent / "subagentes"
+
+
+def validate_subagents(directory):
+    if not directory.is_dir() or directory.is_symlink():
+        raise ValueError("Falta el catálogo de subagentes; reinstalar con --replace.")
+    if any(path.is_symlink() for path in directory.rglob("*")):
+        raise ValueError("El catálogo no puede contener enlaces simbólicos.")
+    actual = {path.name for path in directory.iterdir() if path.is_dir()}
+    if actual != set(SUBAGENT_ROLES):
+        raise ValueError("Catálogo de subagentes incompleto o con roles desconocidos.")
+    for role in SUBAGENT_ROLES:
+        entry = directory / role / "SKILL.md"
+        skill_file(entry)
+        capabilities = list((entry.parent / "habilidades").glob("*/SKILL.md"))
+        if not capabilities:
+            raise ValueError("Faltan habilidades del subagente: " + role)
+        for capability in capabilities:
+            skill_file(capability)
+    # Links may cross skills, but must remain in this portable package.
+    package = directory.parent.resolve()
+    for document in directory.rglob("*.md"):
+        if document.is_symlink() or not document.resolve().is_relative_to(directory.resolve()):
+            raise ValueError("El catálogo no puede contener enlaces simbólicos externos.")
+        for link in re.findall(r"\]\(([^)]+)\)", document.read_text(encoding="utf-8")):
+            if re.match(r"[a-zA-Z][a-zA-Z0-9+.-]*:", link):
+                continue
+            target = link.split("#", 1)[0]
+            if target:
+                path = (document.parent / target).resolve()
+                if not path.is_relative_to(package) or not path.exists():
+                    raise ValueError("Referencia de subagente ausente o externa al paquete: " + link)
+
+
 def config_path(project):
     path = project / BINDING
     if (project / ".vengadores").is_symlink() or not path.resolve().is_relative_to(project):
@@ -141,6 +182,12 @@ def check(project):
         for name in ("contract.md", "roles.md", "flow.md", "delegation.md", "supervision.md", "orchestration.md"):
             if not (installed / "references" / name).is_file():
                 raise ValueError("Instalación incompleta: falta references/" + name)
+        catalog = subagents_directory(installed)
+        if (not data.get("subagents_directory") or
+                reference(project, data["subagents_directory"]) != catalog.resolve() or
+                not catalog.resolve().is_relative_to(project)):
+            raise ValueError("Falta vincular catálogo de subagentes; reinstalar con --replace.")
+        validate_subagents(catalog)
         dependency = data.get("delegation_skill")
         if not dependency:
             raise ValueError("Falta vincular la skill de delegación existente con bind.")
@@ -196,6 +243,8 @@ def check(project):
                 "skill": str(installed), "delegation_skill": str(dependency),
                 "delegation_sha256": hashlib.sha256(dependency.read_bytes()).hexdigest(),
                 "author_skill": str(author),
+                "subagents_directory": str(catalog),
+                "subagent_roles": list(SUBAGENT_ROLES),
                 "escalation_skill": str(escalation),
                 "host_execution": "pendiente_de_invocacion_real"}
     except (ValueError, OSError, TypeError) as exc:
@@ -285,8 +334,14 @@ def main(argv=None):
             skill_file(SOURCE)
             skill_file(AUTHOR)
             skill_file(ESCALATION)
+            validate_subagents(SUBAGENTS)
+            if not MEMORY_POLICY.is_file():
+                raise ValueError("Falta la política compartida docs/memoria.md.")
             author_destination = destination.parent / "nick-fury"
-            copies = [(SOURCE, destination), (AUTHOR, author_destination),
+            catalog_destination = subagents_directory(destination)
+            copies = [(SUBAGENTS, catalog_destination),
+                      (MEMORY_POLICY, catalog_destination.parent / "docs/memoria.md"),
+                      (SOURCE, destination), (AUTHOR, author_destination),
                       (ESCALATION, destination.parent / "escalacion-vengadores")]
             if bundled:
                 copies.append((BUNDLED, dependency_destination))
@@ -322,6 +377,7 @@ def main(argv=None):
                                   "skill_directory": HOST_DIRS[args.host],
                                   "project_root": str(project),
                                   "delegation_skill": local_reference(project, dependency),
+                                  "subagents_directory": local_reference(project, catalog_destination),
                                   "author_skill": local_reference(project, author_destination / "SKILL.md"),
                                   "escalation_skill": local_reference(project, destination.parent / "escalacion-vengadores" / "SKILL.md"),
                                   "dependency_origin": "bundled" if bundled else "external"})
