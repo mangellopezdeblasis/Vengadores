@@ -1,7 +1,14 @@
 # Contratos de agentes
 
-Todos entregan: ID de tarea, SHA analizado, fuentes, resultado, incertidumbres y
-próxima acción. Las afirmaciones sin comprobación se identifican como hipótesis.
+Cada sesión worker tiene un único rol y tarea fijos. No aceptar encargos con
+varios sombreros: Spider-Man diagnostica, Capitán América especifica, Vision
+planifica y Thor ejecuta lo asignado sin clasificar routing ni redelegar. Jarvis
+PRINCIPAL decide la coordinación; los especialistas le devuelven sus resultados.
+Otro rol o tarea exige worker nuevo y traspaso mínimo, según el
+[protocolo](../../delegacion-vengadores/references/protocol.md).
+
+Todos entregan el recibo mínimo del protocolo y referencias a informes extensos.
+Las afirmaciones sin comprobación se identifican como hipótesis.
 
 | Agente | Entradas | Responsabilidad y salida |
 | --- | --- | --- |
@@ -10,7 +17,7 @@ próxima acción. Las afirmaciones sin comprobación se identifican como hipóte
 | Ant-Man | Commit, grafo, diff, solicitud y fuentes de reglas/memoria | Prepara el paquete de contexto con fuentes, hashes y resumen pertinente; explora con OpenCode y entrega mapa de impacto |
 | Spider-Man | Solicitud, contexto inicial y mapa de impacto cuando esté disponible | Diagnostica, reproduce y documenta hechos, hipótesis y preguntas |
 | Capitán América | Diagnóstico y reglas del destino | Escribe SDD con alcance, comportamiento, restricciones y criterios verificables; itera con diagnóstico |
-| Vision | Especificación, diagnóstico y mapa | Define tareas, dependencias, interfaces, paralelismo y plan de verificación |
+| Vision | Especificación, diagnóstico y mapa | Elabora el plan técnico, evalúa dependencias/interfaces y recomienda paralelismo y verificaciones; Jarvis decide el agendado |
 | Thor | Tarea del plan, reglas y worktree | Implementa cambios y pruebas asignadas; por delegación explícita puede integrar worktrees en una candidata y ejecutar controles básicos de integración; informa SHA y evidencia |
 | Viuda Negra | Especificación, plan y candidato | Busca diferencias entre lo esperado y lo ejecutado; entrega hallazgos a Jarvis y Pantera |
 | Hulk | Candidato, superficie afectada y restricciones | Busca vulnerabilidades y fallas en entornos autorizados; produce reproducciones para Guardianes y Pantera |

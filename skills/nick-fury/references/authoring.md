@@ -38,8 +38,10 @@ Usar la skill de delegación vinculada y confirmar el esquema expuesto por el ho
 
 El prompt recibe objetivo, revisión, alcance, referencias, entregable y límites.
 Cada ejecutor que escribe usa worktree propio; no heredar todo el historial ni
-duplicar las instrucciones de Jarvis. Los workers no redelegan salvo autorización
-explícita. Nick Fury pide a Jarvis el ensayo de ejecución; no se convierte en otro
+duplicar las instrucciones de Jarvis. Cada sesión conserva un único rol y tarea; cambiar rol exige worker nuevo con
+traspaso mínimo. Codex usa siempre `fork_turns: "none"` y prompt autosuficiente con
+reglas esenciales y referencias versionadas. Los workers no asumen Jarvis ni
+redelegan el flujo. Nick Fury pide a Jarvis el ensayo de ejecución; no se convierte en otro
 coordinador de la fábrica.
 
 ## Comprobación y entrega

@@ -11,7 +11,7 @@ La autoría no inicia automáticamente el flujo de producto o deploy.
 | Contexto inicial | Ant-Man | Paquete de reglas/memoria, versiones, recursos y restricciones para los agentes |
 | Investigación | Ant-Man y Spider-Man en paralelo | Ant-Man entrega mapa de impacto y versión del grafo; Spider-Man diagnostica con el contexto inicial y refina con el mapa cuando esté disponible |
 | Especificación | Capitán América ↔ Spider-Man | Criterios verificables y decisiones resueltas, usando el paquete de contexto de Ant-Man |
-| Planificación | Vision | Tareas, dependencias, contratos compartidos y verificaciones |
+| Planificación | Vision | Plan técnico: tareas, dependencias, contratos y verificaciones; recomienda paralelismo |
 | Implementación | Uno o varios Thor | Cambios por tarea en ramas y worktrees propios |
 | Integración candidata | Thor, con rol de integrador delegado por Jarvis | Cambios reunidos, conflictos resueltos, verificaciones básicas y SHA de la candidata |
 | Revisión | Viuda Negra y Hulk en paralelo | Conformidad con especificación/plan y hallazgos adversariales |
@@ -28,11 +28,13 @@ compartir el historial completo.
 
 ## Paralelismo y worktrees
 
-- Vision define unidades independientes y acuerda primero los contratos compartidos.
+- Vision evalúa independencia y recomienda unidades paralelas con contratos compartidos.
+  Jarvis decide el agendado según esa evidencia, las dependencias y límites.
 - Cada Thor tiene rama y worktree propios, derivados de un commit base identificado.
 - Cada sandbox cloud puede tener su propio clon y crear allí su worktree.
 - Un worktree no aísla procesos, red ni credenciales: la ejecución requiere sandboxes.
-- Vision define propiedad de archivos y recursos; Jarvis agenda o serializa las llamadas según ese plan y nunca edita worktrees.
+- Vision propone propiedad de archivos y recursos en el plan técnico; Jarvis decide
+  agendar o serializar llamadas, respetando restricciones y sin editar worktrees.
 - La revisión conjunta ocurre sobre la rama candidata, no solo sobre cambios individuales.
 - Al cambiar el commit revisado se invalidan los controles afectados. Antes del merge,
   comprobar que los resultados corresponden al candidato final y a la base dev actual.

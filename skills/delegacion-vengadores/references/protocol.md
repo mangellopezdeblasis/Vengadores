@@ -24,14 +24,35 @@ política de datos, límites y, para tareas que escriben, rama/worktree y propie
 archivos/recursos. El bootstrap que obtiene esas revisiones es una tarea explícita
 de Ant-Man; no inventes SHA, fuentes o resultados faltantes.
 
-El prompt al agente debe indicar:
+Una sesión tiene un rol y tarea fijos, incluso después de completarse o quedar
+inactiva. Rechazá un encargo con varios roles: diagnóstico, especificación, plan y
+ejecución se asignan a sus especialistas. Jarvis PRINCIPAL conserva las decisiones
+de coordinación. No recuperar el supervisor creando un worker Jarvis.
+
+El prompt autosuficiente al agente debe indicar:
 
 1. Su rol y la tarea concreta, con los límites y autorizaciones recibidos.
-2. Las instrucciones del proyecto que debe consultar y los artefactos pertinentes.
+2. Las instrucciones locales esenciales aplicables, más rutas/referencias de
+   consulta, fuentes canónicas y sus versiones/hashes. No omitir reglas obligatorias.
 3. Que debe devolver estado, revisión, evidencia, incertidumbres y próxima acción.
-4. Que no debe volver a delegar el flujo ni crear subagentes salvo autorización
-   explícita en su contrato. Los resultados vuelven al coordinador.
+4. Que debe conservar su rol y tarea, sin asumir Jarvis ni volver a delegar el
+   flujo. Thor ejecuta el encargo; la clasificación y routing vuelven a Jarvis.
 5. Que la memoria histórica genera hipótesis; el agente verifica el estado actual.
+
+Codex siempre inicia con `fork_turns: "none"`: nunca heredar historia, logs,
+secretos ni contexto de otra tarea. La selección conserva las fuentes autorizadas
+y reglas de seguridad. Para corregir el mismo encargo, enviar delta, motivo y
+referencias afectadas; no releer documentos completos sin un cambio o necesidad
+concreta. Para otro rol/tarea, crear worker nuevo con traspaso de estado, versión,
+artefactos y recursos pendientes, sin copiar la conversación.
+
+## Registro y adaptador
+
+Antes de spawn y antes de followup, aplicar el [registro](registry.md). Registrar
+la preparación no demuestra que se lanzó un worker: vincular únicamente el ID real
+devuelto por la herramienta. Un error se conserva como bloqueo o fallo, nunca como
+llamada aceptada. Este guard valida el registro; no impide llamadas directas fuera
+del adaptador ni crea permisos del modelo.
 
 ## Ejecución y concurrencia
 
@@ -50,7 +71,8 @@ el checkout compartido. El coordinador no crea worktrees ni ejecuta comandos Git
 Los agentes nativos pueden compartir máquina, credenciales, servicios y base de
 datos. Un worktree aísla archivos de trabajo, no es un sandbox. No declares ese
 aislamiento sin evidencia del proveedor. Respetá la serialización de recursos
-compartidos indicada por Vision; si es obligatoria una capacidad ausente, bloqueá.
+compartidos recomendada por Vision y decidida por Jarvis según restricciones;
+si es obligatoria una capacidad ausente, bloqueá.
 
 ## Respuesta y seguimiento
 
@@ -59,22 +81,31 @@ en el registro de coordinación o la conversación. Campos mínimos de respuesta
 
 ```json
 {
+  "worker_id": "ID real del host, vinculado por Jarvis",
   "task_id": "ID lógico recibido",
   "role": "rol asignado",
   "state": "completado | fallido | bloqueado",
   "revision": "SHA/version verificado o null con motivo",
-  "result": "resultado del especialista",
+  "result": "resultado breve del especialista",
   "evidence": ["referencias verificables"],
-  "uncertainties": [],
+  "need": null,
   "next_action": "acción o null"
 }
 ```
 
 El ID de sesión viene del host, no de un valor inventado por el worker. Si faltan
-campos, pedí completarlos en la misma sesión cuando sea posible. Reanudá al mismo
-agente para correcciones y conservá los informes anteriores. Limitá intentos y
+campos, pedí completarlos en la misma sesión con rol y tarea verificados. Reanudá
+solo para continuar o corregir ese encargo, validando antes el registro. Conservá
+los informes anteriores. Limitá intentos y
 profundidad según configuración. Un timeout o interrupción deja resultado pendiente
 o bloqueado, nunca aprobado. Si el host no permite cancelar, informá ese límite.
+
+El recibo es la entrada habitual de Jarvis: ID real, tarea, rol, estado, versión,
+resultado breve, referencias de evidencia, `need` y próxima acción. Fuentes,
+incertidumbres, trazas y detalles extensos van en el artefacto referenciado; Jarvis
+lo consulta según relevancia. No pegar logs completos ni grandes informes en el
+contexto principal salvo extracción imprescindible. El recibo de capacidad de la
+sección final puede guardarse como evidencia vinculada sin perder sus campos.
 
 ## Comprobación real
 

@@ -2,7 +2,8 @@
 
 ## Identidad y contexto
 
-- Proyecto y repositorio:
+- Proyecto, repositorio y raíz activa del worktree:
+- Instalación/activación ROOT comprobadas, fuente canónica y advertencia de recarga:
 - Commit base y versión de Vengadores:
 - Versión del grafo y estado de actualización:
 - Fuentes de reglas/memoria, hashes y resumen:
@@ -12,7 +13,9 @@
 ## Coordinación de Jarvis
 
 - Skill/adaptador invocado y estado:
-- Agentes llamados, dependencias y estado de cada llamada:
+- Ticket de registro, ID real, rol/tarea fijos, dependencias y estado por llamada:
+- Prepare previo, bind del ID real y resume validado antes de followup:
+- Contexto autosuficiente, referencias/versiones y fork_turns none en Codex:
 - Reintentos y límite alcanzado, si corresponde:
 - Perfil por rol solicitado y modelo/esfuerzo efectivo (null si no se expone):
 - Motivo de intervención, evidencia y especialista que lo clasificó:
@@ -20,6 +23,7 @@
 - IDs de sesión anterior/nueva y transferencia de recursos:
 - Uso/costo informado por el host (null si no se expone):
 - Referencias de entradas y artefactos entregados a cada agente:
+- Recibo mínimo: ID/tarea/rol/estado/versión/resultado breve/evidencia/need/next.
 - Resultado final comunicado: estados y enlaces a informes especializados.
 
 Jarvis registra coordinación y referencias; no redacta diagnósticos, planes ni

@@ -16,16 +16,21 @@ export PATH="/ruta/Vengadores:$PATH"
 Después, desde el proyecto donde querés usarlo:
 
 ```bash
-vengadores unidos
+vengadores unidos --host codex --activate
 ```
 
-Instala y vincula Jarvis, delegación y Nick Fury en el directorio actual para OpenCode.
-Para Codex: `vengadores unidos --host codex`. Para elegir otro destino:
+El ejemplo instala y activa Jarvis para Codex. Para instalar en OpenCode:
+`vengadores unidos` y seleccionar su agente primario Jarvis.
+Para Codex: `vengadores unidos --host codex --activate`. Para elegir otro destino:
 `vengadores unidos --project /ruta/proyecto`.
-Reabrir la sesión del host para que descubra las skills.
+`--activate` agrega instrucciones ROOT para Jarvis principal en la raíz elegida.
+Repetir instalación y activación en cada worktree; el checkout principal no los
+cubre. En cada inicio/recuperación: `vengadores check --project /ruta/worktree`.
+Reabrir la sesión del host para cargar instrucciones: un chequeo correcto no
+acredita que una conversación ya abierta las haya recargado.
 
 Invocación: **«Usá Jarvis para coordinar esta tarea: <objetivo>»**.
-Jarvis permanece como supervisor de esa sesión: recibe pedidos, delega, atiende
+Jarvis PRINCIPAL es el único decisor de coordinación y permanece como supervisor de esa sesión: recibe pedidos, delega, atiende
 resultados y vuelve a esperar al usuario. Terminar una tarea no lo detiene.
 Podés pedirle «Jarvis, estado», «pausá», «continuá» o «detenete».
 La escucha permanece dentro del host; no es un daemon externo.
