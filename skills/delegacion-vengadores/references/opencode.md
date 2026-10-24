@@ -4,10 +4,6 @@ Usar la herramienta nativa `task` cuando el host la exponga y permita invocar un
 subagente. El rol Vengadores se pasa en el prompt; no es automáticamente el nombre
 de un agente instalado.
 
-Antes de iniciar, aplicar `prepare` del [registro](registry.md) y después `bind`
-con el ID real. Para continuar, validar primero `resume` para el mismo rol/tarea.
-Otro rol o tarea exige una sesión nueva con traspaso mínimo del protocolo.
-
 La interfaz básica documentada tiene `description`, `prompt` y `subagent_type`.
 Usar `subagent_type: "general"` si ese agente existe y sus permisos sirven para
 la tarea. Para continuar una sesión, pasar el `task_id` real devuelto previamente.

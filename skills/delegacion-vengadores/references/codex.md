@@ -3,20 +3,18 @@
 Usar solo si estas herramientas están realmente disponibles. No toda sesión de
 Codex tiene el mismo API; otro API requiere un adaptador explícito y comprobado.
 
-1. Aplicar `prepare` del [registro](registry.md) antes de iniciar con `collaboration.spawn_agent`: `task_name` estable (minúsculas, números
+1. Iniciar con `collaboration.spawn_agent`: `task_name` estable (minúsculas, números
    y guion bajo), `message` con el contrato y `fork_turns: "none"` para enviar solo
    las entradas necesarias. Incluir en el mensaje todo lo que el worker necesita.
    No sobrescribir modelo o esfuerzo sin instrucción del usuario o proyecto.
-2. Aplicar `bind` con el ticket y el identificador real devuelto. Para concurrencia independiente, iniciar
+2. Guardar el identificador devuelto. Para concurrencia independiente, iniciar
    varias llamadas antes de esperar, dentro del límite autorizado.
 3. Los mensajes y la respuesta final llegan al coordinador. `collaboration.wait_agent`
    espera notificaciones, pero no convierte la notificación en un informe completo.
    Usar esperas acotadas y comunicar progreso al usuario durante trabajos largos.
-4. Para continuar o corregir el mismo rol y tarea de un agente inactivo, validar
-   primero `resume` del registro y usar `collaboration.followup_task` con el ID real
-   devuelto y un delta con referencias. Para otro rol/tarea, preparar y lanzar un
-   worker nuevo con traspaso mínimo. Para enviar contexto del mismo encargo a uno
-   activo, usar `collaboration.send_message`; no inicia a uno inactivo.
+4. Para trabajo nuevo o correcciones de un agente inactivo, usar
+   `collaboration.followup_task` con `target` y `message`. Para enviar contexto a uno
+   que ya trabaja, usar `collaboration.send_message`; no inicia a uno inactivo.
 5. Consultar `collaboration.list_agents` cuando sea necesario para resolver el
    estado; no hacer bucles de polling. `collaboration.interrupt_agent` detiene su
    turno actual si hace falta, pero no acredita limpieza de procesos o recursos.
@@ -28,11 +26,13 @@ de lanzar tareas que escriban en paralelo. No inferir límites de sandbox distin
 
 ## Supervisor conservado
 
-Jarvis es el agente PRINCIPAL y único decisor de coordinación. Recupera el registro
-y los IDs en esa sesión; no lanzar un worker Jarvis para recuperar al supervisor.
-Los especialistas conservan un rol y tarea fijos según el protocolo. Cuando no hay
-llamadas pendientes, Jarvis devuelve `esperando_usuario` y el host conserva su
-sesión. No mantener una espera infinita ni afirmar ejecución fuera del host.
+Jarvis normalmente es el agente principal que escucha mensajes y resultados del
+host entre turnos. Si se lo inicia como subagente supervisor autorizado, guardar
+un único ID y usar followup_task para los nuevos pedidos cuando esté inactivo.
+Verificar que tenga herramientas de delegación para crear especialistas y que la
+profundidad esté autorizada. Los workers siguen sin redisparar el flujo. Cuando
+no hay llamadas pendientes, Jarvis devuelve su estado esperando_usuario y el host
+conserva su sesión. No mantener una espera infinita ni afirmar ejecución fuera del host.
 
 ## Perfiles portables
 

@@ -53,8 +53,8 @@ Commits, desviaciones y SHA de la candidata integrada por Thor en rol de integra
 | Build y pruebas del proyecto | | Pendiente | |
 | Viuda Negra | | Pendiente | |
 | Hulk | | Pendiente | |
-| E2E candidata | | Pendiente | |
-| E2E dev | | Pendiente | |
+| Guardianes: E2E candidata | | Pendiente | |
+| Guardianes: E2E dev sobre SHA desplegado | | Pendiente | |
 | Actualización del grafo | | Pendiente | |
 
 ## Aprendizajes de Pantera Negra

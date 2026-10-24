@@ -39,8 +39,8 @@ de contexto con rutas de reglas/memoria, hashes y resumen pertinente. Spider-Man
 diagnostica. Capitán América especifica. Vision planifica. Thor implementa y, si
 se le asigna explícitamente el rol de integrador, reúne la candidata y ejecuta sus
 controles básicos. Viuda Negra revisa conformidad; Hulk realiza revisión adversarial;
-Guardianes diseñan y ejecutan E2E; Pantera clasifica y versiona aprendizajes;
-Soldado del Invierno integra en dev, despliega y ejecuta E2E del despliegue. Los
+Guardianes diseñan y ejecutan E2E de la candidata y del despliegue en dev; Pantera clasifica y versiona aprendizajes;
+Soldado del Invierno integra en dev y despliega. Los
 cambios del grafo se delegan a Ant-Man o al adaptador de grafo configurado.
 
 Las solicitudes de autoría de skills o subagentes se delegan a Nick Fury,

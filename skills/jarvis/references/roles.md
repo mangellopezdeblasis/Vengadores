@@ -38,9 +38,9 @@ Las afirmaciones sin comprobación se identifican como hipótesis.
 | [Thor](../../../subagentes/thor/SKILL.md) | Tarea del plan, reglas y worktree | Implementa cambios y pruebas asignadas; por delegación explícita puede integrar worktrees en una candidata y ejecutar controles básicos de integración; informa SHA y evidencia |
 | [Viuda Negra](../../../subagentes/viuda-negra/SKILL.md) | Especificación, plan y candidato | Busca diferencias entre lo esperado y lo ejecutado; entrega hallazgos a Jarvis y Pantera |
 | [Hulk](../../../subagentes/hulk/SKILL.md) | Candidato, superficie afectada y restricciones | Busca vulnerabilidades y fallas en entornos autorizados; produce reproducciones para Guardianes y Pantera |
-| [Guardianes de la Galaxia](../../../subagentes/guardianes-de-la-galaxia/SKILL.md) | Criterios de aceptación y hallazgos | Diseñan y ejecutan E2E; guardan trazas, resultados y regresiones |
+| [Guardianes de la Galaxia](../../../subagentes/guardianes-de-la-galaxia/SKILL.md) | Criterios de aceptación, candidata o SHA desplegado y hallazgos | Diseñan y ejecutan E2E de candidata y despliegue; guardan trazas, resultados y regresiones |
 | [Pantera Negra](../../../subagentes/pantera-negra/SKILL.md) | Informes, resultados finales y reglas existentes | Clasifica aprendizajes; propone, consolida y versiona reglas según la política de memoria |
-| [Soldado del Invierno](../../../subagentes/soldado-del-invierno/SKILL.md) | Candidato verificado y configuración de entrega | Integra en dev, despliega y comprueba E2E; registra resultado y recuperación si corresponde |
+| [Soldado del Invierno](../../../subagentes/soldado-del-invierno/SKILL.md) | Candidato verificado y configuración de entrega | Integra en dev y despliega; registra SHA, resultado y recuperación si corresponde |
 
 Hulk no ataca servicios ajenos ni producción fuera del alcance de la tarea. Soldado
 usa las políticas de integración y entrega del proyecto destino. Pantera no convierte

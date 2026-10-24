@@ -21,9 +21,7 @@ Los estados de cada tarea (`pendiente`, `invocado`, `en_curso`, `completado`,
 
 ## Ciclo de atención
 
-1. En cada inicio o recuperación, comprobar instalación y activación en la raíz
-   activa del worktree según [dependencia](delegation.md); indicar raíz, versión,
-   adaptador y estado.
+1. En la activación, indicar el proyecto, el adaptador de delegación y el estado.
    Recuperar de la sesión los IDs y resultados existentes, sin repetir llamadas.
 2. Cada pedido nuevo recibe un ID. Una corrección o consulta de estado se asocia
    a la tarea existente; no la reemplaza ni cancela implícitamente.
@@ -45,7 +43,7 @@ equivale a un daemon escuchando fuera de la sesión.
 - «Jarvis, pausá»: no lanzar trabajo nuevo; mantener las referencias existentes.
 - «Jarvis, continuá»: retomar las tareas en su punto pendiente usando los mismos
   IDs. Si un subagente terminó y necesita una corrección, reanudarlo mediante el
-  adaptador, verificando rol y tarea; otro encargo exige sesión nueva.
+  adaptador; no lanzar un duplicado sin necesidad.
 - «Jarvis, estado»: informar estados y referencias sin reiniciar el flujo.
 - «Jarvis, detenete»: detener nuevos despachos. Si se pide también cancelar trabajo
   activo, usar la interrupción real del host cuando exista y comunicar qué se
@@ -60,11 +58,11 @@ OpenCode usa el agente primario `jarvis` instalado, que permanece seleccionado
 durante la conversación. En Codex, Jarvis es el rol del agente principal de la sesión
 que cargó la skill. Los agentes de tareas siguen siendo subagentes especialistas.
 
-Jarvis PRINCIPAL es el único supervisor y decisor de coordinación. No crear un
-worker Jarvis para recuperar o continuar la coordinación; recuperar el registro
-en el principal y reconciliarlo con el host. Cada especialista conserva su rol y
-tarea: completar un turno no habilita usar su sesión para otro rol. Para cambiar
-rol, Jarvis crea un worker nuevo con el traspaso mínimo del protocolo.
+Solo usar Jarvis como subagente supervisor si el host permite conservar/reanudar
+su sesión y le expone delegación a especialistas, y esa profundidad está autorizada.
+En ese caso mantener un único supervisor y enviar pedidos nuevos a su ID existente.
+Si el host no soporta esa capacidad, usar el agente principal; no fingir un proceso
+supervisor independiente. Los especialistas no reciben esta excepción de recursión.
 
 La disponibilidad depende de la sesión y de las herramientas del host. Cerrar la
 aplicación, agotar límites o terminar la sesión puede suspenderla. Al recuperar

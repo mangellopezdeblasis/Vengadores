@@ -15,9 +15,10 @@ La autoría no inicia automáticamente el flujo de producto o deploy.
 | Implementación | Uno o varios Thor | Cambios por tarea en ramas y worktrees propios |
 | Integración candidata | Thor, con rol de integrador delegado por Jarvis | Cambios reunidos, conflictos resueltos, verificaciones básicas y SHA de la candidata |
 | Revisión | Viuda Negra y Hulk en paralelo | Conformidad con especificación/plan y hallazgos adversariales |
-| E2E candidata | Guardianes de la Galaxia | Recorridos de aceptación y regresiones de Hulk ejecutados |
+| E2E candidata | Guardianes de la Galaxia | Recorridos de aceptación y regresiones de Hulk ejecutados sobre la candidata |
 | Aprendizaje propuesto | Pantera Negra | Ajustes de reglas clasificados por destino, con evidencia |
-| Integración y deploy | Soldado del Invierno | Merge a dev, despliegue del commit integrado y E2E del despliegue |
+| Integración y deploy | Soldado del Invierno | Merge a dev y despliegue del commit integrado |
+| E2E del despliegue en dev | Guardianes de la Galaxia | Recorridos de aceptación y regresiones ejecutados contra el SHA desplegado |
 | Cierre de tarea | Pantera Negra; Jarvis registra el estado | Conocimiento validado/versionado; Jarvis entrega al usuario estados y referencias de informes |
 
 Jarvis solo invoca el skill de delegación, pasa entradas y referencias, agenda las
@@ -76,13 +77,10 @@ adicionales para identificar correctamente la revisión vigente.
 
 ## Entrega
 
-Soldado del Invierno integra solo cuando los controles requeridos están aprobados.
-Ejecuta E2E contra el despliegue del SHA integrado, con datos de prueba aislados.
-Un fallo del deploy o de E2E deja la tarea fallida y activa la política de recuperación
-del proyecto. Revertir código o datos exige considerar compatibilidad y migraciones.
+Soldado del Invierno integra solo cuando los controles previos requeridos están aprobados y despliega el SHA integrado. Guardianes ejecutan los E2E contra ese SHA desplegado, con datos de prueba aislados. Un fallo de despliegue se informa según la política de recuperación del proyecto; un fallo E2E lo informa Guardianes y Jarvis lo enruta al responsable. Revertir código o datos exige considerar compatibilidad y migraciones.
 
 El cierre requiere especificación cumplida, verificaciones del commit final, E2E
-en dev, artefactos registrados, actualización del grafo y evaluación final de memoria.
+en dev ejecutados por Guardianes, artefactos registrados, actualización del grafo y evaluación final de memoria.
 Pantera puede concluir que no hay reglas nuevas útiles: no se exige agregar memoria.
 
 

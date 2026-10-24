@@ -63,9 +63,10 @@ Después del paquete inicial, Ant-Man puede explorar y Spider-Man diagnosticar e
 paralelo. Luego llamá a Capitán América para SDD e iteración con diagnóstico,
 Vision para el plan, y Thor para las unidades que el plan declare independientes.
 Una tarea de integración candidata se delega explícitamente a un Thor integrador.
-Sobre esa candidata llamá a Viuda Negra y Hulk; después a Guardianes para E2E.
+Sobre esa candidata llamá a Viuda Negra, Hulk y Guardianes para sus controles.
 Pantera propone aprendizajes; Soldado del Invierno integra en dev y despliega
-cuando los informes requeridos lo permiten. Al merge se delega el refresco de
+cuando los controles previos requeridos lo permiten. Después del despliegue,
+llamá a Guardianes para los E2E sobre el SHA desplegado. Al merge se delega el refresco de
 grafo según el flujo y Pantera consolida conocimiento con los resultados finales.
 
 No planifiques vos la partición técnica. Vision evalúa dependencias y propone

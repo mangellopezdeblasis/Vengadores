@@ -16,55 +16,28 @@ export PATH="/ruta/Vengadores:$PATH"
 Después, desde el proyecto donde querés usarlo:
 
 ```bash
-vengadores unidos --host codex --activate
+vengadores unidos
 ```
 
-El ejemplo instala y activa Jarvis para Codex. Para instalar en OpenCode:
-`vengadores unidos` y seleccionar su agente primario Jarvis.
-Para Codex: `vengadores unidos --host codex --activate`. Para elegir otro destino:
+Instala y vincula Jarvis, delegación y Nick Fury en el directorio actual para OpenCode.
+Para Codex: `vengadores unidos --host codex`. Para elegir otro destino:
 `vengadores unidos --project /ruta/proyecto`.
-`--activate` agrega instrucciones ROOT para Jarvis principal en la raíz elegida.
-Repetir instalación y activación en cada worktree; el checkout principal no los
-cubre. En cada inicio/recuperación: `vengadores check --project /ruta/worktree`.
-Reabrir la sesión del host para cargar instrucciones: un chequeo correcto no
-acredita que una conversación ya abierta las haya recargado.
+Reabrir la sesión del host para que descubra las skills.
 
 Invocación: **«Usá Jarvis para coordinar esta tarea: <objetivo>»**.
-Jarvis PRINCIPAL es el único decisor de coordinación y permanece como supervisor de esa sesión: recibe pedidos, delega, atiende
+Jarvis permanece como supervisor de esa sesión: recibe pedidos, delega, atiende
 resultados y vuelve a esperar al usuario. Terminar una tarea no lo detiene.
 Podés pedirle «Jarvis, estado», «pausá», «continuá» o «detenete».
 La escucha permanece dentro del host; no es un daemon externo.
 Ver [supervisión de sesión](skills/jarvis/references/supervision.md).
 
-Se instalan cuatro skills compartidas: `jarvis`, `delegacion-vengadores`,
-`nick-fury` y `escalacion-vengadores`, vinculadas automáticamente. También se
-instala el catálogo de once workers en `.agents/subagentes` (Codex) o
-`.opencode/subagentes` (OpenCode), junto a la carpeta `skills/` y la política compartida `docs/memoria.md`. Para usar otra skill compatible, agregar
+Se instalan tres skills separadas: `jarvis`, `delegacion-vengadores` y `nick-fury`, vinculadas
+automáticamente. Para usar otra skill compatible, agregar
 `--delegation-skill /ruta/real/delegacion/SKILL.md`; se referencia sin copiarla.
 OpenCode recibe un agente primario `jarvis`, con escritura y shell denegados
 al coordinador, y el subagente autor `nick-fury`. Seleccionarlo en la interfaz y pedir la tarea a Jarvis.
 El chequeo estructural no acredita subagentes ejecutados: la primera tarea debe
 confirmar la interfaz real del host y recibir un ID y una respuesta de agente.
-
-## Identidades y habilidades
-
-La fuente de cada worker es `subagentes/<rol>/SKILL.md`: identidad, competencias,
-alcance y listado de capacidades. Cada capacidad tiene su método en
-`subagentes/<rol>/habilidades/<capacidad>/SKILL.md`. Jarvis permanece supervisor
-en `skills/jarvis/SKILL.md`. El catálogo incluye los once especialistas enlazados
-en [roles](skills/jarvis/references/roles.md).
-
-Al delegar, Jarvis carga la entrada general del rol y solo la habilidad necesaria,
-y envía sus rutas con la tarea y las reglas pertinentes del proyecto destino.
-La instalación conserva los enlaces relativos y registra `subagents_directory`
-en `.vengadores/jarvis.json`. Copiar estas identidades no las registra como agentes
-nativos ni ejecuta workers. `check` comprueba estructura y referencias; la prueba
-real del host sigue pendiente hasta una delegación autorizada.
-
-Actualizar una instalación anterior con `vengadores unidos --replace` conserva
-los campos propios del vínculo y el contenido existente de `.vengadores/config.yaml`.
-Los archivos distribuidos, incluido el catálogo, se reemplazan explícitamente;
-conservar antes sus personalizaciones.
 
 ## Documentación
 
