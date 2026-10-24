@@ -6,19 +6,21 @@ description: Inicia y reanuda subagentes reales para Jarvis. Usar al delegar tar
 # Delegación
 
 Usá únicamente herramientas presentes y autorizadas. No simules agentes, ejecutes
-su trabajo ni amplíes permisos. Leé el host en `.vengadores/jarvis.json` y solo su
+su trabajo ni amplíes permisos. Jarvis PRINCIPAL coordina; cada worker conserva
+un rol/tarea, sin asumir Jarvis ni redelegar. Leé `.vengadores/jarvis.json` y su
 adaptador: [Codex](references/codex.md) u [OpenCode](references/opencode.md).
 
 1. Recibí ID, rol, objetivo, revisión, alcance, entradas, aceptación y límites.
    La preparación de contexto se delega a Ant-Man; no inventes fuentes o SHA.
-2. Pasá contexto pertinente y pedí estado, revisión, resultado, evidencia,
-   incertidumbres y próxima acción. Los workers no redelegan sin autorización.
+2. Prepará un prompt autosuficiente con reglas esenciales, referencias y versiones;
+   Codex siempre usa `fork_turns: "none"`. Pedí el recibo mínimo del protocolo.
 3. Aplicá el perfil solicitado solo con controles reales del host; registrá lo
    solicitado, aplicado y desconocido según `escalation_skill`.
-   Iniciá la llamada real y guardá su ID. Esperá su respuesta con el host;
-   aceptación no es finalización. Paralelizá solo unidades independientes autorizadas.
-4. Reanudá la misma sesión para correcciones. Respetá límites de concurrencia,
-   costo, tiempo y reintentos. Ante una dependencia ausente o denegación, bloqueá.
+   Validá el registro antes de spawn y vinculá después el ID real, según adaptador.
+   Esperá con el host; aceptación no es finalización. Solo paralelizá lo autorizado.
+4. Antes de reanudar validá rol/tarea/versiones en el registro. Solo continuá o
+   corregí el mismo encargo con deltas y referencias; otro rol exige worker nuevo
+   y traspaso mínimo. Respetá límites; ante dependencia ausente o denegación, bloqueá.
 5. Para editar, exigí un worktree propio y propiedad de recursos. Si falta,
    delegá su preparación antes de lanzar workers. Worktree no equivale a sandbox.
 6. Confirmá el resultado recibido; falta de evidencia, timeout o cancelación no

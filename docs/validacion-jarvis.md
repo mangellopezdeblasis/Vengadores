@@ -105,3 +105,35 @@ El supervisor real `/root/jarvis_supervisor` recargó la instalación Codex y de
 Jarvis declarado basico/bajo. Confirmación del host, modelo, esfuerzo efectivo y
 costo quedaron null. No creó workers ni pidió upgrades; regresó a esperando_usuario.
 Este recibo acredita lectura de la configuración vinculada, no selección de modelo.
+
+## Auditoría de seguridad de Hulk y recuperación de catálogo
+
+Se adaptó Cloudflare security-audit-skill (MIT), commit
+`c1c8a8c1471069fb0e188eeaff69b8e8db6564a8`, a
+`subagentes/hulk/habilidades/auditoria-seguridad`. Se conservaron sus 22 archivos
+originales con licencia y hashes de blobs en SOURCE.json. La adaptación distribuye
+la coordinación exclusivamente a Jarvis y el trabajo técnico a workers separados.
+
+La publicación previa de E2E utilizó una base antigua y reemplazó accidentalmente
+archivos ajenos al cambio. Esta actualización recupera los archivos de la revisión
+`d6cda509bd03ae893ececc35cc1b2bb7e25bac25` salvo los nueve documentos modificados
+para asignar a Guardianes los E2E del despliegue, que se conservan desde
+`5f134da25a673662fa7e6f26b3d8d067c892a060`. Se restablecen catálogo, activación ROOT,
+registro de workers y sus controles; las modificaciones de esta habilidad se aplican
+sobre esa recuperación, sin revertir el cambio de responsabilidades de E2E.
+
+Validación: 36 tests Python aprobados, incluida copia de skill/licencia/validadores
+en Codex y OpenCode y detección de recursos faltantes. El núcleo tiene 217 palabras;
+auditor estructural sin errores ni avisos. Tokens no medidos.
+
+Tests originales Node ejecutados directamente: findings 20/34 aprobados y ledger
+21/31 aprobados; 24 casos fallaron en este entorno. Las invocaciones de procesos
+Node hijos están bloqueadas con EPERM, confirmado con una llamada mínima a spawnSync.
+La suite completa upstream NO se declara aprobada. Ambos validadores ejecutados
+directamente aceptaron documentos vacíos de formato correcto (0 findings y 0 unidades);
+esto no acredita una auditoría real ni cobertura. No se modificó el código upstream.
+
+Nick Fury redactó la adaptación mediante delegación real HULK-AUDIT-001 en
+`/root/jarvis_supervisor/nick_fury_token_setup_001`, con copia aislada autorizada
+y revisión local null. No se auditó un target ni se ejecutó código de un target,
+no se comprobó el sandbox requerido ni se midieron costos o ahorros.

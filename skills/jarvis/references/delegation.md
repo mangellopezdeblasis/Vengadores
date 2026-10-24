@@ -2,7 +2,13 @@
 
 El configurador del repositorio instala Jarvis y crea `.vengadores/jarvis.json`.
 `delegation_skill` apunta por defecto a la skill incluida `delegacion-vengadores`,
-instalada como hermana de Jarvis. Con `--delegation-skill` puede vincularse otra
+instalada como hermana de Jarvis. El catálogo de once workers se copia como
+hermano de `skills/`: `.agents/subagentes` para Codex o `.opencode/subagentes`
+para OpenCode. `subagents_directory` conserva esa ruta relativa en el vínculo.
+Así los enlaces entre identidades, habilidades y skills compartidas mantienen la
+estructura de la fuente. También se distribuye `docs/memoria.md` bajo ese mismo
+paquete para Ant-Man y Pantera. `check` valida presencia, capacidades y referencias del
+catálogo; no acredita registro nativo ni ejecución de workers. Con `--delegation-skill` puede vincularse otra
 skill externa. La interfaz se lee de la dependencia y se verifica frente al host.
 
 Ejemplo de configuración creada por el instalador:
@@ -41,3 +47,38 @@ en el host al activar Jarvis. No se ejecutan scripts arbitrarios de la dependenc
 La configuración de vínculo es local y no debe llevar rutas privadas al repositorio.
 Los comandos, permisos, presupuestos y datos del proyecto pertenecen a su configuración
 general. El vínculo no amplía permisos ni instala herramientas de ejecución.
+
+## Activación en la raíz activa
+
+Instalación y activación se verifican en la raíz del worktree donde se ejecuta
+Jarvis, a cada inicio o recuperación. La instalación del checkout principal no
+cubre automáticamente otros worktrees. Usar la revisión canónica elegida y
+conservar su vínculo, versión y hashes de contexto; Ant-Man prepara las fuentes
+aplicables del destino sin copiar datos privados a Vengadores.
+
+Desde un ejecutor autorizado, instalar/actualizar y activar explícitamente:
+
+```bash
+vengadores unidos --project /ruta/worktree --host codex --activate
+vengadores check --project /ruta/worktree
+```
+
+Para reemplazar una instalación existente, agregar `--replace` tras conservar
+personalizaciones. `--activate` instala un bloque ROOT en `AGENTS.md` de esa raíz
+para el agente principal; no asigna Jarvis a workers. Una instrucción conflictiva
+como `AGENTS.override.md` debe resolverse según el error del instalador antes de
+considerar activación válida; no omitirla ni sobrescribirla silenciosamente.
+
+En Codex, `check` distingue instalación y activación efectiva de la raíz. En
+OpenCode la activación requiere seleccionar el agente primario en la interfaz;
+`active: null` no acredita esa selección ni es una prueba de activación. No acredita que
+una sesión abierta haya recargado instrucciones: abrir una sesión nueva o cargar
+explícitamente las fuentes si el host lo admite y volver a comprobar. Conservar
+la advertencia sobre sesiones existentes. La prueba real inocua del protocolo
+sigue siendo necesaria para afirmar delegación funcional.
+
+La activación requiere configuración local, helper de registro y bloque ROOT sin
+`AGENTS.override.md`. `--activate` crea configuración mínima solo si falta y
+preserva íntegramente la existente. Una delegación externa debe incluir su propio
+`scripts/worker_guard.py`; de lo contrario se bloquea antes de escribir. Usar su
+ruta real, no la ubicación supuesta de la dependencia distribuida.
