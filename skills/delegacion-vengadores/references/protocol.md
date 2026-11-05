@@ -21,8 +21,9 @@ permisos se conserva como bloqueo; la delegación no amplía autorizaciones.
 Exigí ID de ejecución/tarea, rol, objetivo, alcance, exclusiones, referencias de
 entrada, revisión esperada, entregable y criterio de aceptación. Incluí dependencias,
 política de datos, límites y, para tareas que escriben, rama/worktree y propiedad de
-archivos/recursos. El bootstrap que obtiene esas revisiones es una tarea explícita
-de Ant-Man; no inventes SHA, fuentes o resultados faltantes.
+archivos/recursos. Si esas revisiones ya están disponibles, Loki puede usarlas.
+Si faltan, Jarvis reclasifica; el bootstrap que las obtiene es una tarea explícita
+de Ant-Man en el flujo correspondiente. No inventes SHA, fuentes o resultados.
 
 Una sesión tiene un rol y tarea fijos, incluso después de completarse o quedar
 inactiva. Rechazá un encargo con varios roles: diagnóstico, especificación, plan y

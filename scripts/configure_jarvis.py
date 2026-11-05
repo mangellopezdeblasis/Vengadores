@@ -14,6 +14,8 @@ BUNDLED = SOURCE.parent / "delegacion-vengadores"
 AUTHOR = SOURCE.parent / "nick-fury"
 ESCALATION = SOURCE.parent / "escalacion-vengadores"
 SUBAGENTS = SOURCE.parents[1] / "subagentes"
+VILLAINS = SOURCE.parents[1] / "villanos"
+VILLAIN_FLOWS = ("loki", "ultron", "thanos")
 MEMORY_POLICY = SOURCE.parents[1] / "docs" / "memoria.md"
 SUBAGENT_ROLES = ("nick-fury", "ant-man", "spider-man", "capitan-america", "vision",
                   "thor", "viuda-negra", "hulk", "guardianes-de-la-galaxia",
@@ -112,6 +114,30 @@ def subagents_directory(installed):
     return installed.parent.parent / "subagentes"
 
 
+def villains_directory(installed):
+    return installed.parent.parent / "villanos"
+
+
+def validate_villains(directory):
+    if not directory.is_dir() or directory.is_symlink():
+        raise ValueError("Faltan los flujos de villanos; reinstalar con --replace.")
+    if any(path.is_symlink() for path in directory.rglob("*")):
+        raise ValueError("Los flujos de villanos no pueden contener enlaces simbólicos.")
+    package = directory.parent.resolve()
+    for flow in VILLAIN_FLOWS:
+        document = directory / (flow + ".md")
+        if not document.is_file():
+            raise ValueError("Falta el flujo de villano: " + flow + ".md")
+        for link in re.findall(r"\]\(([^)]+)\)", document.read_text(encoding="utf-8")):
+            if re.match(r"[a-zA-Z][a-zA-Z0-9+.-]*:", link):
+                continue
+            target = link.split("#", 1)[0]
+            if target:
+                path = (document.parent / target).resolve()
+                if not path.is_relative_to(package) or not path.exists():
+                    raise ValueError("Referencia de villano ausente o externa al paquete: " + link)
+
+
 def validate_subagents(directory):
     if not directory.is_dir() or directory.is_symlink():
         raise ValueError("Falta el catálogo de subagentes; reinstalar con --replace.")
@@ -188,6 +214,12 @@ def check(project):
                 not catalog.resolve().is_relative_to(project)):
             raise ValueError("Falta vincular catálogo de subagentes; reinstalar con --replace.")
         validate_subagents(catalog)
+        villains = villains_directory(installed)
+        if (not data.get("villains_directory") or
+                reference(project, data["villains_directory"]) != villains.resolve() or
+                not villains.resolve().is_relative_to(project)):
+            raise ValueError("Falta vincular los flujos de villanos; reinstalar con --replace.")
+        validate_villains(villains)
         dependency = data.get("delegation_skill")
         if not dependency:
             raise ValueError("Falta vincular la skill de delegación existente con bind.")
@@ -245,6 +277,8 @@ def check(project):
                 "author_skill": str(author),
                 "subagents_directory": str(catalog),
                 "subagent_roles": list(SUBAGENT_ROLES),
+                "villains_directory": str(villains),
+                "villain_flows": list(VILLAIN_FLOWS),
                 "escalation_skill": str(escalation),
                 "host_execution": "pendiente_de_invocacion_real"}
     except (ValueError, OSError, TypeError) as exc:
@@ -335,11 +369,14 @@ def main(argv=None):
             skill_file(AUTHOR)
             skill_file(ESCALATION)
             validate_subagents(SUBAGENTS)
+            validate_villains(VILLAINS)
             if not MEMORY_POLICY.is_file():
                 raise ValueError("Falta la política compartida docs/memoria.md.")
             author_destination = destination.parent / "nick-fury"
             catalog_destination = subagents_directory(destination)
+            villains_destination = villains_directory(destination)
             copies = [(SUBAGENTS, catalog_destination),
+                      (VILLAINS, villains_destination),
                       (MEMORY_POLICY, catalog_destination.parent / "docs/memoria.md"),
                       (SOURCE, destination), (AUTHOR, author_destination),
                       (ESCALATION, destination.parent / "escalacion-vengadores")]
@@ -378,6 +415,7 @@ def main(argv=None):
                                   "project_root": str(project),
                                   "delegation_skill": local_reference(project, dependency),
                                   "subagents_directory": local_reference(project, catalog_destination),
+                                  "villains_directory": local_reference(project, villains_destination),
                                   "author_skill": local_reference(project, author_destination / "SKILL.md"),
                                   "escalation_skill": local_reference(project, destination.parent / "escalacion-vengadores" / "SKILL.md"),
                                   "dependency_origin": "bundled" if bundled else "external"})

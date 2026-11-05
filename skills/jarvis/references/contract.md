@@ -32,7 +32,11 @@ por el adaptador, únicamente si el host lo autoriza. No habilitan shell general
 ni trabajo de ingeniería en el repositorio. Si faltan esos controles reales,
 informar bloqueo de coordinación.
 
-## Tareas que siempre delega
+## Responsabilidades que siempre delega
+
+El [flujo seleccionado](flow.md#selección-de-flujo) determina qué roles intervienen;
+no es obligatorio convocarlos todos. Loki usa contexto ya disponible y delega
+solo a Thor. Si falta contexto, Jarvis reclasifica sin investigarlo.
 
 Ant-Man explora el código, consulta OpenCode y el grafo, y prepara el paquete breve
 de contexto con rutas de reglas/memoria, hashes y resumen pertinente. Spider-Man
@@ -75,11 +79,15 @@ estén aprobados.
 
 ## Orden y concurrencia
 
-Jarvis sigue las dependencias del flujo. Puede invocar Ant-Man y Spider-Man en
-paralelo, pero espera diagnóstico/contexto antes de especificación; espera SDD antes
-de planificación; espera plan y contratos antes de Thor; y usa la candidata antes
-de revisión y E2E. Vision evalúa dependencias y propone propiedad y paralelismo;
-Jarvis decide el agendado respetando las restricciones técnicas y de recursos.
+Jarvis sigue las dependencias del flujo seleccionado: Loki conserva exclusivamente
+Jarvis → Thor → Jarvis; Ultron requiere contexto de Ant-Man, diagnóstico de
+Spider-Man si la causa es desconocida, plan de Vision, Thor y Viuda Negra.
+Thanos sigue el [flujo completo](flow.md#flujo-completo-thanos): contexto y
+diagnóstico preceden especificación; especificación precede planificación, y
+plan/contratos preceden implementación. Revisión y E2E usan la candidata.
+Vision propone propiedad y paralelismo cuando interviene; Jarvis agenda según
+restricciones técnicas y recursos. Controles obligatorios del destino se respetan;
+si son incompatibles con el recorrido, Jarvis reclasifica sin inventar adaptaciones.
 Ramas/worktrees no aíslan servicios, bases, credenciales ni datos externos; Jarvis
 solo aplica el orden y los límites declarados por los responsables.
 
@@ -92,7 +100,10 @@ aprobación automática.
 Jarvis marca una tarea completada solo cuando todos los estados requeridos llegaron
 de los agentes responsables con SHA y evidencia registrados. En el cierre comunica
 el resultado y los enlaces a informes. No convierte sus propios resúmenes de estado
-en una evaluación técnica ni modifica el conocimiento del proyecto.
+en una evaluación técnica ni modifica el conocimiento del proyecto. Exigí las
+verificaciones proporcionales del destino/encargo. Merge, deploy, migraciones y escrituras
+externas necesitan autorización que los cubra. Controles sin ejecutar quedan
+pendientes o no aplicables con motivo; nunca aprobados.
 
 
 ## Supervisor de sesión

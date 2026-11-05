@@ -12,12 +12,20 @@
 
 ## Coordinación de Jarvis
 
+- Flujo elegido (Loki/Ultron/Thanos):
+- Motivos (claridad, alcance, dependencias y riesgo):
+- Escalar si (hallazgo que exige reclasificar):
+
 - Skill/adaptador invocado y estado:
 - Ticket de registro, ID real, rol/tarea fijos, dependencias y estado por llamada:
 - Prepare previo, bind del ID real y resume validado antes de followup:
 - Contexto autosuficiente, referencias/versiones y fork_turns none en Codex:
 - Reintentos y límite alcanzado, si corresponde:
-- Perfil por rol solicitado y modelo/esfuerzo efectivo (null si no se expone):
+- Perfil por rol solicitado y modelo/esfuerzo efectivo (null sin confirmación):
+- Loki: perfil inicial Thor obligatorio `basico/bajo`, origen del requisito y adaptador soportado:
+- Loki: modelo económico solicitado frente al normal del destino, fundamento y esfuerzo nativo mínimo solicitado:
+- Confirmación del host, modelo/esfuerzo nativo efectivos (null sin confirmación) y bloqueo previo si falta selección/soporte obligatorio:
+- Reclasificación fuera de Loki previa a upgrade y conservación del saldo global, si corresponde:
 - Motivo de intervención, evidencia y especialista que lo clasificó:
 - Mejoras/reintentos consumidos de la tarea y presupuesto restante:
 - IDs de sesión anterior/nueva y transferencia de recursos:
@@ -28,6 +36,12 @@
 
 Jarvis registra coordinación y referencias; no redacta diagnósticos, planes ni
 veredictos técnicos.
+
+Usar las secciones y controles según el [flujo elegido](../../skills/jarvis/references/flow.md#selección-de-flujo)
+y las exigencias del destino/encargo. Las secciones siguientes no convocan roles
+adicionales por sí mismas. Registrar no aplica con motivo cuando corresponda;
+un control requerido sin ejecutar permanece pendiente, nunca aprobado. Merge,
+deploy, migraciones y escrituras externas requieren autorización que los cubra.
 
 ## Investigación
 

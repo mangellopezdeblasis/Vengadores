@@ -53,6 +53,40 @@ Antes de enviar contexto a otro modelo o proveedor, verificar las restricciones
 de datos, residencia, proveedor permitido y presupuesto del destino. No ampliar
 permisos, red, credenciales ni acceso a datos para habilitar una escalación.
 
+## Perfil inicial obligatorio de Thor en Loki
+
+En Loki, Jarvis exige `basico/bajo` para Thor antes de ejecutarlo. Esta regla del
+flujo prevalece sobre `thor: estandar/medio` de `profiles.json`, sin modificar ese
+JSON ni los defaults de otros flujos. El pedido del usuario autoriza esta selección
+económica inicial; no requiere pedir otra autorización por el cambio de perfil.
+
+El adaptador debe resolver explícitamente un modelo permitido de menor consumo y
+coste que el perfil normal de Thor del destino, y el esfuerzo nativo mínimo
+realmente admitido para ese modelo. Bajar solo el esfuerzo del mismo modelo caro
+no satisface el requisito. Confirmar la resolución y su fundamento en capacidades
+y configuración del destino; no deducir ahorro de nombres ni inventar precios o
+benchmarks. Coste monetario desconocido sigue siendo null; si tampoco puede
+confirmarse la comparación económica, bloquear antes de ejecutar.
+
+Rige tanto en Codex como con Claude o un proveedor Claude: exigir un adaptador
+real y soportado, selección permitida y confirmación del host. No suponer que hay
+un adaptador Claude instalado, inventar parámetros ni cambiar de proveedor para
+conseguir un modelo barato. Preservar las políticas de datos, proveedor y permisos
+del destino. Sin selección, soporte o confirmación, bloquear la ejecución de Thor;
+no continuar con un heredado caro ni presentar el prompt como configuración.
+
+Registrar flujo Loki y origen de la obligación (`required: true`,
+`requirement_source` con referencia al flujo y pedido), perfil/modelo solicitado,
+esfuerzo nativo solicitado y fundamento de la resolución; separar modelo/esfuerzo
+efectivos y confirmación del host, con null cuando no estén confirmados. Thor
+reporta lo observado y Jarvis conserva el registro. No afirmar ejecución o ahorro
+medidos sin evidencia real.
+
+Si Thor necesita mayor capacidad, informa el límite; Jarvis reclasifica fuera de
+Loki antes de solicitar un upgrade y conserva los contadores de la tarea raíz.
+La selección inicial confirmada no consume upgrade; los cambios posteriores y
+relanzamientos siguen el presupuesto global siguiente.
+
 ## Presupuesto único por tarea
 
 Jarvis mantiene el registro real de su sesión, compartido lógicamente por toda

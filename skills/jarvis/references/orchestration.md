@@ -45,9 +45,9 @@ Solo una invocación real con ID y respuesta demuestra el inicio de una delegaci
   restricciones reales del host y del proyecto siguen aplicando.
 - Leé `roles.md` para asignar un rol y `flow.md` para el orden.
   El mandato completo está en `contract.md`; cargalo solo si hace falta.
-- Antes del trabajo técnico, invocá Ant-Man para preparar el paquete inicial de
-  contexto: fuentes de reglas y memoria, versiones/hashes, revisión de código,
-  restricciones relevantes y recursos disponibles. No hagas esa síntesis vos.
+- Elegí el flujo según el [selector](flow.md#selección-de-flujo) y cargá solo su
+  documento. Ant-Man prepara contexto en Ultron/Thanos; Loki usa entradas ya
+  disponibles. Si faltan, reclasificá sin investigarlas ni sintetizarlas vos.
 - Cada llamada contiene ID de ejecución/tarea, objetivo, rol, alcance, exclusiones,
   revisión, dependencias, referencias de entrada, entregable, criterio de aceptación
   y límites. Para un implementador, incluí propiedad de archivos y recursos.
@@ -59,17 +59,19 @@ Solo una invocación real con ID y respuesta demuestra el inicio de una delegaci
 
 ## Orden de llamadas
 
-Después del paquete inicial, Ant-Man puede explorar y Spider-Man diagnosticar en
-paralelo. Luego llamá a Capitán América para SDD e iteración con diagnóstico,
-Vision para el plan, y Thor para las unidades que el plan declare independientes.
-Una tarea de integración candidata se delega explícitamente a un Thor integrador.
-Sobre esa candidata llamá a Viuda Negra, Hulk y Guardianes para sus controles.
-Pantera propone aprendizajes; Soldado del Invierno integra en dev y despliega
-cuando los controles previos requeridos lo permiten. Después del despliegue,
-llamá a Guardianes para los E2E sobre el SHA desplegado. Al merge se delega el refresco de
-grafo según el flujo y Pantera consolida conocimiento con los resultados finales.
+El documento seleccionado determina las llamadas. Loki usa exclusivamente
+Jarvis → Thor → Jarvis. Ultron usa Ant-Man → Vision → Thor → Viuda Negra, con
+Spider-Man antes del plan si la causa es desconocida. Thanos conserva todas las
+fases aplicables del [flujo completo](flow.md#flujo-completo-thanos).
+Registrá flujo, motivos y condición de escalación. Los workers informan cambios
+de alcance, dependencias y riesgos; Jarvis decide la reclasificación y el agendado.
+Los controles del destino prevalecen: si el recorrido es incompatible, reclasificá;
+no adaptes por tu cuenta una dependencia externa. Autoría sigue la ruta Nick Fury.
+Exigí verificaciones proporcionales del destino/encargo. Merge, deploy, migraciones y
+escrituras externas requieren autorización que los cubra. Un control sin ejecutar
+se registra pendiente o no aplica con motivo; nunca aprobado.
 
-No planifiques vos la partición técnica. Vision evalúa dependencias y propone
+No planifiques vos la partición técnica. Cuando interviene, Vision evalúa dependencias y propone
 propiedad/paralelismo; Jarvis decide el agendado con esas recomendaciones,
 respetando dependencias, recursos y límites. Crear ramas/worktrees, resolver
 conflictos y comprobar el proceso real son tareas delegadas. Cada ejecutor trabaja
@@ -86,7 +88,8 @@ y es posible; si no, registrá el bloqueo sin afirmar que están disponibles.
 - Esperá artefactos dependientes antes de llamar la siguiente etapa. Paralelizá
   solo lo permitido por el plan y los límites declarados.
 - Enrutá hallazgos según el responsable indicado por el especialista. Si la causa
-  no está clasificada, llamá a Spider-Man. No diagnostiques vos.
+  no está clasificada, reclasificá Loki antes de convocar a Spider-Man; en
+  Ultron/Thanos llamalo según sus dependencias. No diagnostiques vos.
 - Aplicá los límites de concurrencia, profundidad, costo, tiempo y reintentos de la
   configuración. Evitá ciclos de delegación: un subagente devuelve el resultado a
   Jarvis en vez de redisparar el flujo central. Ningún especialista asume Jarvis. Un límite agotado se informa como

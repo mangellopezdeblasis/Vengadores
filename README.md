@@ -66,6 +66,20 @@ los campos propios del vínculo y el contenido existente de `.vengadores/config.
 Los archivos distribuidos, incluido el catálogo, se reemplazan explícitamente;
 conservar antes sus personalizaciones.
 
+## Flujos por tarea
+
+Jarvis elige por claridad, alcance, dependencias y riesgo:
+[Loki](villanos/loki.md) (sencillo: Jarvis → Thor → Jarvis),
+[Ultron](villanos/ultron.md) (medio: contexto, plan, implementación y revisión) o
+[Thanos](villanos/thanos.md) (complejo: flujo completo).
+El [selector canónico](skills/jarvis/references/flow.md#selección-de-flujo) indica
+criterios y reclasificación. Solo se carga el documento elegido; autoría de
+skills/agentes sigue delegándose directamente a Nick Fury. Son instrucciones,
+no un clasificador CLI ni evidencia de ejecución automática o ahorro de tokens.
+Se exigen las verificaciones proporcionales del destino/encargo; deploy,
+migraciones y escrituras externas requieren autorización aplicable. Un control no ejecutado nunca se
+informa aprobado.
+
 ## Documentación
 
 - [Skill de Jarvis](skills/jarvis/SKILL.md)

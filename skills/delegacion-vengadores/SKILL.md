@@ -11,7 +11,8 @@ un rol/tarea, sin asumir Jarvis ni redelegar. Leé `.vengadores/jarvis.json` y s
 adaptador: [Codex](references/codex.md) u [OpenCode](references/opencode.md).
 
 1. Recibí ID, rol, objetivo, revisión, alcance, entradas, aceptación y límites.
-   La preparación de contexto se delega a Ant-Man; no inventes fuentes o SHA.
+   Contexto: Ant-Man en Ultron/Thanos; Loki usa entradas disponibles.
+   No inventes fuentes o SHA.
 2. Prepará un prompt autosuficiente con reglas esenciales, referencias y versiones;
    Codex siempre usa `fork_turns: "none"`. Pedí el recibo mínimo del protocolo.
 3. Aplicá el perfil solicitado solo con controles reales del host; registrá lo

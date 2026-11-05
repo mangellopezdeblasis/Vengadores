@@ -8,7 +8,7 @@
 - No tratar un cambio de documentación como automatización implementada.
 - No copiar credenciales, datos privados o reglas específicas de un cliente a la memoria global.
 - Pantera distingue conocimiento del destino, de Vengadores y temporal de la tarea.
-- Mantener flujo, roles y contrato canónicos en skills/jarvis/references; los MD externos enlazan a ellos. Mantener las plantillas alineadas.
+- Mantener el selector y flujo completo canónicos en skills/jarvis/references/flow.md; villanos/loki.md, ultron.md y thanos.md contienen los recorridos seleccionables. Roles y contrato permanecen en skills/jarvis/references; los otros MD enlazan a estas fuentes. Mantener las plantillas alineadas.
 
 
 - Aplicar skills/nick-fury para crear o ajustar skills/subagentes: núcleos breves, referencias condicionales, español por defecto y sin ahorros de tokens no medidos.

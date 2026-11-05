@@ -38,7 +38,7 @@ sesión. No mantener una espera infinita ni afirmar ejecución fuera del host.
 
 La política de `escalation_skill` es instrucción del proyecto para solicitar perfiles.
 `basico/estandar/avanzado` y `bajo/medio/alto` no son identificadores nativos.
-Heredá el modelo al no disponer de una resolución autorizada del host. Inspeccioná
+Heredá el modelo solo para preferencias opcionales sin resolución autorizada. Inspeccioná
 el esquema disponible: usá `model`/`reasoning_effort` solo si existen, con valores
 admitidos y resolución documentada por el entorno; no inferir capacidad por nombre.
 No crear una matriz de modelos en esta skill ni inventar un servicio de selección.
@@ -48,3 +48,14 @@ Guardá IDs anterior/nuevo. Un parámetro solicitado es evidencia de solicitud, 
 que el proveedor lo aplicó; si el host no lo confirma, registrá aplicado null.
 Sin selección/resolución disponible, notificá perfil no garantizado. Si es obligatorio,
 bloqueá antes de ejecutar; si es preferencia inicial, se permite heredar con aviso.
+
+En Loki, aplicar el [perfil inicial obligatorio de Thor](../../escalacion-vengadores/references/policy.md#perfil-inicial-obligatorio-de-thor-en-loki)
+antes de lanzarlo: resolver un modelo económico permitido frente al perfil normal
+del destino y el esfuerzo nativo mínimo soportado, con confirmación del host.
+`basico/bajo` es la intención portable, no un valor nativo ni permiso para mantener
+el modelo caro bajando solo su esfuerzo. El pedido del usuario ya autoriza ese
+perfil; usar los overrides únicamente con soporte confirmado y `fork_turns: "none"`.
+Si no pueden seleccionarse y confirmarse, bloquear Thor antes de ejecutar; registrar
+solicitado y aplicado por separado, aplicado null sin confirmación. Esta referencia
+no adapta Claude: ese destino exige un adaptador real soportado y las mismas
+restricciones, sin forzar otro proveedor.

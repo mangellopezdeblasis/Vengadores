@@ -3,7 +3,42 @@
 Para crear o ajustar skills y subagentes, Jarvis delega directamente a Nick Fury.
 La autoría no inicia automáticamente el flujo de producto o deploy.
 
-## Estados y avance
+## Selección de flujo
+
+Jarvis clasifica con las entradas disponibles, antes de convocar roles:
+
+- **Claridad:** objetivo, criterios y solución definidos o decisiones pendientes.
+- **Alcance:** superficie afectada y límites conocidos; pocas líneas no implican sencillez.
+- **Dependencias:** contexto disponible, componentes relacionados e integraciones.
+- **Riesgo:** datos, permisos, contratos, reversibilidad y efectos externos.
+
+Elegí [Loki](../../../villanos/loki.md) solo con todos sus requisitos cumplidos.
+Elegí [Ultron](../../../villanos/ultron.md) para trabajo medio que requiere contexto
+y planificación acotados. Elegí [Thanos](../../../villanos/thanos.md) si complejidad,
+incertidumbre o riesgo requieren el flujo completo. Las dudas o entradas faltantes
+excluyen Loki; Jarvis reclasifica sin investigar ni resolver ingeniería. Ante
+clasificación incierta, elegí el flujo más completo. Leé solo el documento elegido;
+Thanos remite a las fases siguientes.
+
+Registrá brevemente `flujo`, `motivos` (las cuatro dimensiones) y `escalar_si`
+(hallazgo concreto que obliga a reconsiderar). Los workers informan ampliaciones,
+dependencias o riesgos; Jarvis decide la reclasificación antes de continuar.
+Crear/modificar skills conserva la ruta directa a Nick Fury.
+
+El flujo no omite controles obligatorios del destino. Si son incompatibles con
+Loki, reclasificá; no agregues roles a su secuencia ni inventes una adaptación de
+una delegación externa. Estas instrucciones no agregan un clasificador CLI ni
+acreditan selección/ejecución automática del host o ahorro de tokens.
+
+## Flujo completo (Thanos)
+
+Considerá todas las fases siguientes según el alcance autorizado. Registrá las
+restantes como pendientes o no aplicables, con motivo. Exigí las verificaciones
+proporcionales del destino/encargo. Merge, deploy, migraciones y escrituras
+externas requieren autorización que los cubra; el flujo no la concede. Ningún
+control no ejecutado queda aprobado.
+
+### Estados y avance
 
 | Estado | Responsable | Entregable / condición para avanzar |
 | --- | --- | --- |
@@ -27,7 +62,7 @@ veredictos técnicos. Ant-Man prepara el paquete de contexto con fuentes y hashe
 los especialistas entregan evaluaciones y síntesis. Los agentes no necesitan
 compartir el historial completo.
 
-## Paralelismo y worktrees
+### Paralelismo y worktrees
 
 - Vision evalúa independencia y recomienda unidades paralelas con contratos compartidos.
   Jarvis decide el agendado según esa evidencia, las dependencias y límites.
@@ -40,7 +75,7 @@ compartir el historial completo.
 - Al cambiar el commit revisado se invalidan los controles afectados. Antes del merge,
   comprobar que los resultados corresponden al candidato final y a la base dev actual.
 
-## Correcciones y bloqueos
+### Correcciones y bloqueos
 
 Jarvis delega cada hallazgo al responsable indicado por la revisión especializada:
 
@@ -59,7 +94,7 @@ bloqueo y lo comunica con referencias. Solo registra controles como aprobados cu
 el agente responsable entrega estado, SHA y evidencia. No juzga por sí mismo la
 calidad técnica de esa evidencia.
 
-## Grafo y merge a dev
+### Grafo y merge a dev
 
 Ant-Man consulta archivos, símbolos, imports, dependencias y tests mediante el grafo
 y OpenCode. El índice indica el SHA analizado y separa relaciones extraídas de las
@@ -75,12 +110,15 @@ La actualización del grafo y la verificación del deploy pueden correr en paral
 Jarvis registra las respuestas y sus SHA; merges posteriores generan actualizaciones
 adicionales para identificar correctamente la revisión vigente.
 
-## Entrega
+### Entrega
 
-Soldado del Invierno integra solo cuando los controles previos requeridos están aprobados y despliega el SHA integrado. Guardianes ejecutan los E2E contra ese SHA desplegado, con datos de prueba aislados. Un fallo de despliegue se informa según la política de recuperación del proyecto; un fallo E2E lo informa Guardianes y Jarvis lo enruta al responsable. Revertir código o datos exige considerar compatibilidad y migraciones.
+Con autorización para integrar y desplegar, Soldado del Invierno integra solo cuando los controles previos aplicables están aprobados y despliega el SHA integrado. Guardianes ejecutan los E2E aplicables contra ese SHA desplegado, con datos de prueba aislados. Un fallo de despliegue se informa según la política de recuperación del proyecto; un fallo E2E lo informa Guardianes y Jarvis lo enruta al responsable. Revertir código o datos exige considerar compatibilidad y migraciones.
 
-El cierre requiere especificación cumplida, verificaciones del commit final, E2E
-en dev ejecutados por Guardianes, artefactos registrados, actualización del grafo y evaluación final de memoria.
+El cierre requiere especificación cumplida, verificaciones aplicables del commit
+final, artefactos registrados y evaluación final de memoria. Si se autorizó merge,
+requiere actualización del grafo; si aplica E2E en dev, requiere su ejecución por
+Guardianes sobre el SHA desplegado. Un control requerido pendiente impide declarar
+completada su fase; uno fuera del alcance se registra como no aplica con motivo.
 Pantera puede concluir que no hay reglas nuevas útiles: no se exige agregar memoria.
 
 
