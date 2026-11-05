@@ -52,7 +52,7 @@ control no ejecutado queda aprobado.
 | Revisión | Viuda Negra y Hulk en paralelo | Conformidad con especificación/plan y hallazgos adversariales |
 | E2E candidata | Guardianes de la Galaxia | Recorridos de aceptación y regresiones de Hulk ejecutados sobre la candidata |
 | Aprendizaje propuesto | Pantera Negra | Ajustes de reglas clasificados por destino, con evidencia |
-| Integración y deploy | Soldado del Invierno | Merge a dev y despliegue del commit integrado |
+| Integración y deploy | Soldado del Invierno | Merge a la rama actual registrada (dev si el destino lo exige), despliegue del commit integrado, limpieza de worktrees y regreso a esa rama |
 | E2E del despliegue en dev | Guardianes de la Galaxia | Recorridos de aceptación y regresiones ejecutados contra el SHA desplegado |
 | Cierre de tarea | Pantera Negra; Jarvis registra el estado | Conocimiento validado/versionado; Jarvis entrega al usuario estados y referencias de informes |
 
@@ -66,7 +66,8 @@ compartir el historial completo.
 
 - Vision evalúa independencia y recomienda unidades paralelas con contratos compartidos.
   Jarvis decide el agendado según esa evidencia, las dependencias y límites.
-- Cada Thor tiene rama y worktree propios, derivados de un commit base identificado.
+- Ultron y Thanos usan worktrees: cada Thor tiene rama y worktree propios, derivados
+  de un commit base identificado de la rama actual, que Jarvis registra al iniciar.
 - Cada sandbox cloud puede tener su propio clon y crear allí su worktree.
 - Un worktree no aísla procesos, red ni credenciales: la ejecución requiere sandboxes.
 - Vision propone propiedad de archivos y recursos en el plan técnico; Jarvis decide

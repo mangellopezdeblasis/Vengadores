@@ -12,10 +12,13 @@ Secuencia: **Ant-Man → Vision → Thor → Viuda Negra**; Jarvis agenda y deci
 2. Si la causa es desconocida, Jarvis convoca a Spider-Man antes de planificar,
    usando el contexto de Ant-Man. Jarvis no diagnostica.
 3. Vision entrega plan, dependencias, propiedad de archivos y comprobaciones.
-   Jarvis decide agendado; Thor implementa y entrega la revisión candidata.
+   Jarvis decide agendado; Thor implementa en una rama y un worktree propios,
+   derivados del commit base de la rama actual, y entrega la revisión candidata.
 4. Viuda Negra revisa contra objetivo y plan sobre esa revisión. Los hallazgos
    vuelven al responsable; los cambios invalidan controles afectados.
-5. Jarvis informa estados, evidencia y pendientes. Exigir verificaciones
+5. Si hay integración autorizada, Soldado del Invierno cierra el flujo según la
+   [entrega](../subagentes/soldado-del-invierno/habilidades/entrega/SKILL.md).
+6. Jarvis informa estados, evidencia y pendientes. Exigir verificaciones
    proporcionales del destino/encargo; distinguir pendiente de no aplica, nunca
    aprobar sin ejecutar.
 
