@@ -23,6 +23,7 @@ SUBAGENT_ROLES = ("nick-fury", "ant-man", "spider-man", "capitan-america", "visi
 OPENCODE_AGENT = SOURCE.parents[1] / "integrations" / "opencode" / "jarvis.md"
 OPENCODE_AUTHOR = OPENCODE_AGENT.with_name("nick-fury.md")
 CLAUDE_AGENT = SOURCE.parents[1] / "integrations" / "claude" / "agent.md"
+CLAUDE_ROLES = CLAUDE_AGENT.with_name("roles.json")
 HOST_DIRS = {"opencode": ".opencode/skills/jarvis", "codex": ".agents/skills/jarvis",
              "claude": ".agents/skills/jarvis"}
 # Claude shares the portable .agents layout; only native subagents live in .claude.
@@ -113,15 +114,33 @@ def active(project, data):
             and activation_text(local_reference(project, guard), host) in path.read_bytes().decode("utf-8"))
 
 
-def claude_agent_text(role, template=None):
+def claude_settings():
+    """Claude-only limits: tools per role and the model for each portable level."""
+    settings = json.loads(CLAUDE_ROLES.read_text(encoding="utf-8"))
+    profiles = json.loads((ESCALATION / "references/profiles.json").read_text(encoding="utf-8"))
+    if settings.get("schema_version") != 1 or set(settings.get("tools", {})) != set(SUBAGENT_ROLES):
+        raise ValueError("integrations/claude/roles.json debe definir herramientas para cada rol.")
+    for role in SUBAGENT_ROLES:
+        tools = settings["tools"][role]
+        if not tools or not all(isinstance(tool, str) and re.fullmatch(r"[A-Za-z]+", tool) for tool in tools):
+            raise ValueError("Herramientas de Claude inválidas: " + role)
+        if profiles["roles"].get(role, {}).get("nivel") not in settings.get("models", {}):
+            raise ValueError("Falta el modelo de Claude para el nivel de: " + role)
+    return settings, profiles
+
+
+def claude_agent_text(role, template=None, settings=None):
     """Render the native Claude Code subagent that points at the portable identity."""
     template = template if template is not None else CLAUDE_AGENT.read_text(encoding="utf-8")
+    settings, profiles = settings if settings is not None else claude_settings()
     identity = (SUBAGENTS / role / "SKILL.md").read_text(encoding="utf-8")
     title = re.search(r"^# (.+)$", identity, re.M)
     summary = re.search(r"^\*\*Rol:\*\*[ \t]*(.+)$", identity, re.M)
     if not title or not summary:
         raise ValueError("La identidad requiere título y rol: " + role)
+    model = settings["models"][profiles["roles"][role]["nivel"]]
     return (template.replace("{role}", role).replace("{title}", title[1].strip())
+            .replace("{tools}", ", ".join(settings["tools"][role])).replace("{model}", model)
             .replace("{summary}", summary[1].strip().rstrip(".")))
 
 
@@ -433,10 +452,11 @@ def main(argv=None):
                 copies.append((OPENCODE_AUTHOR, project / ".opencode/agents/nick-fury.md"))
             generated = []
             if args.host == "claude":
-                if not CLAUDE_AGENT.is_file():
-                    raise ValueError("Falta la plantilla de subagente de Claude en la fuente.")
+                if not CLAUDE_AGENT.is_file() or not CLAUDE_ROLES.is_file():
+                    raise ValueError("Falta la plantilla o roles.json de Claude en la fuente.")
                 template = CLAUDE_AGENT.read_text(encoding="utf-8")
-                generated = [(project / ".claude/agents" / (role + ".md"), claude_agent_text(role, template))
+                settings = claude_settings()
+                generated = [(project / ".claude/agents" / (role + ".md"), claude_agent_text(role, template, settings))
                              for role in SUBAGENT_ROLES]
             for target, _ in generated:
                 if not target.resolve().is_relative_to(project) or target.is_symlink():

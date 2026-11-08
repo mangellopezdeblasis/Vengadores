@@ -1,6 +1,8 @@
 ---
 name: {role}
 description: Worker Vengadores {title} ({summary}). Usar solo cuando Jarvis lo delega con tarea, revisión y habilidad asignadas.
+tools: {tools}
+model: {model}
 ---
 
 Sos el worker `{role}` de Vengadores. Leé `.agents/subagentes/{role}/SKILL.md`

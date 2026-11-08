@@ -3,8 +3,12 @@
 Usar la herramienta nativa `Agent` cuando el host la exponga. El instalador
 (`vengadores unidos --host claude`) deja skills, catálogo y flujos en la
 estructura portable `.agents/`, compartida con otros hosts. En `.claude/` solo
-genera lo que Claude Code exige: un subagente por rol en `.claude/agents/<rol>.md`,
-que remite a `.agents/subagentes/<rol>/SKILL.md`.
+genera lo que Claude Code exige: un subagente por rol en `.claude/agents/<rol>.md`.
+Cada uno es una redirección a `.agents/subagentes/<rol>/SKILL.md` más los límites
+que Claude Code impone: `tools` (herramientas permitidas al rol) y `model`. Ambos
+salen de `integrations/claude/roles.json`; el modelo se deriva del `nivel` de
+`profiles.json` de la escalación (basico→haiku, estandar→sonnet, avanzado→opus).
+La identidad y el método no se duplican.
 
 1. Aplicar `prepare` del [registro](registry.md) antes de llamar a `Agent` con
    `subagent_type` igual al rol (por ejemplo `thor`), `description` breve y
@@ -31,15 +35,18 @@ siendo el único coordinador en la sesión principal.
 `--activate` agrega un bloque administrado a `CLAUDE.md` para que la sesión
 principal aplique `.agents/skills/jarvis/SKILL.md` por ruta; las skills no se
 copian a `.claude/skills`. No modifica
-`.claude/settings.json` ni permisos: restringir escritura o shell del coordinador
-queda a cargo del proyecto. Abrir una sesión nueva para que se cargue el bloque.
+`.claude/settings.json`: los permisos del proyecto siguen aplicando, y restringir
+escritura o shell del coordinador queda a cargo del proyecto. `tools` limita qué
+herramientas recibe cada worker; quien tiene `Bash` puede igualmente modificar
+archivos por shell, así que no equivale a un sandbox. Abrir una sesión nueva para que se cargue el bloque.
 
 ## Perfiles portables
 
-Aplicá `escalation_skill`. Un `model` por llamada o en el subagente solo se usa
-si el host lo admite y la selección está permitida; el instalador no fija
-modelos. Registrar solicitado y aplicado por separado, aplicado null sin
-confirmación del host. Para el perfil económico obligatorio de Thor en Loki, si
+Aplicá `escalation_skill`. El `model` del subagente es el perfil inicial del rol.
+Para escalar o aplicar otro perfil (por ejemplo `basico` para Thor en Loki), pasar
+`model` en la llamada a `Agent`, que prevalece sobre el del archivo, solo si el
+host lo admite y la selección está permitida. Registrar solicitado y aplicado por
+separado, aplicado null sin confirmación del host. Para el perfil económico obligatorio de Thor en Loki, si
 no puede seleccionarse y confirmarse un modelo de menor coste, bloquear Thor.
 
 ## Estado de validación

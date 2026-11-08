@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "models": {
+    "basico": "haiku",
+    "estandar": "sonnet",
+    "avanzado": "opus"
+  },
+  "tools": {
+    "nick-fury": ["Read", "Grep", "Glob", "Bash", "Edit", "Write"],
+    "ant-man": ["Read", "Grep", "Glob", "Bash", "Write"],
+    "spider-man": ["Read", "Grep", "Glob", "Bash", "Write"],
+    "capitan-america": ["Read", "Grep", "Glob", "Write"],
+    "vision": ["Read", "Grep", "Glob", "Write"],
+    "thor": ["Read", "Grep", "Glob", "Bash", "Edit", "Write"],
+    "viuda-negra": ["Read", "Grep", "Glob", "Bash", "Write"],
+    "hulk": ["Read", "Grep", "Glob", "Bash", "Write"],
+    "guardianes-de-la-galaxia": ["Read", "Grep", "Glob", "Bash", "Write"],
+    "pantera-negra": ["Read", "Grep", "Glob", "Edit", "Write"],
+    "soldado-del-invierno": ["Read", "Grep", "Glob", "Bash", "Write"]
+  }
+}
