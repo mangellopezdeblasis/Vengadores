@@ -20,9 +20,9 @@ vengadores unidos --host codex --activate
 ```
 
 El ejemplo instala y activa Jarvis para Codex. Para Claude Code:
-`vengadores unidos --host claude --activate`; instala las skills en
-`.claude/skills`, un subagente por rol en `.claude/agents` y un bloque ROOT en
-`CLAUDE.md`. Ver el [adaptador Claude](skills/delegacion-vengadores/references/claude.md). Para instalar en OpenCode:
+`vengadores unidos --host claude --activate`; usa la misma estructura portable
+`.agents/` que Codex y en `.claude/` solo genera un subagente por rol en
+`.claude/agents`, más un bloque ROOT en `CLAUDE.md`. Ver el [adaptador Claude](skills/delegacion-vengadores/references/claude.md). Para instalar en OpenCode:
 `vengadores unidos` y seleccionar su agente primario Jarvis.
 Para Codex: `vengadores unidos --host codex --activate`. Para elegir otro destino:
 `vengadores unidos --project /ruta/proyecto`.
@@ -41,8 +41,8 @@ Ver [supervisión de sesión](skills/jarvis/references/supervision.md).
 
 Se instalan cuatro skills compartidas: `jarvis`, `delegacion-vengadores`,
 `nick-fury` y `escalacion-vengadores`, vinculadas automáticamente. También se
-instala el catálogo de once workers en `.agents/subagentes` (Codex) o
-`.opencode/subagentes` (OpenCode) o `.claude/subagentes` (Claude), junto a la carpeta `skills/` y la política compartida `docs/memoria.md`. Para usar otra skill compatible, agregar
+instala el catálogo de once workers en `.agents/subagentes` (Codex y Claude) o
+`.opencode/subagentes` (OpenCode), junto a la carpeta `skills/` y la política compartida `docs/memoria.md`. Para usar otra skill compatible, agregar
 `--delegation-skill /ruta/real/delegacion/SKILL.md`; se referencia sin copiarla.
 OpenCode recibe un agente primario `jarvis`, con escritura y shell denegados
 al coordinador, y el subagente autor `nick-fury`. Seleccionarlo en la interfaz y pedir la tarea a Jarvis.

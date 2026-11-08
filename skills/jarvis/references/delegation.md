@@ -70,7 +70,7 @@ como `AGENTS.override.md` debe resolverse según el error del instalador antes d
 considerar activación válida; no omitirla ni sobrescribirla silenciosamente.
 
 En Claude Code, `--host claude --activate` escribe el bloque en `CLAUDE.md` y
-genera `.claude/agents/<rol>.md`; `check` informa `active` igual que en Codex.
+genera solo `.claude/agents/<rol>.md`; el resto queda en `.agents/`. `check` informa `active` igual que en Codex.
 En Codex, `check` distingue instalación y activación efectiva de la raíz. En
 OpenCode la activación requiere seleccionar el agente primario en la interfaz;
 `active: null` no acredita esa selección ni es una prueba de activación. No acredita que

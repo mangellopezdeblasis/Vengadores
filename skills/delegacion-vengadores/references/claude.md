@@ -1,8 +1,10 @@
 # Adaptador Claude Code
 
 Usar la herramienta nativa `Agent` cuando el host la exponga. El instalador
-(`vengadores unidos --host claude`) genera un subagente por rol en
-`.claude/agents/<rol>.md`; cada uno remite a su identidad del catálogo.
+(`vengadores unidos --host claude`) deja skills, catálogo y flujos en la
+estructura portable `.agents/`, compartida con otros hosts. En `.claude/` solo
+genera lo que Claude Code exige: un subagente por rol en `.claude/agents/<rol>.md`,
+que remite a `.agents/subagentes/<rol>/SKILL.md`.
 
 1. Aplicar `prepare` del [registro](registry.md) antes de llamar a `Agent` con
    `subagent_type` igual al rol (por ejemplo `thor`), `description` breve y
@@ -27,7 +29,8 @@ siendo el único coordinador en la sesión principal.
 ## Activación y supervisor
 
 `--activate` agrega un bloque administrado a `CLAUDE.md` para que la sesión
-principal aplique `.claude/skills/jarvis/SKILL.md`. No modifica
+principal aplique `.agents/skills/jarvis/SKILL.md` por ruta; las skills no se
+copian a `.claude/skills`. No modifica
 `.claude/settings.json` ni permisos: restringir escritura o shell del coordinador
 queda a cargo del proyecto. Abrir una sesión nueva para que se cargue el bloque.
 

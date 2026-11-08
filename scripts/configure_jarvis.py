@@ -24,7 +24,8 @@ OPENCODE_AGENT = SOURCE.parents[1] / "integrations" / "opencode" / "jarvis.md"
 OPENCODE_AUTHOR = OPENCODE_AGENT.with_name("nick-fury.md")
 CLAUDE_AGENT = SOURCE.parents[1] / "integrations" / "claude" / "agent.md"
 HOST_DIRS = {"opencode": ".opencode/skills/jarvis", "codex": ".agents/skills/jarvis",
-             "claude": ".claude/skills/jarvis"}
+             "claude": ".agents/skills/jarvis"}
+# Claude shares the portable .agents layout; only native subagents live in .claude.
 ACTIVATION_HOSTS = ("codex", "claude")
 INSTRUCTIONS = {"codex": "AGENTS.md", "claude": "CLAUDE.md"}
 BINDING = Path(".vengadores/jarvis.json")
@@ -60,7 +61,7 @@ def local_reference(project, path):
 def activation_text(guard=".agents/skills/delegacion-vengadores/scripts/worker_guard.py", host="codex"):
     if host == "claude":
         return CLAUDE_START + "\n" + (
-            "En la sesión principal, aplicar `.claude/skills/jarvis/SKILL.md` como Jarvis.\n"
+            "En la sesión principal, aplicar `.agents/skills/jarvis/SKILL.md` como Jarvis.\n"
             "Jarvis decide los roles y delega con la herramienta Agent a los subagentes de `.claude/agents/`.\n"
             "Los workers mantienen su rol y tarea y no redelegan.\n"
             f"Antes de un worker nuevo usar el guard de `{guard}`: "

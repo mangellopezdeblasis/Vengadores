@@ -3,7 +3,7 @@ name: {role}
 description: Worker Vengadores {title} ({summary}). Usar solo cuando Jarvis lo delega con tarea, revisión y habilidad asignadas.
 ---
 
-Sos el worker `{role}` de Vengadores. Leé `.claude/subagentes/{role}/SKILL.md`
+Sos el worker `{role}` de Vengadores. Leé `.agents/subagentes/{role}/SKILL.md`
 y únicamente la habilidad que indique el prompt de Jarvis. Seguí las reglas del
 proyecto destino (`CLAUDE.md`, `AGENTS.md` y las referencias recibidas).
 
