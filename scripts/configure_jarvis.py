@@ -22,10 +22,20 @@ SUBAGENT_ROLES = ("nick-fury", "ant-man", "spider-man", "capitan-america", "visi
                   "pantera-negra", "soldado-del-invierno")
 OPENCODE_AGENT = SOURCE.parents[1] / "integrations" / "opencode" / "jarvis.md"
 OPENCODE_AUTHOR = OPENCODE_AGENT.with_name("nick-fury.md")
-HOST_DIRS = {"opencode": ".opencode/skills/jarvis", "codex": ".agents/skills/jarvis"}
+CLAUDE_AGENT = SOURCE.parents[1] / "integrations" / "claude" / "agent.md"
+HOST_DIRS = {"opencode": ".opencode/skills/jarvis", "codex": ".agents/skills/jarvis",
+             "claude": ".claude/skills/jarvis"}
+ACTIVATION_HOSTS = ("codex", "claude")
+INSTRUCTIONS = {"codex": "AGENTS.md", "claude": "CLAUDE.md"}
 BINDING = Path(".vengadores/jarvis.json")
 START = "<!-- vengadores:codex:start -->"
 END = "<!-- vengadores:codex:end -->"
+CLAUDE_START = "<!-- vengadores:claude:start -->"
+CLAUDE_END = "<!-- vengadores:claude:end -->"
+
+
+def markers(host):
+    return (CLAUDE_START, CLAUDE_END) if host == "claude" else (START, END)
 
 
 def project_root(value):
@@ -47,7 +57,17 @@ def local_reference(project, path):
     return str(path.relative_to(project)) if path.is_relative_to(project) else str(path)
 
 
-def activation_text(guard=".agents/skills/delegacion-vengadores/scripts/worker_guard.py"):
+def activation_text(guard=".agents/skills/delegacion-vengadores/scripts/worker_guard.py", host="codex"):
+    if host == "claude":
+        return CLAUDE_START + "\n" + (
+            "En la sesión principal, aplicar `.claude/skills/jarvis/SKILL.md` como Jarvis.\n"
+            "Jarvis decide los roles y delega con la herramienta Agent a los subagentes de `.claude/agents/`.\n"
+            "Los workers mantienen su rol y tarea y no redelegan.\n"
+            f"Antes de un worker nuevo usar el guard de `{guard}`: "
+            "prepare con contexto mínimo, luego bind con el ID real devuelto por Agent.\n"
+            "Para continuidad validar resume del mismo rol, tarea, workspace y versión.\n"
+            "El guard no limita llamadas manuales ni permisos del host.\n"
+        ) + CLAUDE_END
     return START + "\n" + (
         "En la sesión principal, aplicar `.agents/skills/jarvis/SKILL.md` como Jarvis.\n"
         "Jarvis decide los roles y Thor ejecuta. Los workers mantienen su rol y tarea y no redelegan.\n"
@@ -58,32 +78,50 @@ def activation_text(guard=".agents/skills/delegacion-vengadores/scripts/worker_g
     ) + END
 
 
-def activation_content(project, guard):
-    if (project / "AGENTS.override.md").exists():
+def activation_content(project, guard, host="codex"):
+    if host == "codex" and (project / "AGENTS.override.md").exists():
         raise ValueError("AGENTS.override.md tiene prioridad: activación bloqueada antes de escribir; integrar allí explícitamente.")
-    path = project / "AGENTS.md"
+    name = INSTRUCTIONS[host]
+    start, end = markers(host)
+    path = project / name
     if path.is_symlink():
-        raise ValueError("AGENTS.md no puede ser symlink para activación.")
+        raise ValueError(name + " no puede ser symlink para activación.")
     text = path.read_bytes().decode("utf-8") if path.exists() else ""
-    if text.count(START) != text.count(END) or text.count(START) > 1:
-        raise ValueError("Bloque administrado ambiguo en AGENTS.md.")
-    if START in text:
-        if text.index(END) < text.index(START):
+    if text.count(start) != text.count(end) or text.count(start) > 1:
+        raise ValueError("Bloque administrado ambiguo en " + name + ".")
+    if start in text:
+        if text.index(end) < text.index(start):
             raise ValueError("Bloque administrado inválido.")
-        return text[:text.index(START)] + activation_text(guard) + text[text.index(END) + len(END):]
-    return text + ("\n\n" if text and not text.endswith("\n\n") else "") + activation_text(guard) + "\n"
+        return text[:text.index(start)] + activation_text(guard, host) + text[text.index(end) + len(end):]
+    return text + ("\n\n" if text and not text.endswith("\n\n") else "") + activation_text(guard, host) + "\n"
 
 
 def active(project, data):
+    host = data["host"]
+    if host not in ACTIVATION_HOSTS:
+        return None
     dependency = reference(project, data["delegation_skill"])
     guard = dependency.parent / "scripts/worker_guard.py"
-    path = project / "AGENTS.md"
-    return (not (project / "AGENTS.override.md").exists() and not path.is_symlink()
-            and path.is_file() and path.read_bytes().decode("utf-8").count(START) == 1
+    path = project / INSTRUCTIONS[host]
+    start = markers(host)[0]
+    return (not (host == "codex" and (project / "AGENTS.override.md").exists()) and not path.is_symlink()
+            and path.is_file() and path.read_bytes().decode("utf-8").count(start) == 1
             and guard.is_file()
             and (project / ".vengadores/config.yaml").is_file()
             and not (project / ".vengadores/config.yaml").is_symlink()
-            and activation_text(local_reference(project, guard)) in path.read_bytes().decode("utf-8"))
+            and activation_text(local_reference(project, guard), host) in path.read_bytes().decode("utf-8"))
+
+
+def claude_agent_text(role, template=None):
+    """Render the native Claude Code subagent that points at the portable identity."""
+    template = template if template is not None else CLAUDE_AGENT.read_text(encoding="utf-8")
+    identity = (SUBAGENTS / role / "SKILL.md").read_text(encoding="utf-8")
+    title = re.search(r"^# (.+)$", identity, re.M)
+    summary = re.search(r"^\*\*Rol:\*\*[ \t]*(.+)$", identity, re.M)
+    if not title or not summary:
+        raise ValueError("La identidad requiere título y rol: " + role)
+    return (template.replace("{role}", role).replace("{title}", title[1].strip())
+            .replace("{summary}", summary[1].strip().rstrip(".")))
 
 
 
@@ -227,7 +265,7 @@ def check(project):
         if dependency.is_relative_to(installed.resolve()):
             raise ValueError("La skill de delegación debe estar separada de Jarvis.")
         if data.get("dependency_origin") == "bundled":
-            for name in ("codex.md", "opencode.md", "protocol.md"):
+            for name in ("codex.md", "opencode.md", "claude.md", "protocol.md"):
                 if not (dependency.parent / "references" / name).is_file():
                     raise ValueError("Falta el adaptador de delegación: " + name)
             expected_dependency = installed.parent / "delegacion-vengadores" / "SKILL.md"
@@ -237,6 +275,10 @@ def check(project):
                 raise ValueError("Falta el guard de identidad de delegación.")
         if data["host"] == "opencode" and not (project / ".opencode/agents/jarvis.md").is_file():
             raise ValueError("Falta el agente primario de Jarvis para OpenCode.")
+        if data["host"] == "claude":
+            for role in SUBAGENT_ROLES:
+                if not (project / ".claude/agents" / (role + ".md")).is_file():
+                    raise ValueError("Falta el subagente de Claude: " + role)
         author = installed.parent / "nick-fury" / "SKILL.md"
         if not data.get("author_skill") or reference(project, data["author_skill"]) != author.resolve():
             raise ValueError("Falta vincular Nick Fury; reinstalar con --replace.")
@@ -267,9 +309,10 @@ def check(project):
                     or profile.get("nivel") not in ("basico", "estandar", "avanzado")
                     or profile.get("esfuerzo") not in ("bajo", "medio", "alto")):
                 raise ValueError("Perfil de escalada inválido: " + str(role))
+        is_active = active(project, data)
         return {"state": "configurado", "installed": True,
-                "active": active(project, data) if data["host"] == "codex" else None,
-                "activation": "active" if data["host"] == "codex" and active(project, data) else "not_active",
+                "active": is_active,
+                "activation": "active" if is_active else "not_active",
                 "session_startup": "pendiente_de_sesion_nueva",
                 "host": data["host"],
                 "skill": str(installed), "delegation_skill": str(dependency),
@@ -321,7 +364,7 @@ def main(argv=None):
             sub.add_argument("--delegation-skill", required=action == "bind")
         if action == "install":
             sub.add_argument("--host", choices=HOST_DIRS, default="opencode")
-            sub.add_argument("--activate", action="store_true", help="Activa Jarvis principal en AGENTS.md para Codex.")
+            sub.add_argument("--activate", action="store_true", help="Activa Jarvis principal en AGENTS.md (Codex) o CLAUDE.md (Claude).")
             sub.add_argument("--replace", action="store_true",
                              help="Reemplaza explícitamente las skills distribuidas de Vengadores.")
     args = parser.parse_args(argv)
@@ -330,8 +373,8 @@ def main(argv=None):
         if not project.is_dir():
             raise ValueError("El proyecto destino debe ser un directorio existente.")
         if args.action == "install":
-            if args.activate and args.host != "codex":
-                raise ValueError("--activate requiere --host codex.")
+            if args.activate and args.host not in ACTIVATION_HOSTS:
+                raise ValueError("--activate requiere --host codex o --host claude.")
             existing = read_config(project, allow_foreign=args.replace) if config_path(project).exists() else {}
             chosen_dependency = args.delegation_skill
             if chosen_dependency is None and existing.get("dependency_origin") == "external":
@@ -346,7 +389,7 @@ def main(argv=None):
                 if not guard_source.is_file():
                     raise ValueError("La dependencia externa no distribuye scripts/worker_guard.py; no se puede activar el guard.")
                 guard_target = (dependency_destination / "scripts/worker_guard.py") if bundled else guard_source
-                activation = activation_content(project, local_reference(project, guard_target))
+                activation = activation_content(project, local_reference(project, guard_target), args.host)
                 own_config = project / ".vengadores/config.yaml"
                 if own_config.is_symlink():
                     raise ValueError("config.yaml no puede ser symlink para activación.")
@@ -387,6 +430,18 @@ def main(argv=None):
                     raise ValueError("Falta un perfil de agente de OpenCode en la fuente.")
                 copies.append((OPENCODE_AGENT, project / ".opencode/agents/jarvis.md"))
                 copies.append((OPENCODE_AUTHOR, project / ".opencode/agents/nick-fury.md"))
+            generated = []
+            if args.host == "claude":
+                if not CLAUDE_AGENT.is_file():
+                    raise ValueError("Falta la plantilla de subagente de Claude en la fuente.")
+                template = CLAUDE_AGENT.read_text(encoding="utf-8")
+                generated = [(project / ".claude/agents" / (role + ".md"), claude_agent_text(role, template))
+                             for role in SUBAGENT_ROLES]
+            for target, _ in generated:
+                if not target.resolve().is_relative_to(project) or target.is_symlink():
+                    raise ValueError("El destino no puede ser externo ni un symlink.")
+                if target.exists() and not args.replace:
+                    raise ValueError("Existe un subagente de Claude en el destino; usar --replace.")
             # Validate every target before replacing any installation.
             for source, target in copies:
                 if not target.resolve().is_relative_to(project) or target.is_symlink():
@@ -407,6 +462,9 @@ def main(argv=None):
                     shutil.copytree(source, target, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
                 else:
                     shutil.copy2(source, target)
+            for target, text in generated:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(text, encoding="utf-8")
             if bundled:
                 dependency = dependency_destination / "SKILL.md"
             data = dict(existing)
@@ -424,7 +482,7 @@ def main(argv=None):
                 own_config = project / ".vengadores/config.yaml"
                 if not own_config.exists():
                     own_config.write_text(minimal_config(project, destination))
-                (project / "AGENTS.md").write_bytes(activation.encode("utf-8"))
+                (project / INSTRUCTIONS[args.host]).write_bytes(activation.encode("utf-8"))
             result = check(project)
             result["installed"] = True
             print(json.dumps(result, indent=2, ensure_ascii=False))

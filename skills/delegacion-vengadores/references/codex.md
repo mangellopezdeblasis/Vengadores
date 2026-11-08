@@ -57,5 +57,5 @@ el modelo caro bajando solo su esfuerzo. El pedido del usuario ya autoriza ese
 perfil; usar los overrides únicamente con soporte confirmado y `fork_turns: "none"`.
 Si no pueden seleccionarse y confirmarse, bloquear Thor antes de ejecutar; registrar
 solicitado y aplicado por separado, aplicado null sin confirmación. Esta referencia
-no adapta Claude: ese destino exige un adaptador real soportado y las mismas
-restricciones, sin forzar otro proveedor.
+no adapta Claude: ese destino usa su [adaptador](claude.md), con las mismas
+restricciones y sin forzar otro proveedor.

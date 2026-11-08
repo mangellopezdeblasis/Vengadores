@@ -69,8 +69,8 @@ benchmarks. Coste monetario desconocido sigue siendo null; si tampoco puede
 confirmarse la comparación económica, bloquear antes de ejecutar.
 
 Rige tanto en Codex como con Claude o un proveedor Claude: exigir un adaptador
-real y soportado, selección permitida y confirmación del host. No suponer que hay
-un adaptador Claude instalado, inventar parámetros ni cambiar de proveedor para
+real y soportado, selección permitida y confirmación del host. Con Claude Code usar el
+[adaptador Claude](../../delegacion-vengadores/references/claude.md) solo si está instalado; no inventar parámetros ni cambiar de proveedor para
 conseguir un modelo barato. Preservar las políticas de datos, proveedor y permisos
 del destino. Sin selección, soporte o confirmación, bloquear la ejecución de Thor;
 no continuar con un heredado caro ni presentar el prompt como configuración.

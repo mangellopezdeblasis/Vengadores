@@ -1,6 +1,6 @@
 ---
 name: delegacion-vengadores
-description: Inicia y reanuda subagentes reales para Jarvis. Usar al delegar tareas mediante Codex collaboration u OpenCode task.
+description: Inicia y reanuda subagentes reales para Jarvis. Usar al delegar tareas mediante Codex collaboration, OpenCode task o Claude Code Agent.
 ---
 
 # Delegación
@@ -8,7 +8,8 @@ description: Inicia y reanuda subagentes reales para Jarvis. Usar al delegar tar
 Usá únicamente herramientas presentes y autorizadas. No simules agentes, ejecutes
 su trabajo ni amplíes permisos. Jarvis PRINCIPAL coordina; cada worker conserva
 un rol/tarea, sin asumir Jarvis ni redelegar. Leé `.vengadores/jarvis.json` y su
-adaptador: [Codex](references/codex.md) u [OpenCode](references/opencode.md).
+adaptador: [Codex](references/codex.md), [OpenCode](references/opencode.md) o
+[Claude Code](references/claude.md).
 
 1. Recibí ID, rol, objetivo, revisión, alcance, entradas, aceptación y límites.
    Contexto: Ant-Man en Ultron/Thanos; Loki usa entradas disponibles.

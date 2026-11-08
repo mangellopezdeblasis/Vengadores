@@ -13,7 +13,7 @@ def main(argv=None):
     unidos.add_argument("--host", choices=configure_jarvis.HOST_DIRS, default="opencode")
     unidos.add_argument("--delegation-skill", help="Vincula una skill externa en lugar de la incluida.")
     unidos.add_argument("--replace", action="store_true", help="Reemplaza explícitamente la instalación.")
-    unidos.add_argument("--activate", action="store_true", help="Activa Jarvis principal para Codex.")
+    unidos.add_argument("--activate", action="store_true", help="Activa Jarvis principal para Codex (AGENTS.md) o Claude (CLAUDE.md).")
     check = actions.add_parser("check", help="Comprueba instalación y activación efectiva.")
     check.add_argument("--project", default=str(Path.cwd()))
     args = parser.parse_args(argv)
